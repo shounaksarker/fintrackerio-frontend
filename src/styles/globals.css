@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+.custom-border {
+  @apply border border-[#D0D5DD] rounded-md;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  width: 0;
+}

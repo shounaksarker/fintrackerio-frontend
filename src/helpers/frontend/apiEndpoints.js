@@ -1,0 +1,27 @@
+export const INCOME_SOURCE_URL = '/api/v1/income-source';
+export const INCOME_SOURCE_EDIT_URL = '/api/v1/income-source/edit';
+export const INCOME_RECORD_URL = '/api/v1/income-record';
+export const CREATE_INCOME_RECORD_URL = '/api/v1/income-record/create';
+
+export const INCOME_DISTRIBUTION_URL = '/api/v1/income-distribution';
+export const TERMINAL_CREATE_URL = '/api/v1/income-distribution/create';
+export const GET_TERMINALS_URL = '/api/v1/income-distribution/terminals';
+export const INCOME_BALANCE_TRANSFER_URL = '/api/v1/income-distribution/transfer';
+
+export const EXPENSE_CATEGORY_URL = '/api/v1/expense-category';
+export const EXPENSE_RECORD_URL = '/api/v1/expense-record';
+export const EXPENSE_CATEGORY_EDIT_URL = '/api/v1/expense-category/edit';
+export const CREATE_EXPENSE_RECORD_URL = '/api/v1/expense-record/create';
+
+export const GET_MONTHLY_SUMMERY_URL = '/api/v1/balance/monthly-summery';
+export const GET_YEARLY_SUMMERY_URL = '/api/v1/balance/yearly-summery';
+
+export const SIGNUP_URL = '/api/v1/signup';
+export const LOGIN_URL = '/api/v1/login';
+export const GET_USER = '/api/v1/user/get-user';
+export const REMOVE_COOKIE = '/api/v1/remove-cookie';
+export const GET_USER_URL = '/api/v1/user';
+export const EDIT_USER_URL = '/api/v1/user/edit-user';
+
+export const RESET_EMAIL_SEND_URL = '/api/v1/reset-password/email-send';
+export const RESET_PASSWORD_URL = '/api/v1/reset-password';
