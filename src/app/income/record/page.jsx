@@ -98,6 +98,12 @@ const Page = () => {
     setCtLoading(false);
   };
 
+  const fetchBalanceRecord = (force = false) => {
+    if (!Object.keys(balance).length || fetchForce || endDate || force) {
+      fetchBalance();
+    }
+  };
+
   const createIncome = async (e) => {
     e.preventDefault();
     setAddIncomeLoading(true);
@@ -107,6 +113,7 @@ const Page = () => {
       fetchIncomeRecord();
       fetchDistributedIn();
       setAddIncomeDetails(CREATE_INCOME_DETAILS_VALUE);
+      fetchBalanceRecord(true);
       setAddIncomeModal(false);
     } else {
       notification(res.data.msg || 'Failed to create Income Record.', { type: 'error', id: 'createIncome' });
@@ -115,7 +122,7 @@ const Page = () => {
   };
 
   const balanceTransfer = async () => {
-    setAddIncomeLoading(true);
+    setTransferLoading(true);
     const res = await axios.post(INCOME_BALANCE_TRANSFER_URL, transferDetails);
     if (res.data.success) {
       notification(res.data.msg, { type: 'success', id: 'createTerminal' });
@@ -127,12 +134,6 @@ const Page = () => {
       notification(res.data.msg || 'Failed to create Income Record.', { type: 'error', id: 'createIncome' });
     }
     setTransferLoading(false);
-  };
-
-  const fetchBalanceRecord = () => {
-    if (!Object.keys(balance).length || fetchForce || endDate) {
-      fetchBalance();
-    }
   };
 
   useEffect(() => {

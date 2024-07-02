@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import Modal from '@/components/fields/Modal';
 import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
 import SelectOption from '@/components/fields/Select';
+import { TRANSFER_VALUE } from '@/assets/constants/stateValue';
 
 const TransferModal = ({
   modalOpen,
@@ -19,6 +20,7 @@ const TransferModal = ({
 }) => {
   const [error, setError] = useState();
   const [maxBalance, setMaxBalance] = useState(0);
+
   const handleTransfer = (e) => {
     const { name, value, type } = e.target;
     const data = { ...transfer };
@@ -33,7 +35,12 @@ const TransferModal = ({
     }
     setTransfer(data);
   };
-  const submit = (e) => {
+  const resetForm = () => {
+    setTransfer(TRANSFER_VALUE);
+    setMaxBalance(0);
+    setError('');
+  };
+  const submit = async (e) => {
     e.preventDefault();
     if (
       transfer.from_terminal_id.length &&
@@ -42,10 +49,14 @@ const TransferModal = ({
     ) {
       setError('"From" and "To" terminals can not be same.');
     } else {
-      setError('');
-      handleSubmit();
+      await handleSubmit();
+      resetForm();
     }
   };
+
+  useEffect(() => {
+    resetForm();
+  }, [terminalBalances]);
 
   return (
     <Modal
