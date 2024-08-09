@@ -103,7 +103,7 @@ const TerminalsModal = ({
                     <div className="w-1/4 border-t py-1 pl-2">{getDate(term.created_at)}</div>
                     <div className="w-1/4 border-t py-1 pl-2 text-center">
                       <button onClick={() => handleEdit(index)}>
-                        <EditIcon className={`h-5 ${showEditForm[index] ? 'bg-pRed-200' : ''}`} />
+                        <EditIcon className={`h-5 ${showEditForm[index] ? '!bg-pRed-200' : ''}`} />
                       </button>
                     </div>
                   </div>
@@ -111,18 +111,6 @@ const TerminalsModal = ({
               })}
             </div>
           </div>
-          {/* terminal_name, created_at
-          <CustomTable
-            headers={TERMINALS_TABLE_HEADER}
-            data={allTerminals}
-            loading={loading}
-            dataPerPage={10}
-            className={'w-full'}
-            tableClass={'border pt-2 rounded-md'}
-            inputClass=""
-            headerClass="px-2 text-black md:mb-2"
-            rowClass="px-2"
-          /> */}
         </div>
       )}
     </Modal>
