@@ -1,14 +1,15 @@
 import React from 'react';
 import moment from 'moment';
+import Image from 'next/image';
 import { CURRENCY } from '@/assets/constants';
-import Goal from '@/assets/svg/Icon/Goal';
+import targetArrowIcon from '@/assets/svg/targetArrow.svg';
 
-const IncomeExpenseList = ({ name, category, amount, date }) => {
+const IncomeExpenseList = ({ name, category, amount, date, icon }) => {
   return (
     <div className="flex justify-between py-2">
       <div className="flex w-[65%] items-center gap-x-2">
         <div className="rounded-md bg-lightGray/50 p-2">
-          <Goal color="#666666" />
+          <Image src={icon || targetArrowIcon} alt="icon" width={27} height={27} />
         </div>
         <div className="flex flex-col overflow-hidden capitalize">
           <span className="truncate text-base font-semibold">{name}</span>

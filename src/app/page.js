@@ -4,7 +4,7 @@ import YearlySummery from '@/components/home/YearlySummery';
 
 const Home = async () => {
   return (
-    <div className='flex flex-col gap-y-8'>
+    <div className="flex flex-col gap-y-8">
       <BalanceDetails />
       <RecentTransection />
       <YearlySummery />

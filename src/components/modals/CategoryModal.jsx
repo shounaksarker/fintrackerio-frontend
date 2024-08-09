@@ -2,8 +2,12 @@ import React from 'react';
 import InputField from '@/components/fields/Input';
 import Modal from '@/components/fields/Modal';
 import Button from '@/components/fields/Button';
+import IconSelect from '../fields/IconSelect';
+import { EXPENSE_CATEGORY_ICONS, INCOME_CATEGORY_ICONS } from '@/assets/constants/categoryIcons';
+import { BALANCE_TITLE } from '@/assets/constants';
 
 const CategoryModal = ({
+  name = '',
   modalOpen,
   setModalOpen,
   handleCategory,
@@ -14,6 +18,11 @@ const CategoryModal = ({
   inputTitle = 'Source Name',
   placeholder = 'Enter Your Income Source Name',
 }) => {
+  const CATEGORY_ICONS =
+    name.toLowerCase() === BALANCE_TITLE.INCOME.toLowerCase()
+      ? [...INCOME_CATEGORY_ICONS, ...EXPENSE_CATEGORY_ICONS]
+      : [...EXPENSE_CATEGORY_ICONS, ...INCOME_CATEGORY_ICONS];
+
   return (
     <Modal
       isOpen={modalOpen}
@@ -46,6 +55,18 @@ const CategoryModal = ({
             placeholder="Enter description (optional)"
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
+          />
+          <IconSelect
+            className="size-full"
+            label="Icon"
+            onChange={(e) => handleCategory(e, 'icon')}
+            value={data.icon}
+            placeholder="Select one"
+            labelClass="font-normal"
+            options={CATEGORY_ICONS}
+            optionLabel={'icon'}
+            optionValue={'icon'}
+            required
           />
           <Button type="submit" className="flex w-full justify-center" loading={loading}>
             Submit

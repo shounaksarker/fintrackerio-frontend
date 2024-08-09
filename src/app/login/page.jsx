@@ -56,7 +56,7 @@ const Page = () => {
           </Link>
           {error && (
             <p className="mb-4 w-[350px] rounded-md bg-pRed p-2 text-center text-white md:mx-auto md:w-[320px]">
-              Error: {error}
+              {error}
             </p>
           )}
           <AuthButton text="Log in" loadingText="Loging in..." />

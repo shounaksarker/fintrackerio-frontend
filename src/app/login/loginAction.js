@@ -5,7 +5,6 @@ import { permanentRedirect } from 'next/navigation';
 import { LOGIN_URL } from '@/helpers/frontend/apiEndpoints';
 import { TOKEN } from '@/assets/constants';
 import { setToken } from '@/helpers/frontend/setToken';
-import { notification } from '@/components/notification';
 
 const loginAction = async (currentState, formData) => {
   const emailOrPhone = formData.get('emailOrPhone');
@@ -17,7 +16,7 @@ const loginAction = async (currentState, formData) => {
       password,
     });
   } catch (err) {
-    notification('Login Failed', { type: 'error' });
+    return err.response.data.error.message || 'Login Failed';
   }
   if (res.data.success) {
     setToken(TOKEN, res.data.token);

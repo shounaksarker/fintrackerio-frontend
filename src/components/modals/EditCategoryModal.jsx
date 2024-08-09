@@ -2,8 +2,12 @@ import React from 'react';
 import InputField from '@/components/fields/Input';
 import Modal from '@/components/fields/Modal';
 import Button from '@/components/fields/Button';
+import { EXPENSE_CATEGORY_ICONS, INCOME_CATEGORY_ICONS } from '@/assets/constants/categoryIcons';
+import IconSelect from '../fields/IconSelect';
+import { BALANCE_TITLE } from '@/assets/constants';
 
 const EditCategoryModal = ({
+  categoryName = '',
   modalOpen,
   setModalOpen,
   handleCategory,
@@ -13,6 +17,11 @@ const EditCategoryModal = ({
   handleSubmit,
   placeholder = 'Enter Your New Category Name',
 }) => {
+  const CATEGORY_ICONS =
+    categoryName.toLowerCase() === BALANCE_TITLE.INCOME.toLowerCase()
+      ? [...INCOME_CATEGORY_ICONS, ...EXPENSE_CATEGORY_ICONS]
+      : [...EXPENSE_CATEGORY_ICONS, ...INCOME_CATEGORY_ICONS];
+
   return (
     <Modal
       isOpen={modalOpen}
@@ -29,7 +38,7 @@ const EditCategoryModal = ({
             name="name"
             label="New Name"
             onChange={(e) => handleCategory(e)}
-            value={data.name || ''}
+            value={data.name}
             placeholder={placeholder}
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
@@ -44,6 +53,19 @@ const EditCategoryModal = ({
             placeholder={placeholder}
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
+          />
+          <IconSelect
+            name={categoryName}
+            className="size-full"
+            label="Icon"
+            onChange={(e) => handleCategory(e, 'icon')}
+            value={data.icon}
+            placeholder="Select one"
+            labelClass="font-normal"
+            options={CATEGORY_ICONS}
+            optionLabel={'icon'}
+            optionValue={'icon'}
+            required
           />
           <Button type="submit" className="flex w-full justify-center" loading={loading}>
             Submit

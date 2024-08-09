@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { notification } from '@/components/notification';
 import {
   INCOME_RECORD_URL,
@@ -130,7 +130,6 @@ const DataContextProvider = ({ children }) => {
       }
 
       const res = await axios.get(GET_USER_URL);
-
       if (res.data.success) {
         setUser(res.data.data);
         localStorage.setItem(USER, JSON.stringify(res.data.data));
@@ -194,7 +193,7 @@ const DataContextProvider = ({ children }) => {
         sidebarOpen,
         setSidebarOpen,
         yearlySummery,
-        setYearlySummery
+        setYearlySummery,
       }}
     >
       {children}

@@ -8,6 +8,7 @@ const getBreakdown = (currentMonth = [], prevMonth = [], categoryName = 'expense
     if (!breakdown[expense[categoryName]]) {
       breakdown[expense[categoryName]] = {
         totalAmount: 0,
+        icon: null,
         spendsOn: [], // for expense_category
         comparison: {
           previousMonthTotal: 0,
@@ -17,6 +18,7 @@ const getBreakdown = (currentMonth = [], prevMonth = [], categoryName = 'expense
       };
     }
     breakdown[expense[categoryName]].totalAmount += parseFloat(expense.amount);
+    breakdown[expense[categoryName]].icon = expense.icon;
     if (categoryName === 'expense_category_name') {
       breakdown[expense[categoryName]].spendsOn.push({
         name: expense.spend_on,

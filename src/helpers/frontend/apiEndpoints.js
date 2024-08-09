@@ -6,6 +6,7 @@ export const CREATE_INCOME_RECORD_URL = '/api/v1/income-record/create';
 export const INCOME_DISTRIBUTION_URL = '/api/v1/income-distribution';
 export const TERMINAL_CREATE_URL = '/api/v1/income-distribution/create';
 export const GET_TERMINALS_URL = '/api/v1/income-distribution/terminals';
+export const EDIT_TERMINAL_URL = '/api/v1/income-distribution/terminals/edit';
 export const INCOME_BALANCE_TRANSFER_URL = '/api/v1/income-distribution/transfer';
 
 export const EXPENSE_CATEGORY_URL = '/api/v1/expense-category';

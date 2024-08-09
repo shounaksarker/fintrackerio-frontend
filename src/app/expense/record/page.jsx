@@ -55,6 +55,7 @@ const Page = () => {
       setExpenseDetails(EXPENSE);
       setInsertExpenseModal(false);
       fetchExpenseRecord();
+      fetchBalance();
     } else {
       notification(res.data.msg || 'Failed to create Expense Record.', {
         type: 'error',
@@ -85,7 +86,7 @@ const Page = () => {
 
   return (
     <div>
-      <div className="mt-6">
+      <div>
         <div className="custom-borde flex flex-wrap justify-end gap-x-3 rounded-sm p-2 shadow-sm">
           <Button
             size="small"

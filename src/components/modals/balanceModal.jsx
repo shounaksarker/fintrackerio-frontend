@@ -1,36 +1,90 @@
 import React from 'react';
 import TextLoader from '@/components/fields/TextLoader';
 import Modal from '@/components/fields/Modal';
+import { BALANCE_TITLE } from '@/assets/constants';
 
-const BalanceModal = ({ loading, modalOpen, setModalOpen, title, data }) => {
+const BalanceModal = ({ loading, modalOpen, setModalOpen, data }) => {
   return (
     <Modal
       isOpen={modalOpen}
       setIsOpen={setModalOpen}
       showCloseButton
-      className={'mx-2 p-6 text-sBlack shadow-xl shadow-black/40'}
+      className={'mx-2 max-w-lg p-6 text-sBlack shadow-xl shadow-black/40'}
     >
       {!data.balance.terminal || loading ? (
         <div className="flex justify-center">
           <TextLoader />
         </div>
       ) : (
-        <div className="mx-auto rounded-md p-2">
-          <h3 className="mb-4 text-center text-lg font-semibold text-pest">{title || data.title || ''}</h3>
-          <ul className="flex flex-col items-start gap-y-2">
-            {data.balance.terminal.map((info, i) => {
-              return (
-                <li key={i} className="italic">
-                  <span className="font-semibold capitalize">{info[data.target_key]}</span> :{' '}
-                  {Number(info[data.target_value]).toFixed(1)}
-                </li>
-              );
-            })}
-          </ul>
-          <div className="mt-2 w-full border-t-2 pt-1 font-bold italic text-pRed">
-            <span className="capitalize">Total</span> : <span>{Number(data.balance[data.target_total]).toFixed(1)}</span>
+        <>
+          <h5 className="mb-2 w-full text-center font-semibold text-pest-200 underline underline-offset-4">
+            Balance
+          </h5>
+          <div className="flex rounded-md border border-bGray text-xs md:text-base">
+            <div className="flex w-2/5 flex-col border-r">
+              <div className="py-1 pl-2 font-bold text-black">Terminal</div>
+              {data.balance.terminal.map((term, i) => {
+                return (
+                  <div key={i} className="border-t py-1 pl-2 font-bold capitalize italic">
+                    {term.terminal_name}
+                  </div>
+                );
+              })}
+              <div className="border-t py-1 pl-2 font-bold text-pest-200">Total</div>
+            </div>
+            <div
+              className={`flex w-1/5 flex-col border-r ${data.title === BALANCE_TITLE.INCOME ? 'text-pBlack' : 'text-sBlack/50'}`}
+            >
+              <div className="py-1 pl-2 font-bold">{BALANCE_TITLE.IN}</div>
+              {data.balance.terminal.map((term, i) => {
+                return (
+                  <div key={i} className="border-t py-1 pl-2">
+                    {term.total_in}
+                  </div>
+                );
+              })}
+              <div
+                className={`border-t py-1 pl-2 ${data.title === BALANCE_TITLE.INCOME ? 'text-pest-200' : 'text-sBlack/50'}`}
+              >
+                {data.balance.total_income}
+              </div>
+            </div>
+            <div
+              className={`flex w-1/5 flex-col border-r ${data.title === BALANCE_TITLE.EXPENSE ? 'text-pBlack' : 'text-sBlack/50'}`}
+            >
+              <div className="py-1 pl-2 font-bold">{BALANCE_TITLE.OUT}</div>
+              {data.balance.terminal.map((term, i) => {
+                return (
+                  <div key={i} className="border-t py-1 pl-2">
+                    {term.total_out}
+                  </div>
+                );
+              })}
+              <div
+                className={`border-t py-1 pl-2 ${data.title === BALANCE_TITLE.EXPENSE ? 'text-pest-200' : 'text-sBlack/50'}`}
+              >
+                {data.balance.total_expense}
+              </div>
+            </div>
+            <div
+              className={`flex w-1/5 flex-col ${data.title === BALANCE_TITLE.REMAIN ? 'text-pBlack' : 'text-sBlack/50'}`}
+            >
+              <div className="py-1 pl-2 font-bold">{BALANCE_TITLE.REMAIN}</div>
+              {data.balance.terminal.map((term, i) => {
+                return (
+                  <div key={i} className="border-t py-1 pl-2">
+                    {term.balance}
+                  </div>
+                );
+              })}
+              <div
+                className={`border-t py-1 pl-2 ${data.title === BALANCE_TITLE.REMAIN ? 'text-pest-200' : 'text-sBlack/50'}`}
+              >
+                {data.balance.remain}
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </Modal>
   );

@@ -53,7 +53,7 @@ const InsertIncomeModal = ({
             label="Amount"
             step={0.01}
             onChange={(e) => handleIncome(e)}
-            value={addIncome.name}
+            value={addIncome.amount}
             placeholder="Ex: 1500"
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
@@ -76,7 +76,7 @@ const InsertIncomeModal = ({
             name="description"
             label="Description"
             onChange={(e) => handleIncome(e)}
-            value={addIncome.name}
+            value={addIncome.description}
             placeholder="Enter description (optional)"
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"

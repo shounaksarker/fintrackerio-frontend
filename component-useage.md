@@ -57,10 +57,15 @@ const headers = [
     style: 'w-1/4 text-sm lg:text-md capitalize', // for both th and td
     thStyle: '', // only for th
     tdStyle: '', // only for td
-    conditionalStyle: {
+    conditionalStyles: [{
       condition: (value) => value < 0, // Condition for negative values
       style: 'text-red-500', // Style to apply for negative values
     },
+    {
+        condition: (value) => value, // true for any condition
+        style: 'md:text-sm lg:text-sm',
+      },
+    ],
     target: 'name',
   },
   {

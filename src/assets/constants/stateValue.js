@@ -1,6 +1,7 @@
 export const CATEGORY_VALUE = {
   name: '',
   description: '',
+  icon: '',
 };
 
 export const EXPENSE = {

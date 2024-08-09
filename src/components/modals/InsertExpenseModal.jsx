@@ -103,7 +103,7 @@ const InsertExpenseModal = ({
             name="description"
             label="Description"
             onChange={(e) => handleExpense(e)}
-            value={expense.name}
+            value={expense.description}
             placeholder="Enter description (optional)"
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
