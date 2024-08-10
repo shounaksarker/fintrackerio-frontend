@@ -43,6 +43,7 @@ export const INCOME_RECORDS_TABLE_HEADER = [
     label: 'Name',
     style: 'w-24 md:w-1/4 text-sm lg:text-md capitalize',
     target: 'income_category_name',
+    dynamicIcon: 'icon',
   },
   {
     label: 'Amount',
@@ -109,33 +110,35 @@ export const INCOME_TRANSFER_TABLE_HEADER = [
 export const EXPENSE_RECORDS_TABLE_HEADER = [
   {
     label: 'Category',
-    style: 'w-[90px] h-6 text-sm lg:text-md capitalize',
+    style: 'md:w-[20%] h-6 truncate text-sm lg:text-md capitalize',
     target: 'expense_category_name',
+    dynamicIcon: 'icon',
   },
   {
     label: 'Spend On',
-    style: 'w-[90px] h-6 text-sm lg:text-md capitalize',
+    style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 truncate text-sm lg:text-md capitalize',
     target: 'spend_on',
+    showInModal: true,
   },
   {
     label: 'Spend From',
-    style: 'w-[90px] h-6 text-sm lg:text-md capitalize',
+    style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 truncate text-sm lg:text-md capitalize',
     target: 'terminal_name',
   },
   {
     label: 'Amount',
-    style: 'w-[90px] h-6 text-sm lg:text-md',
+    style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 text-sm lg:text-md',
     target: 'amount',
   },
   {
     label: 'Date',
-    style: 'w-[90px] h-6 text-sm lg:text-md',
+    style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 text-sm lg:text-md',
     target: 'date',
     function: getDate,
   },
   {
     label: 'Description',
-    style: 'w-[90px] h-6 truncate text-sm lg:text-md',
+    style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 truncate text-sm lg:text-md',
     target: 'description',
     showInModal: true,
   },
@@ -149,6 +152,49 @@ export const EXPENSE_RECORDS_TABLE_HEADER = [
   //   ],
   // },
 ];
+
+export const TERMINALS_TABLE_HEADER = [
+  {
+    label: 'Terminal',
+    style: 'w-24 md:w-3/4 text-sm lg:text-md capitalize truncate',
+    target: 'terminal_name',
+    conditionalStyles: [
+      {
+        condition: (value) => value,
+        style: 'md:text-sm lg:text-sm',
+      },
+    ],
+  },
+  {
+    label: 'Created at',
+    style: 'w-24 md:w-1/4 text-sm lg:text-md md:text-end',
+    target: 'created_at',
+    function: getDate,
+    conditionalStyles: [
+      {
+        condition: (value) => value,
+        style: 'md:text-sm lg:text-sm',
+      },
+    ],
+  },
+  // {
+  //   label: 'Action',
+  //   style: 'w-24 md:w-1/4 text-sm lg:text-md',
+  //   target: 'action',
+  //   action: [
+  //     { label: 'Edit', onClick: (row) => handleEdit(row), style: 'text-blue-500' },
+  //     { label: 'Delete', onClick: (row) => handleDelete(row), style: 'text-pRed' },
+  //   ],
+  // },
+];
+
+export const BALANCE_TITLE = {
+  INCOME: 'Income',
+  EXPENSE: 'Expense',
+  REMAIN: 'Remain',
+  IN: 'In',
+  OUT: 'Out',
+};
 
 export const PASSWORD_CRITERIA_VALUE = {
   length: {

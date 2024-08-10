@@ -81,7 +81,7 @@ const Sidebar = ({ menu }) => {
               </div>
               <div className={`flex flex-col`}>
                 {menu.map((item, index) => (
-                  <div key={index} className="md:max-w-64 lg:max-w-full">
+                  <div key={index} className="hover:text-pest md:max-w-64 lg:max-w-full">
                     <Link
                       href={item?.path || ''}
                       onClick={() => {
@@ -141,8 +141,16 @@ const Sidebar = ({ menu }) => {
               <hr className="border border-slate-700" />
               <Link href="/setting" onClick={() => setSideBarOpen(false)}>
                 <Button
-                  className="flex w-full items-center justify-center !bg-pBlack lg:justify-start"
-                  iconLeft={<Image src={userIcon} alt="" width={30} height={30} className="rounded-full" />}
+                  className="flex w-full items-center justify-center !bg-pBlack hover:!bg-pest-200 lg:justify-start"
+                  iconLeft={
+                    <Image
+                      src={user?.avatar || userIcon}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="rounded-full bg-white p-0.5"
+                    />
+                  }
                 >
                   <div className="flex flex-col items-start">
                     <span className="text-sm capitalize">{user?.username}</span>

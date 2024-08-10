@@ -92,6 +92,7 @@ const Page = () => {
       setTerminalName('');
       setCreateTerminalModal(false);
       fetchTerminal('force');
+      fetchBalance();
     } else {
       notification(res.data.msg || 'Failed to create new terminal.', { type: 'error', id: 'createTerminal' });
     }
@@ -125,7 +126,7 @@ const Page = () => {
     setTransferLoading(true);
     const res = await axios.post(INCOME_BALANCE_TRANSFER_URL, transferDetails);
     if (res.data.success) {
-      notification(res.data.msg, { type: 'success', id: 'createTerminal' });
+      notification(res.data.msg, { type: 'success', id: 'balanceTransfer' });
       setTransferDetails(TRANSFER_VALUE);
       fetchDistributedIn();
       fetchBalance();
@@ -202,14 +203,25 @@ const Page = () => {
       </div>
       {incomeData.length > 0 && (
         <div className="flex flex-col items-start justify-start md:mx-auto md:mt-6 md:max-w-72">
-          <div className="w-full rounded-md border border-phGray p-4 shadow-md">
+          <div className="w-full rounded-md border border-phGray py-4 shadow-md">
             <h4 className="mx-auto mb-4 w-48 rounded-md bg-sBlack py-2 text-center text-white">
               Total - {CURRENCY} {getSum(incomeData, 'amount') || balance.total_income}
             </h4>
-            <h5 className="mb-4 text-lg font-semibold text-pGray underline">Income Distributed in: </h5>
-            {Object.entries(getIndividualSum(distributedIn)).map(([terminal, total]) => (
-              <li key={terminal} className="capitalize">{`${terminal} : ${total}`}</li>
-            ))}
+            <h5 className="mb-4 text-center text-lg font-semibold text-pGray underline">
+              Income Distributed in
+            </h5>
+            <div>
+              <div className="flex border-y py-1 text-center font-semibold">
+                <h4 className="w-1/2">Terminal</h4>
+                <h4 className="w-1/2">Amount</h4>
+              </div>
+              {Object.entries(getIndividualSum(distributedIn)).map(([terminal, total], i) => (
+                <div key={i} className="flex w-full border-b py-1 text-sm capitalize text-gray-600">
+                  <div className="w-1/2 text-center">{terminal}</div>
+                  <div className="w-1/2 text-center">{total}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -237,6 +249,8 @@ const Page = () => {
         modalOpen={allTerminalsModal}
         setModalOpen={setTerminalModal}
         allTerminals={allTerminals}
+        fetchTerminal={fetchTerminal}
+        fetchDistributedIn={fetchDistributedIn}
         loading={terminalsLoading}
       />
       <CreateTerminalModal

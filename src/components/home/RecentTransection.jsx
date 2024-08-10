@@ -95,6 +95,7 @@ const RecentTransection = () => {
                       category={income.description}
                       amount={income.amount}
                       date={income.date}
+                      icon={income.icon}
                     />
                   );
                 })}
@@ -110,6 +111,7 @@ const RecentTransection = () => {
                       category={expense.expense_category_name}
                       amount={expense.amount}
                       date={expense.date}
+                      icon={expense.icon}
                     />
                   );
                 })}

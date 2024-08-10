@@ -7,6 +7,7 @@ export const INCOME_BALANCE_TRANSFER_URL = `${process.env.SERVER_URL}/api/distri
 export const INCOME_DISTRIBUTION_URL = `${process.env.SERVER_URL}/api/distribution/income`;
 export const CREATE_TERMINAL_URL = `${process.env.SERVER_URL}/api/distribution/create`;
 export const GET_TERMINALS_URL = `${process.env.SERVER_URL}/api/distribution/all-terminals`;
+export const EDIT_TERMINAL_URL = `${process.env.SERVER_URL}/api/distribution/edit-terminal`;
 
 export const EXPENSE_CATEGORY_URL = `${process.env.SERVER_URL}/api/category/expense`;
 export const EXPENSE_RECORD_URL = `${process.env.SERVER_URL}/api/records/expense`;

@@ -52,7 +52,12 @@ const EditUserModal = ({ modalOpen, setModalOpen, info, data, setData, loading, 
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
           />
-          <Button type="submit" className="flex w-full justify-center" loading={loading}>
+          <Button
+            type="submit"
+            className="flex w-full justify-center"
+            loading={loading}
+            disabled={!data.name && !data.mobile && !data.email}
+          >
             Submit
           </Button>
         </form>

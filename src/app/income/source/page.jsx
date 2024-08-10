@@ -12,6 +12,7 @@ import { DataContext } from '@/context/DataContext';
 import EditCategoryModal from '@/components/modals/EditCategoryModal';
 import { handleEdit } from '@/helpers/frontend/handle';
 import { getDate } from '@/helpers/frontend/formateDate';
+import EditIcon from '@/assets/svg/Icon/EditIcon';
 
 const Page = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -23,15 +24,23 @@ const Page = () => {
   const { incomeSourceLoading, setIncomeSourceLoading, incomeSources, fetchIncomeSource } =
     useContext(DataContext);
 
-  const handleCategory = (e) => {
+  const handleCategory = (e, name) => {
     const catrgories = { ...category };
-    catrgories[e.target.name] = e.target.value;
+    if (name) {
+      catrgories[name] = e;
+    } else {
+      catrgories[e.target.name] = e.target.value;
+    }
     setCategory(catrgories);
   };
 
-  const handleEditField = (e) => {
+  const handleEditField = (e, name) => {
     const edited = { ...editData };
-    edited[e.target.name] = e.target.value;
+    if (name) {
+      edited[name] = e;
+    } else {
+      edited[e.target.name] = e.target.value;
+    }
     setEditdata(edited);
   };
   const editCategory = async (e) => {
@@ -41,6 +50,7 @@ const Page = () => {
       categoryId: editData.income_category_id,
       newName: editData.name,
       newDescription: editData.description,
+      icon: editData.icon,
     };
     const res = await axios.put(INCOME_SOURCE_EDIT_URL, payload);
     if (res.data.success) {
@@ -78,8 +88,9 @@ const Page = () => {
   const INCOME_SOURCE_HEADER = [
     {
       label: 'Name',
-      style: 'w-24 md:w-1/4 text-sm lg:text-md capitalize',
+      style: 'w-32 md:w-1/4 text-sm lg:text-md capitalize',
       target: 'name',
+      dynamicIcon: 'icon',
     },
     {
       label: 'Created',
@@ -99,11 +110,10 @@ const Page = () => {
       target: 'action',
       action: [
         {
-          label: 'Edit',
-          style: 'text-blue-500',
+          label: <EditIcon />,
+          style: 'text-white text-[8px]',
           onClick: (row) => handleEdit({ data: row, setModalOpen: setEditModalOpen, setEditdata }),
         },
-        // { label: 'Delete', onClick: (row) => handleDelete(row), style: 'text-pRed' },
       ],
     },
   ];
@@ -125,6 +135,7 @@ const Page = () => {
         />
       </div>
       <CategoryModal
+        name={'income'}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         handleCategory={handleCategory}
@@ -134,6 +145,7 @@ const Page = () => {
         loading={createLoading}
       />
       <EditCategoryModal
+        categoryName="income"
         modalOpen={editModalOpen}
         setModalOpen={setEditModalOpen}
         handleCategory={handleEditField}

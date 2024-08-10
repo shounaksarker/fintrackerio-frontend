@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import DetailsModal from '../modals/DetailsModal';
 import Loader from './Loader';
+import targetArrowIcon from '@/assets/svg/targetArrow.svg';
 
 const CustomTable = ({
   headers,
@@ -62,20 +64,18 @@ const CustomTable = ({
       )}
 
       <div className={`flex gap-x-6 overflow-x-auto md:flex-col md:gap-x-0 ${tableClass || ''}`}>
-        <div className="md:mb-4">
-          <div
-            className={`flex w-full flex-col items-start justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0 ${headerClass || ''}`}
-          >
-            {headers.map((header, index) => (
-              <span
-                key={index}
-                className={`font-bold  ${header.thIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.thStyle ? header.thStyle : ''}`}
-              >
-                {header.thIcon && header.thIcon}
-                {header.label}
-              </span>
-            ))}
-          </div>
+        <div
+          className={`flex w-full flex-col items-start justify-between gap-y-4 md:mb-4 md:flex-row md:items-center md:gap-y-0 ${headerClass || ''}`}
+        >
+          {headers.map((header, index) => (
+            <span
+              key={index}
+              className={`font-bold  ${header.thIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.thStyle ? header.thStyle : ''}`}
+            >
+              {header.thIcon && header.thIcon}
+              {header.label}
+            </span>
+          ))}
         </div>
 
         {loading ? (
@@ -96,11 +96,10 @@ const CustomTable = ({
                     const conditionalStyle =
                       header.conditionalStyles &&
                       header.conditionalStyles.find((style) => style.condition(row[header.target]));
-
                     return (
                       <span
                         key={colIndex}
-                        className={`cursor-pointer capitalize ${header.tdIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.tdStyle ? header.tdStyle : ''} ${conditionalStyle ? conditionalStyle.style : ''}`}
+                        className={`cursor-pointer capitalize ${header.tdIcon || header.dynamicIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.tdStyle ? header.tdStyle : ''} ${conditionalStyle ? conditionalStyle.style : ''}`}
                         onClick={() =>
                           (header.onClick && header.onClick(row[header.target])) ||
                           (header.showInModal &&
@@ -109,6 +108,15 @@ const CustomTable = ({
                         }
                       >
                         {header.tdIcon && header.tdIcon}
+                        {header.dynamicIcon && (
+                          <Image
+                            src={row[header.dynamicIcon] || targetArrowIcon}
+                            alt="icon"
+                            width={20}
+                            height={20}
+                            className={header.dynamicIconClass}
+                          />
+                        )}
                         {header.index && rowIndex + 1}
                         {header.function
                           ? header.function(row[header.target])

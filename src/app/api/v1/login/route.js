@@ -4,9 +4,8 @@ import { validatePassword } from '@/helpers/validation';
 
 export const POST = async (request) => {
   const body = await request.json();
-  const { emailOrPhone, password } = body; // phone also included
+  const { emailOrPhone, password } = body;
 
-  // Validate data
   if (!emailOrPhone) {
     return Response.json({
       msg: 'Email or phone number required',

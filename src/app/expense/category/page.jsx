@@ -12,6 +12,7 @@ import { DataContext } from '@/context/DataContext';
 import { getDate } from '@/helpers/frontend/formateDate';
 import { handleEdit } from '@/helpers/frontend/handle';
 import EditCategoryModal from '@/components/modals/EditCategoryModal';
+import EditIcon from '@/assets/svg/Icon/EditIcon';
 
 const Page = () => {
   const { expenseCategory, expenseCategoryLoading, setExpenseCategoryLoading, fetchExpenseCategory } =
@@ -23,15 +24,23 @@ const Page = () => {
   const [editData, setEditdata] = useState({});
   const [editLoading, setEditLoading] = useState(false);
 
-  const handleCategory = (e) => {
-    const data = { ...category };
-    data[e.target.name] = e.target.value;
-    setCategory(data);
+  const handleCategory = (e, name) => {
+    const catrgories = { ...category };
+    if (name) {
+      catrgories[name] = e;
+    } else {
+      catrgories[e.target.name] = e.target.value;
+    }
+    setCategory(catrgories);
   };
 
-  const handleEditField = (e) => {
+  const handleEditField = (e, name) => {
     const edited = { ...editData };
-    edited[e.target.name] = e.target.value;
+    if (name) {
+      edited[name] = e;
+    } else {
+      edited[e.target.name] = e.target.value;
+    }
     setEditdata(edited);
   };
   const editCategory = async (e) => {
@@ -41,6 +50,7 @@ const Page = () => {
       categoryId: editData.expense_category_id,
       newName: editData.name,
       newDescription: editData.description,
+      icon: editData.icon,
     };
     const res = await axios.put(EXPENSE_CATEGORY_EDIT_URL, payload);
     if (res.data.success) {
@@ -85,6 +95,7 @@ const Page = () => {
       label: 'Name',
       style: 'w-24 md:w-1/4 text-sm lg:text-md capitalize',
       target: 'name',
+      dynamicIcon: 'icon',
     },
     {
       label: 'Created',
@@ -104,11 +115,10 @@ const Page = () => {
       target: 'action',
       action: [
         {
-          label: 'Edit',
+          label: <EditIcon />,
           style: 'text-blue-500',
           onClick: (row) => handleEdit({ data: row, setModalOpen: setEditModalOpen, setEditdata }),
         },
-        // { label: 'Delete', onClick: (row) => handleDelete(row), style: 'text-pRed' },
       ],
     },
   ];
@@ -131,6 +141,7 @@ const Page = () => {
       </div>
 
       <CategoryModal
+        name={'expense'}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}
         handleCategory={handleCategory}
@@ -142,6 +153,7 @@ const Page = () => {
         placeholder="Enter your Expense category name"
       />
       <EditCategoryModal
+        categoryName="expense"
         modalOpen={editModalOpen}
         setModalOpen={setEditModalOpen}
         handleCategory={handleEditField}

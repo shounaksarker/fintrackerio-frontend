@@ -38,7 +38,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    const tokenFromQuery = query.get('token'); // Get token from query params
+    const tokenFromQuery = query.get('token');
     setToken(tokenFromQuery);
   }, [query]);
 

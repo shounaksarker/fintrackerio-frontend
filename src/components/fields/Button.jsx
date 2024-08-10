@@ -39,7 +39,7 @@ const Button = ({
   return (
     <button
       type={type}
-      className={`${btnClasses} ${className || ''}`}
+      className={`disabled:opacity-70 ${btnClasses} ${className || ''}`}
       onClick={onClick}
       disabled={disabled || loading}
     >
