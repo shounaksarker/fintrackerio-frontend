@@ -38,7 +38,7 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
             <span className="text-sm capitalize">{item.name}</span>
             <div className="flex flex-col items-end text-sm">
               <span>
-                {CURRENCY} {item.amount}
+                {CURRENCY} {formattedAmount(item.amount)}
               </span>
               <span className="text-xs text-lightGray-300">{item.date}</span>
             </div>

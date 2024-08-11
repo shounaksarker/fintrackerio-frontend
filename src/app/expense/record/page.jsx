@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import CustomTable from '@/components/fields/Table';
-import { getSum } from '@/helpers/frontend/getSum';
+import { formattedAmount, getSum } from '@/helpers/frontend/getSum';
 import Button from '@/components/fields/Button';
 import 'react-datepicker/dist/react-datepicker.css';
 import { CURRENCY, EXPENSE_RECORDS_TABLE_HEADER } from '@/assets/constants';
@@ -119,7 +119,7 @@ const Page = () => {
         />
       </div>
       <h4 className="mx-auto my-4 w-48 rounded-md bg-sBlack py-2 text-center text-white">
-        Total - {CURRENCY} {balance.total_expense || getSum(expenseData, 'amount')}
+        Total - {CURRENCY} {formattedAmount(balance.total_expense || getSum(expenseData, 'amount'))}
       </h4>
       <InsertExpenseModal
         modalOpen={insertExpenseModal}
