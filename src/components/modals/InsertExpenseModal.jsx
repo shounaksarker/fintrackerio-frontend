@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import Modal from '@/components/fields/Modal';
 import SelectOption from '@/components/fields/Select';
@@ -17,8 +17,9 @@ const InsertExpenseModal = ({
   terminals,
   handleSubmit,
   terminalBalances,
+  maxAmount,
+  setMaxAmount,
 }) => {
-  const [maxBalance, setMaxBalance] = useState(0);
   const handleExpense = (e) => {
     const { name, value, type } = e.target;
     const data = { ...expense };
@@ -27,9 +28,9 @@ const InsertExpenseModal = ({
     if (name === 'terminal_id') {
       const selectedTerminal = terminalBalances.find((terminal) => terminal.terminal_id === Number(value));
       if (selectedTerminal) {
-        setMaxBalance(selectedTerminal.balance);
+        setMaxAmount(selectedTerminal.balance);
       } else {
-        setMaxBalance(0);
+        setMaxAmount(0);
       }
     }
     setExpense(data);
@@ -79,10 +80,10 @@ const InsertExpenseModal = ({
             step={1}
             onChange={(e) => handleExpense(e)}
             value={expense.amount}
-            placeholder={`Max: ${maxBalance}`}
+            placeholder={`Max: ${maxAmount}`}
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
-            max={maxBalance}
+            max={maxAmount}
             required
           />
           <InputField

@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import CustomTable from '@/components/fields/Table';
-import { getIndividualSum, getSum } from '@/helpers/frontend/getSum';
+import { formattedAmount, getIndividualSum, getSum } from '@/helpers/frontend/getSum';
 import Button from '@/components/fields/Button';
 import 'react-datepicker/dist/react-datepicker.css';
 import { INCOME_RECORDS_TABLE_HEADER, CURRENCY } from '@/assets/constants';
@@ -205,7 +205,7 @@ const Page = () => {
         <div className="flex flex-col items-start justify-start md:mx-auto md:mt-6 md:max-w-72">
           <div className="w-full rounded-md border border-phGray py-4 shadow-md">
             <h4 className="mx-auto mb-4 w-48 rounded-md bg-sBlack py-2 text-center text-white">
-              Total - {CURRENCY} {getSum(incomeData, 'amount') || balance.total_income}
+              Total - {CURRENCY} {formattedAmount(getSum(incomeData, 'amount') || balance.total_income)}
             </h4>
             <h5 className="mb-4 text-center text-lg font-semibold text-pGray underline">
               Income Distributed in
@@ -218,7 +218,7 @@ const Page = () => {
               {Object.entries(getIndividualSum(distributedIn)).map(([terminal, total], i) => (
                 <div key={i} className="flex w-full border-b py-1 text-sm capitalize text-gray-600">
                   <div className="w-1/2 text-center">{terminal}</div>
-                  <div className="w-1/2 text-center">{total}</div>
+                  <div className="w-1/2 text-center">{formattedAmount(total)}</div>
                 </div>
               ))}
             </div>

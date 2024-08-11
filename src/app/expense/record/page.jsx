@@ -31,6 +31,7 @@ const Page = () => {
   const [insertExpenseModal, setInsertExpenseModal] = useState(false);
   const [createExpenseLoading, setCreateExpenseLoading] = useState(false);
   const [terminals, setTerminals] = useState([]);
+  const [maxAmount, setMaxAmount] = useState(0);
 
   const fetchTerminal = async () => {
     if (!terminals.length) {
@@ -54,6 +55,7 @@ const Page = () => {
       notification(res.data.msg, { type: 'success', id: 'createTerminal' });
       setExpenseDetails(EXPENSE);
       setInsertExpenseModal(false);
+      setMaxAmount(0);
       fetchExpenseRecord();
       fetchBalance();
     } else {
@@ -129,6 +131,8 @@ const Page = () => {
         terminals={terminals}
         handleSubmit={createExpense}
         terminalBalances={balance.terminal}
+        maxAmount={maxAmount}
+        setMaxAmount={setMaxAmount}
       />
     </div>
   );

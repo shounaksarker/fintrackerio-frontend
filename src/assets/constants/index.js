@@ -8,6 +8,7 @@ import btnsImg from '@/assets/images/3buttonimg.png';
 import createExpenseImg from '@/assets/images/expenseRecord.png';
 import incomeRecordImg from '@/assets/images/incomeRecordimg.png';
 import ManualIcon from '../svg/Icon/ManualIcon';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 export const CURRENCY = '৳';
 export const TOKEN = 'token';
@@ -49,6 +50,7 @@ export const INCOME_RECORDS_TABLE_HEADER = [
     label: 'Amount',
     style: 'w-24 md:w-1/4 text-sm lg:text-md',
     target: 'amount',
+    function: formattedAmount,
   },
   {
     label: 'Date',
@@ -82,6 +84,7 @@ export const INCOME_TRANSFER_TABLE_HEADER = [
     label: 'Amount',
     style: 'w-24 md:w-1/4 text-sm lg:text-md',
     target: 'amount',
+    function: formattedAmount,
     conditionalStyles: [
       {
         condition: (value) => value < 0,
@@ -129,6 +132,7 @@ export const EXPENSE_RECORDS_TABLE_HEADER = [
     label: 'Amount',
     style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 text-sm lg:text-md',
     target: 'amount',
+    function: formattedAmount,
   },
   {
     label: 'Date',
