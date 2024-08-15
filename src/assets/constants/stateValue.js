@@ -34,7 +34,7 @@ export const BALANCE_MODAL_VALUE = {
 
 export const IN_EX_DETAILS_VALUE = {
   title: 'income summery',
-  showRecentTransection: 'income',
+  showRecentTransection: 'expense',
 };
 
 export const EDIT_USER_VALUE = { name: '', mobile: '', email: '' };
