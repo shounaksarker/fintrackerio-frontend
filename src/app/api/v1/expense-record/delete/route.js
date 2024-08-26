@@ -1,12 +1,13 @@
-import { CREATE_EXPENSE_RECORD_URL } from '@/helpers/backend/endpoints';
 import apiRequest from '@/helpers/backend/apiRequest';
+import { DELETE_EXPENSE_RECORD_URL } from '@/helpers/backend/endpoints';
 import { getJwtToken } from '@/helpers/backend/getJwtToken';
 
-export const POST = async (req) => {
-  const expenseDetails = await req.json();
+export const DELETE = async (req) => {
+  const { searchParams } = req.nextUrl;
+  const id = searchParams.get('record_id');
   try {
     const token = await getJwtToken();
-    const response = await apiRequest('post', CREATE_EXPENSE_RECORD_URL, { token }, expenseDetails);
+    const response = await apiRequest('delete', `${DELETE_EXPENSE_RECORD_URL}?record_id=${id}`, { token });
 
     if (response.error) {
       return Response.json(response.error);

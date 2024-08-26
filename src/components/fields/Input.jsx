@@ -23,6 +23,7 @@ const InputField = ({
   min,
   required = false,
   autoComplete = false,
+  error = null,
 }) => {
   return (
     <div className={`mb-4 ${className}`}>
@@ -52,8 +53,9 @@ const InputField = ({
           onChange={onChange}
           max={max}
           min={min}
-          className={`custom-border w-full px-3 py-2 focus:border-[#b7bbc1] ${iconLeft ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${inputClass}`}
+          className={`custom-border w-full px-3 py-2 ${iconLeft ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? '!border-red-600' : 'focus:border-[#b7bbc1]'} ${inputClass}`}
         />
+        {error && <small className="text-[10px] font-semibold text-red-700 md:text-xs">{error}</small>}
         {iconRight && (
           <div
             onClick={iconFunction}
@@ -92,6 +94,7 @@ InputField.propTypes = {
   placeholder: PropTypes.string,
   max: PropTypes.number,
   min: PropTypes.number,
+  error: PropTypes.string,
 };
 
 export default InputField;

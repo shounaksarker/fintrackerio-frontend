@@ -13,6 +13,8 @@ export const EXPENSE_CATEGORY_URL = '/api/v1/expense-category';
 export const EXPENSE_RECORD_URL = '/api/v1/expense-record';
 export const EXPENSE_CATEGORY_EDIT_URL = '/api/v1/expense-category/edit';
 export const CREATE_EXPENSE_RECORD_URL = '/api/v1/expense-record/create';
+export const EDIT_EXPENSE_RECORD_URL = '/api/v1/expense-record/edit';
+export const DELETE_EXPENSE_RECORD_URL = '/api/v1/expense-record/delete';
 
 export const GET_MONTHLY_SUMMERY_URL = '/api/v1/balance/monthly-summery';
 export const GET_YEARLY_SUMMERY_URL = '/api/v1/balance/yearly-summery';

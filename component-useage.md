@@ -185,11 +185,14 @@ const [isOpen, setIsOpen] = useState(false);
 const openModal = () => {
   setIsOpen(true);
 };
+const afterModalClose = () => {
+  console.log('modal is closer')
+};
 ```
 ```
 // --- usage part ---
 <button onClick={openModal}>Open Modal</button>
-<Modal isOpen={isOpen} setIsOpen={setIsOpen} showCloseButton className={'p-6 shadow-xl shadow-black/40'}>
+<Modal isOpen={isOpen} setIsOpen={setIsOpen} showCloseButton className={'p-6 shadow-xl shadow-black/40'} afterClose={afterModalClose}>
   <div className="">
     <h2 className="mb-3 text-xl font-bold">Modal Content</h2>
     <p>This is the content of the modal.</p>

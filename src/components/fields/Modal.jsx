@@ -2,7 +2,16 @@ import Image from 'next/image';
 import React, { useEffect } from 'react';
 import cross from '@/assets/svg/x-1.svg';
 
-const Modal = ({ isOpen, setIsOpen, showCloseButton, children, className }) => {
+const afterCloseFunction = () => {};
+
+const Modal = ({
+  isOpen,
+  setIsOpen,
+  showCloseButton,
+  children,
+  className,
+  afterClose = afterCloseFunction,
+}) => {
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
     return () => {
@@ -12,6 +21,7 @@ const Modal = ({ isOpen, setIsOpen, showCloseButton, children, className }) => {
 
   const handleClose = () => {
     setIsOpen(false);
+    afterClose();
   };
 
   const handleOverlayClick = (e) => {

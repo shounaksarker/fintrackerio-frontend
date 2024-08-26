@@ -110,7 +110,7 @@ export const INCOME_TRANSFER_TABLE_HEADER = [
   },
 ];
 
-export const EXPENSE_RECORDS_TABLE_HEADER = [
+export const EXPENSE_RECORDS_TABLE_HEADER = (arr = []) => [
   {
     label: 'Category',
     style: 'md:w-[20%] h-6 truncate text-sm lg:text-md capitalize',
@@ -146,15 +146,7 @@ export const EXPENSE_RECORDS_TABLE_HEADER = [
     target: 'description',
     showInModal: true,
   },
-  // {
-  //   label: 'Action',
-  //   style: 'w-[90px] h-6 text-sm lg:text-md',
-  //   target: 'action',
-  //   action: [
-  //     { label: 'Edit', onClick: (row) => handleEdit(row), style: 'text-blue-500' },
-  //     { label: 'Delete', onClick: (row) => handleDelete(row), style: 'text-pRed' },
-  //   ],
-  // },
+  ...arr,
 ];
 
 export const TERMINALS_TABLE_HEADER = [
