@@ -1,16 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import Modal from '@/components/fields/Modal';
 import SelectOption from '@/components/fields/Select';
 import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const InsertExpenseModal = ({
   modalOpen,
   setModalOpen,
   loading,
+  title,
   expense,
   setExpense,
   expenseCategories,
@@ -23,27 +25,28 @@ const InsertExpenseModal = ({
   const handleExpense = (e) => {
     const { name, value, type } = e.target;
     const data = { ...expense };
-
     data[name] = type === 'number' ? Number(value) : value;
-    if (name === 'terminal_id') {
-      const selectedTerminal = terminalBalances.find((terminal) => terminal.terminal_id === Number(value));
-      if (selectedTerminal) {
-        setMaxAmount(selectedTerminal.balance);
-      } else {
-        setMaxAmount(0);
-      }
-    }
     setExpense(data);
   };
+  useEffect(() => {
+    if (expense.terminal_id) {
+      const selectedTerminal = terminalBalances.find(
+        (terminal) => terminal.terminal_id === Number(expense.terminal_id)
+      );
+      setMaxAmount(selectedTerminal?.balance || 0);
+    }
+  }, [expense.terminal_id]);
   return (
     <Modal
       isOpen={modalOpen}
       setIsOpen={setModalOpen}
       showCloseButton
-      className={'mx-2 p-6 shadow-xl shadow-black/40'}
+      className={'mx-2 p-6 shadow-xl  shadow-black/40'}
     >
       <div className="text-sBlack">
-        <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">Add Expense Details</h1>
+        <h1 className="mb-8 text-center text-lg font-semibold text-pBlack underline underline-offset-4">
+          {title}
+        </h1>
         <form onSubmit={handleSubmit}>
           <SelectOption
             className="size-full"
@@ -79,11 +82,16 @@ const InsertExpenseModal = ({
             label="Amount"
             step={1}
             onChange={(e) => handleExpense(e)}
-            value={expense.amount}
-            placeholder={`Max: ${maxAmount}`}
+            value={Number(expense.amount)}
+            placeholder={`Max: ${formattedAmount(maxAmount)}`}
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
             max={maxAmount}
+            error={
+              expense.amount > maxAmount
+                ? `Insufficient balance.(Balance: ${formattedAmount(maxAmount)})`
+                : ''
+            }
             required
           />
           <InputField

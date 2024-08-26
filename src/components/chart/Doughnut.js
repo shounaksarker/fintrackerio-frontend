@@ -1,16 +1,54 @@
 import React, { useEffect } from 'react';
 import Chart from 'chart.js/auto';
 
+// const defaultBgColors = [
+//   '#FF6384',
+//   '#299D91',
+//   '#FFCE56',
+//   '#36A2EB',
+//   '#E73D1C',
+//   '#D0D5DD',
+//   '#1d756c',
+//   '#666666',
+//   '#4BC0C0',
+//   '#FF9F40',
+//   '#9966FF',
+//   '#FF6B6B',
+//   '#FFD700',
+//   '#4CAF50',
+//   '#E57373',
+//   '#3F51B5',
+//   '#8E24AA',
+//   '#00ACC1',
+// ];
+
 const defaultBgColors = [
+  '#299D91',
   '#FF6384',
   '#299D91',
-  '#FFCE56',
-  '#36A2EB',
+  '#FF8F33',
+  '#D9C06F',
+  '#04909D',
+  '#33FFF5',
+  '#3357FF',
+  '#C34E56',
+  '#7D6CB9',
+  '#8D33FF',
   '#E73D1C',
   '#D0D5DD',
-  '#1d756c',
-  '#666666',
+  '#338FFF',
+  '#33FF8F',
+  '#FF6384',
+  '#33FFDA',
+  '#FF33F6',
+  '#FFD433',
+  '#8FFF33',
+  '#FF33FF',
+  '#33D4FF',
+  '#A1FF33',
+  '#FF6F33',
 ];
+
 const DoughnutChart = ({ data = [], labels = [], colors, title, titleStyle, className = 'h-80' }) => {
   const dataObj = {
     labels: labels.map((label) => {

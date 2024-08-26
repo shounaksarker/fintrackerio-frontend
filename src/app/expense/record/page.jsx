@@ -9,9 +9,17 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { CURRENCY, EXPENSE_RECORDS_TABLE_HEADER } from '@/assets/constants';
 import InsertExpenseModal from '@/components/modals/InsertExpenseModal';
 import { notification } from '@/components/notification';
-import { CREATE_EXPENSE_RECORD_URL, GET_TERMINALS_URL } from '@/helpers/frontend/apiEndpoints';
 import { DataContext } from '@/context/DataContext';
 import { EXPENSE } from '@/assets/constants/stateValue';
+import EditIcon from '@/assets/svg/Icon/EditIcon';
+import DeleteIcon from '@/assets/svg/Icon/DeleteIcon';
+import {
+  GET_TERMINALS_URL,
+  CREATE_EXPENSE_RECORD_URL,
+  EDIT_EXPENSE_RECORD_URL,
+  DELETE_EXPENSE_RECORD_URL,
+} from '@/helpers/frontend/apiEndpoints';
+import ConfirmModal from '@/components/modals/ConfirmModal';
 
 const Page = () => {
   const {
@@ -32,6 +40,13 @@ const Page = () => {
   const [createExpenseLoading, setCreateExpenseLoading] = useState(false);
   const [terminals, setTerminals] = useState([]);
   const [maxAmount, setMaxAmount] = useState(0);
+  const [maxEditeAmount, setMaxEditeAmount] = useState(0);
+  const [editExpenseDetails, setEditExpenseDetails] = useState();
+  const [editExpenseModal, setEditExpenseModal] = useState(false);
+  const [editExpenseLoading, setEditExpenseLoading] = useState(false);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
+  const [deleteConfirmLoading, setDeleteConfirmLoading] = useState(false);
+  const [deleteExpenseId, setDeleteExpenseId] = useState(null);
 
   const fetchTerminal = async () => {
     if (!terminals.length) {
@@ -71,14 +86,77 @@ const Page = () => {
       fetchExpenseCategory();
     }
   };
-
-  const fetchBalanceRecord = () => {
+  const fetchBalanceRecord = async () => {
     if (!Object.keys(balance).length || fetchForce || endDate) {
-      fetchBalance();
+      await fetchBalance();
     } else {
       setExpenseLoading(false);
     }
   };
+
+  // <-------- Expense Edit functions --------->
+  const handleExpenseEdit = async (info) => {
+    fetchCategory();
+    await fetchTerminal();
+    await fetchBalanceRecord();
+    setEditExpenseDetails(info);
+    setEditExpenseModal(true);
+  };
+  const submitEditExpense = async (e) => {
+    e.preventDefault();
+    setEditExpenseLoading(true);
+    const res = await axios.put(EDIT_EXPENSE_RECORD_URL, editExpenseDetails);
+    if (res.data.success) {
+      notification(res.data.msg, { type: 'success', id: 'editExpense' });
+      setEditExpenseDetails();
+      setEditExpenseModal(false);
+      setMaxEditeAmount(0);
+      fetchExpenseRecord();
+      fetchBalance();
+    } else {
+      notification(res.data.msg || 'Failed to edit Expense Record.', {
+        type: 'error',
+        id: 'editExpense',
+      });
+    }
+    setEditExpenseLoading(false);
+  };
+
+  // <-------- Expense Delete functions --------->
+  const handleDelete = (info) => {
+    setDeleteExpenseId(info.record_id);
+    setDeleteConfirmModal(true);
+  };
+  const confirmDelete = async (e) => {
+    e.preventDefault();
+    setDeleteConfirmLoading(true);
+    const res = await axios.delete(`${DELETE_EXPENSE_RECORD_URL}?record_id=${deleteExpenseId}`);
+    if (res.data.success) {
+      notification(res.data.msg, { type: 'success', id: 'deleteExpense' });
+      setDeleteExpenseId(null);
+      setDeleteConfirmModal(false);
+      fetchExpenseRecord();
+      fetchBalance();
+    } else {
+      notification(res.data.msg || 'Failed to delete Expense Record.', {
+        type: 'error',
+        id: 'deleteExpense',
+      });
+    }
+    setDeleteConfirmLoading(false);
+  };
+
+  const expenseRecordHeader = [
+    {
+      label: 'Action',
+      style: 'w-[90px] h-6 text-sm lg:text-md',
+      target: 'action',
+      action: [
+        { label: <EditIcon className={`h-5`} />, onClick: (row) => handleExpenseEdit(row) },
+        { label: <DeleteIcon className={`h-5`} />, onClick: (row) => handleDelete(row) },
+      ],
+    },
+  ];
 
   useEffect(() => {
     if (!expenseData.length || fetchForce || endDate) {
@@ -108,7 +186,7 @@ const Page = () => {
           Expense Records
         </h3>
         <CustomTable
-          headers={EXPENSE_RECORDS_TABLE_HEADER}
+          headers={EXPENSE_RECORDS_TABLE_HEADER(expenseRecordHeader)}
           data={expenseData}
           // enableSearch
           enablePagination
@@ -122,6 +200,7 @@ const Page = () => {
         Total - {CURRENCY} {formattedAmount(balance.total_expense || getSum(expenseData, 'amount'))}
       </h4>
       <InsertExpenseModal
+        title={'Add Expense'}
         modalOpen={insertExpenseModal}
         setModalOpen={setInsertExpenseModal}
         loading={createExpenseLoading}
@@ -133,6 +212,32 @@ const Page = () => {
         terminalBalances={balance.terminal}
         maxAmount={maxAmount}
         setMaxAmount={setMaxAmount}
+      />
+      {editExpenseModal && (
+        <InsertExpenseModal
+          title={'Edit Expense'}
+          modalOpen={editExpenseModal}
+          setModalOpen={setEditExpenseModal}
+          loading={editExpenseLoading}
+          expense={editExpenseDetails}
+          setExpense={setEditExpenseDetails}
+          expenseCategories={expenseCategory}
+          terminals={terminals}
+          terminalBalances={balance.terminal}
+          maxAmount={maxEditeAmount}
+          setMaxAmount={setMaxEditeAmount}
+          handleSubmit={submitEditExpense}
+        />
+      )}
+      <ConfirmModal
+        modalOpen={deleteConfirmModal}
+        setModalOpen={setDeleteConfirmModal}
+        title={'Do you want to delete the expense?'}
+        loading={deleteConfirmLoading}
+        handleSubmit={confirmDelete}
+        afterClose={() => {
+          setDeleteExpenseId(null);
+        }}
       />
     </div>
   );

@@ -114,7 +114,7 @@ const CustomTable = ({
                             alt="icon"
                             width={20}
                             height={20}
-                            className={header.dynamicIconClass}
+                            className={`size-5 ${header.dynamicIconClass}`}
                           />
                         )}
                         {header.index && rowIndex + 1}
