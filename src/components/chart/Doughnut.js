@@ -25,7 +25,6 @@ import Chart from 'chart.js/auto';
 const defaultBgColors = [
   '#299D91',
   '#FF6384',
-  '#299D91',
   '#FF8F33',
   '#D9C06F',
   '#04909D',
@@ -38,7 +37,6 @@ const defaultBgColors = [
   '#D0D5DD',
   '#338FFF',
   '#33FF8F',
-  '#FF6384',
   '#33FFDA',
   '#FF33F6',
   '#FFD433',
