@@ -93,7 +93,7 @@ const Page = () => {
               ]}
             />
           </div>
-          {Object.entries(currentMonthBreakdown).length && (
+          {Object.entries(currentMonthBreakdown).length ? (
             <div>
               <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Breakdown</h1>
               <div className="flex flex-wrap gap-y-5 md:justify-between xl:justify-start">
@@ -102,7 +102,7 @@ const Page = () => {
                 ))}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
       )}
     </>

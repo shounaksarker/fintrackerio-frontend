@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <>
       {!isAuthPage && (
-        <div className="flex flex-col pt-2 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col p-2 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-x-4">
             <div>
               Hello <span className="font-semibold capitalize">{user?.username}</span>
