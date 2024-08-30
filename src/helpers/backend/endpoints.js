@@ -12,6 +12,8 @@ export const EDIT_TERMINAL_URL = `${process.env.SERVER_URL}/api/distribution/edi
 export const EXPENSE_CATEGORY_URL = `${process.env.SERVER_URL}/api/category/expense`;
 export const EXPENSE_RECORD_URL = `${process.env.SERVER_URL}/api/records/expense`;
 export const CREATE_EXPENSE_RECORD_URL = `${process.env.SERVER_URL}/api/records/create-expense`;
+export const EDIT_EXPENSE_RECORD_URL = `${process.env.SERVER_URL}/api/records/edit-expense`;
+export const DELETE_EXPENSE_RECORD_URL = `${process.env.SERVER_URL}/api/records/delete-expense`;
 export const EXPENSE_CATEGORY_EDIT_URL = `${process.env.SERVER_URL}/api/category/edit-expense-category`;
 
 export const GET_MONTHLY_SUMMERY_URL = `${process.env.SERVER_URL}/api/balance/monthly-summary`;

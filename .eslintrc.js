@@ -41,6 +41,7 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': ['error', { ignore: ['^@/'] }],
     'react-hooks/exhaustive-deps': 'off',
+    camelcase: 'off',
 
     'space-before-function-paren': [
       'warn',

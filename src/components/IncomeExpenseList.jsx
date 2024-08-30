@@ -3,6 +3,7 @@ import moment from 'moment';
 import Image from 'next/image';
 import { CURRENCY } from '@/assets/constants';
 import targetArrowIcon from '@/assets/svg/targetArrow.svg';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const IncomeExpenseList = ({ name, category, amount, date, icon }) => {
   return (
@@ -18,7 +19,7 @@ const IncomeExpenseList = ({ name, category, amount, date, icon }) => {
       </div>
       <div className="flex w-[31%] flex-col items-end gap-y-1">
         <span className="text-base font-semibold">
-          {CURRENCY} {amount}
+          {CURRENCY} {formattedAmount(amount)}
         </span>
         <span className="text-xs text-lightGray-300 sm:text-sm">{moment(date).format('DD MMM, yyyy')}</span>
       </div>

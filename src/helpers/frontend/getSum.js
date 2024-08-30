@@ -7,7 +7,7 @@ const getSum = (data, target) => {
   return result;
 };
 
-const getIndividualSum = (data=[]) => {
+const getIndividualSum = (data = []) => {
   const terminalTotals = {};
 
   data.forEach((item) => {
@@ -19,4 +19,10 @@ const getIndividualSum = (data=[]) => {
   return terminalTotals;
 };
 
-export { getSum, getIndividualSum };
+const formattedAmount = (value) => {
+  return value
+    ? Number(value).toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
+    : 0.0;
+};
+
+export { getSum, getIndividualSum, formattedAmount };

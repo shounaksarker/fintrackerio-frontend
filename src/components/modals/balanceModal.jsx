@@ -2,6 +2,7 @@ import React from 'react';
 import TextLoader from '@/components/fields/TextLoader';
 import Modal from '@/components/fields/Modal';
 import { BALANCE_TITLE } from '@/assets/constants';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const BalanceModal = ({ loading, modalOpen, setModalOpen, data }) => {
   return (
@@ -9,7 +10,7 @@ const BalanceModal = ({ loading, modalOpen, setModalOpen, data }) => {
       isOpen={modalOpen}
       setIsOpen={setModalOpen}
       showCloseButton
-      className={'mx-2 max-w-lg p-6 text-sBlack shadow-xl shadow-black/40'}
+      className={'mx-2 max-w-2xl p-6 text-sBlack shadow-xl shadow-black/40'}
     >
       {!data.balance.terminal || loading ? (
         <div className="flex justify-center">
@@ -38,15 +39,15 @@ const BalanceModal = ({ loading, modalOpen, setModalOpen, data }) => {
               <div className="py-1 pl-2 font-bold">{BALANCE_TITLE.IN}</div>
               {data.balance.terminal.map((term, i) => {
                 return (
-                  <div key={i} className="border-t py-1 pl-2">
-                    {term.total_in}
+                  <div key={i} className="overflow-x-auto border-t py-1 pl-2">
+                    {formattedAmount(term.total_in)}
                   </div>
                 );
               })}
               <div
-                className={`border-t py-1 pl-2 ${data.title === BALANCE_TITLE.INCOME ? 'text-pest-200' : 'text-sBlack/50'}`}
+                className={`overflow-x-auto border-t py-1 pl-2 ${data.title === BALANCE_TITLE.INCOME ? 'text-pest-200' : 'text-sBlack/50'}`}
               >
-                {data.balance.total_income}
+                {formattedAmount(data.balance.total_income)}
               </div>
             </div>
             <div
@@ -55,15 +56,15 @@ const BalanceModal = ({ loading, modalOpen, setModalOpen, data }) => {
               <div className="py-1 pl-2 font-bold">{BALANCE_TITLE.OUT}</div>
               {data.balance.terminal.map((term, i) => {
                 return (
-                  <div key={i} className="border-t py-1 pl-2">
-                    {term.total_out}
+                  <div key={i} className="overflow-x-auto border-t py-1 pl-2">
+                    {formattedAmount(term.total_out)}
                   </div>
                 );
               })}
               <div
-                className={`border-t py-1 pl-2 ${data.title === BALANCE_TITLE.EXPENSE ? 'text-pest-200' : 'text-sBlack/50'}`}
+                className={`overflow-x-auto border-t py-1 pl-2 ${data.title === BALANCE_TITLE.EXPENSE ? 'text-pest-200' : 'text-sBlack/50'}`}
               >
-                {data.balance.total_expense}
+                {formattedAmount(data.balance.total_expense)}
               </div>
             </div>
             <div
@@ -72,15 +73,15 @@ const BalanceModal = ({ loading, modalOpen, setModalOpen, data }) => {
               <div className="py-1 pl-2 font-bold">{BALANCE_TITLE.REMAIN}</div>
               {data.balance.terminal.map((term, i) => {
                 return (
-                  <div key={i} className="border-t py-1 pl-2">
-                    {term.balance}
+                  <div key={i} className="overflow-x-auto border-t py-1 pl-2">
+                    {formattedAmount(term.balance)}
                   </div>
                 );
               })}
               <div
-                className={`border-t py-1 pl-2 ${data.title === BALANCE_TITLE.REMAIN ? 'text-pest-200' : 'text-sBlack/50'}`}
+                className={`overflow-x-auto border-t py-1 pl-2 ${data.title === BALANCE_TITLE.REMAIN ? 'text-pest-200' : 'text-sBlack/50'}`}
               >
-                {data.balance.remain}
+                {formattedAmount(data.balance.remain)}
               </div>
             </div>
           </div>

@@ -8,6 +8,7 @@ import btnsImg from '@/assets/images/3buttonimg.png';
 import createExpenseImg from '@/assets/images/expenseRecord.png';
 import incomeRecordImg from '@/assets/images/incomeRecordimg.png';
 import ManualIcon from '../svg/Icon/ManualIcon';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 export const CURRENCY = '৳';
 export const TOKEN = 'token';
@@ -49,6 +50,7 @@ export const INCOME_RECORDS_TABLE_HEADER = [
     label: 'Amount',
     style: 'w-24 md:w-1/4 text-sm lg:text-md',
     target: 'amount',
+    function: formattedAmount,
   },
   {
     label: 'Date',
@@ -82,6 +84,7 @@ export const INCOME_TRANSFER_TABLE_HEADER = [
     label: 'Amount',
     style: 'w-24 md:w-1/4 text-sm lg:text-md',
     target: 'amount',
+    function: formattedAmount,
     conditionalStyles: [
       {
         condition: (value) => value < 0,
@@ -107,7 +110,7 @@ export const INCOME_TRANSFER_TABLE_HEADER = [
   },
 ];
 
-export const EXPENSE_RECORDS_TABLE_HEADER = [
+export const EXPENSE_RECORDS_TABLE_HEADER = (arr = []) => [
   {
     label: 'Category',
     style: 'md:w-[20%] h-6 truncate text-sm lg:text-md capitalize',
@@ -129,6 +132,7 @@ export const EXPENSE_RECORDS_TABLE_HEADER = [
     label: 'Amount',
     style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 text-sm lg:text-md',
     target: 'amount',
+    function: formattedAmount,
   },
   {
     label: 'Date',
@@ -142,15 +146,7 @@ export const EXPENSE_RECORDS_TABLE_HEADER = [
     target: 'description',
     showInModal: true,
   },
-  // {
-  //   label: 'Action',
-  //   style: 'w-[90px] h-6 text-sm lg:text-md',
-  //   target: 'action',
-  //   action: [
-  //     { label: 'Edit', onClick: (row) => handleEdit(row), style: 'text-blue-500' },
-  //     { label: 'Delete', onClick: (row) => handleDelete(row), style: 'text-pRed' },
-  //   ],
-  // },
+  ...arr,
 ];
 
 export const TERMINALS_TABLE_HEADER = [

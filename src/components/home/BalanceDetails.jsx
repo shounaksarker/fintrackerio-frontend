@@ -6,6 +6,7 @@ import { BALANCE_MODAL_VALUE } from '@/assets/constants/stateValue';
 import BalanceModal from '../modals/balanceModal';
 import { DataContext } from '@/context/DataContext';
 import 'react-datepicker/dist/react-datepicker.css';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const BalanceDetails = () => {
   const { fetchForce, endDate, dateRange, balance, fetchBalance, balanceLoading } = useContext(DataContext);
@@ -34,7 +35,7 @@ const BalanceDetails = () => {
         >
           Income : &nbsp;
           <span>
-            {CURRENCY} {balance.total_income ? Number(balance.total_income).toFixed(1) : 0}
+            {CURRENCY} {balance.total_income ? formattedAmount(balance.total_income) : 0}
           </span>
         </button>
         <button
@@ -43,7 +44,7 @@ const BalanceDetails = () => {
         >
           Expense : &nbsp;
           <span>
-            {CURRENCY} {balance.total_expense ? Number(balance.total_expense).toFixed(1) : 0}
+            {CURRENCY} {balance.total_expense ? formattedAmount(balance.total_expense) : 0}
           </span>
         </button>
         <button
@@ -52,7 +53,7 @@ const BalanceDetails = () => {
         >
           Remain : &nbsp;
           <span>
-            {CURRENCY} {balance.remain ? Number(balance.remain).toFixed(1) : 0}
+            {CURRENCY} {balance.remain ? formattedAmount(balance.remain) : 0}
           </span>
         </button>
       </div>

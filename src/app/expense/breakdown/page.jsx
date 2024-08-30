@@ -93,14 +93,16 @@ const Page = () => {
               ]}
             />
           </div>
-          <div>
-            <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Breakdown</h1>
-            <div className="flex flex-wrap gap-y-5 md:justify-between xl:justify-start">
-              {Object.entries(currentMonthBreakdown).map(([categoryName, categoryData]) => (
-                <ExpenseCard key={categoryName} categoryName={categoryName} categoryData={categoryData} />
-              ))}
+          {Object.entries(currentMonthBreakdown).length ? (
+            <div>
+              <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Breakdown</h1>
+              <div className="flex flex-wrap gap-y-5 md:justify-between xl:justify-start">
+                {Object.entries(currentMonthBreakdown).map(([categoryName, categoryData]) => (
+                  <ExpenseCard key={categoryName} categoryName={categoryName} categoryData={categoryData} />
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       )}
     </>

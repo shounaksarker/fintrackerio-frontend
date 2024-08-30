@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { CURRENCY } from '@/assets/constants';
 import DownArrowGreen from '@/assets/svg/Icon/DownArrowGreen';
 import targetArrowIcon from '@/assets/svg/targetArrow.svg';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const ExpenseCard = ({ categoryName, categoryData }) => {
   return (
@@ -15,7 +16,7 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
           <div>
             <h4 className="font-bold capitalize text-pGray">{categoryName}</h4>
             <h2 className="text-sm font-medium text-pBlack">
-              {CURRENCY} {categoryData.totalAmount}
+              {CURRENCY} {formattedAmount(categoryData.totalAmount)}
             </h2>
           </div>
         </div>
@@ -37,7 +38,7 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
             <span className="text-sm capitalize">{item.name}</span>
             <div className="flex flex-col items-end text-sm">
               <span>
-                {CURRENCY} {item.amount}
+                {CURRENCY} {formattedAmount(item.amount)}
               </span>
               <span className="text-xs text-lightGray-300">{item.date}</span>
             </div>

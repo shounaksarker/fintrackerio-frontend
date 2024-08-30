@@ -4,7 +4,7 @@ import editIcon from '@/assets/svg/edit.svg';
 
 const EditIcon = ({ title, className, imgClass, titleClass }) => {
   return (
-    <div className={`flex items-center gap-x-1 rounded bg-sky-700 p-1 ${className}`}>
+    <div className={`flex items-center gap-x-1 rounded bg-sky-700 p-1 hover:bg-sky-900 ${className}`}>
       <Image src={editIcon} alt="edit" className={imgClass} />
       {title && <span className={titleClass}>{title}</span>}
     </div>

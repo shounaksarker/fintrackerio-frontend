@@ -2,12 +2,26 @@ import React from 'react';
 import Modal from '@/components/fields/Modal';
 import Button from '@/components/fields/Button';
 
-const ConfirmModal = ({ modalOpen, setModalOpen, title, loading, handleSubmit }) => {
+const afterCloseFunction = () => {};
+
+const ConfirmModal = ({
+  modalOpen,
+  setModalOpen,
+  title,
+  loading,
+  handleSubmit,
+  afterClose = afterCloseFunction,
+}) => {
+  const cancel = () => {
+    setModalOpen(false);
+    afterClose();
+  };
   return (
     <Modal
       isOpen={modalOpen}
       setIsOpen={setModalOpen}
       showCloseButton
+      afterClose={afterClose}
       className={'mx-2 p-6 shadow-xl shadow-black/40'}
     >
       <div className="text-sBlack">
@@ -26,7 +40,7 @@ const ConfirmModal = ({ modalOpen, setModalOpen, title, loading, handleSubmit })
             color="danger"
             className="flex w-full justify-center"
             disabled={loading}
-            onClick={() => setModalOpen(false)}
+            onClick={() => cancel()}
           >
             No
           </Button>
