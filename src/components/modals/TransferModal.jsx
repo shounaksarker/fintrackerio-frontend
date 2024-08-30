@@ -7,6 +7,7 @@ import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
 import SelectOption from '@/components/fields/Select';
 import { TRANSFER_VALUE } from '@/assets/constants/stateValue';
+import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const TransferModal = ({
   modalOpen,
@@ -105,6 +106,11 @@ const TransferModal = ({
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
             max={maxBalance}
+            error={
+              transfer.amount > maxBalance
+                ? `Insufficient balance.(Balance: ${formattedAmount(maxBalance)})`
+                : ''
+            }
             required
           />
           <label className="mb-2 block text-sm font-normal text-gray-700">Date</label>
