@@ -33,7 +33,7 @@ export const BALANCE_MODAL_VALUE = {
 };
 
 export const IN_EX_DETAILS_VALUE = {
-  title: 'income summery',
+  title: 'expense summery',
   showRecentTransection: 'expense',
 };
 
