@@ -37,7 +37,7 @@ const defaultBgColors = [
   '#D0D5DD',
   '#338FFF',
   '#33FF8F',
-  '#33FFDA',
+  '#FABC3F',
   '#FF33F6',
   '#FFD433',
   '#8FFF33',
