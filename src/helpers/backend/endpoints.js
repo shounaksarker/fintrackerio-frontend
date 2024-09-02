@@ -2,6 +2,7 @@ export const INCOME_CATEGORY_URL = `${process.env.SERVER_URL}/api/category/incom
 export const INCOME_SOURCE_EDIT_URL = `${process.env.SERVER_URL}/api/category/edit-income-source`;
 export const INCOME_RECORD_URL = `${process.env.SERVER_URL}/api/records/income`;
 export const CREATE_INCOME_RECORD_URL = `${process.env.SERVER_URL}/api/records/create-income`;
+export const EDIT_INCOME_RECORD_URL = `${process.env.SERVER_URL}/api/records/edit-income`;
 
 export const INCOME_BALANCE_TRANSFER_URL = `${process.env.SERVER_URL}/api/distribution/transfer`;
 export const INCOME_DISTRIBUTION_URL = `${process.env.SERVER_URL}/api/distribution/income`;

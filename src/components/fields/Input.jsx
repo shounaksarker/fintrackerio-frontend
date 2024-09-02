@@ -29,7 +29,7 @@ const InputField = ({
     <div className={`mb-4 ${className}`}>
       {label && (
         <label className={`mb-2 block text-sm font-bold text-gray-700 ${labelClass}`}>
-          {label} {required && <sup className="text-[10px] text-slate-500">*</sup>}
+          {label} {required && <sup className="text-[10px] text-red-500">*</sup>}
         </label>
       )}
       <div className="relative">

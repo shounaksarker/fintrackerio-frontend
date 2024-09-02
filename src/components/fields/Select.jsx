@@ -17,7 +17,11 @@ const SelectOption = ({
 }) => {
   return (
     <div className={`mb-4 ${className}`}>
-      {label && <label className={`mb-2 block text-sm font-bold text-gray-700 ${labelClass}`}>{label}</label>}
+      {label && (
+        <label className={`mb-2 block text-sm font-bold text-gray-700 ${labelClass}`}>
+          {label} {required && <sup className="text-red-500">*</sup>}
+        </label>
+      )}
       <div className="relative">
         <select
           style={{ appearance: 'none' }}

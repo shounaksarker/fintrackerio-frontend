@@ -39,7 +39,7 @@ export const SIDEBAR_MENU = [
   { title: 'User Manual', path: '/user-manual', icon: <ManualIcon /> },
 ];
 
-export const INCOME_RECORDS_TABLE_HEADER = [
+export const INCOME_RECORDS_TABLE_HEADER = (arr = []) => [
   {
     label: 'Name',
     style: 'w-24 md:w-1/4 text-sm lg:text-md capitalize',
@@ -64,15 +64,7 @@ export const INCOME_RECORDS_TABLE_HEADER = [
     target: 'description',
     showInModal: true,
   },
-  // {
-  //   label: 'Action',
-  //   style: 'w-24 md:w-1/4 text-sm lg:text-md',
-  //   target: 'action',
-  //   action: [
-  //     { label: 'Edit', onClick: (row) => handleEdit(row), style: 'text-blue-500' },
-  //     { label: 'Delete', onClick: (row) => handleDelete(row), style: 'text-pRed' },
-  //   ],
-  // },
+  ...arr,
 ];
 export const INCOME_TRANSFER_TABLE_HEADER = [
   {

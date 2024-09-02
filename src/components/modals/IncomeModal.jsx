@@ -7,21 +7,13 @@ import SelectOption from '@/components/fields/Select';
 import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
 
-const InsertIncomeModal = ({
-  modalOpen,
-  setModalOpen,
-  loading,
-  addIncome,
-  incomeSources,
-  handleSubmit,
-  setAddIncomeDetails,
-}) => {
+const IncomeModal = ({ modalOpen, setModalOpen, loading, data, setData, incomeSources, handleSubmit }) => {
   const handleIncome = (e) => {
     const { name, value, type } = e.target;
-    const data = { ...addIncome };
+    const payload = { ...data };
 
-    data[name] = type === 'number' ? Number(value) : value;
-    setAddIncomeDetails(data);
+    payload[name] = type === 'number' ? Number(value) : value;
+    setData(payload);
   };
   return (
     <Modal
@@ -38,7 +30,7 @@ const InsertIncomeModal = ({
             name="income_category_id"
             label="Source Name"
             onChange={(e) => handleIncome(e)}
-            value={addIncome.income_category_id}
+            value={data.income_category_id}
             placeholder="Select one"
             labelClass="font-normal"
             options={incomeSources}
@@ -53,17 +45,20 @@ const InsertIncomeModal = ({
             label="Amount"
             step={0.01}
             onChange={(e) => handleIncome(e)}
-            value={addIncome.amount}
+            value={Number(data.amount)}
             placeholder="Ex: 1500"
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
+            required
           />
-          <label className="mb-2 block text-sm font-normal text-gray-700">Date</label>
+          <label className="mb-2 block text-sm font-normal text-gray-700">
+            Date <sup className="text-red-500">*</sup>
+          </label>
           <div className="custom-border mb-2 w-full py-1">
             <DatePicker
               showIcon
-              selected={addIncome.date}
-              onChange={(date) => setAddIncomeDetails({ ...addIncome, date })}
+              selected={data.date}
+              onChange={(date) => setData({ ...data, date })}
               calendarClassName=""
               className="ml-2 font-normal text-pBlack"
               dateFormat={'dd/MM/yyyy'}
@@ -76,7 +71,7 @@ const InsertIncomeModal = ({
             name="description"
             label="Description"
             onChange={(e) => handleIncome(e)}
-            value={addIncome.description}
+            value={data.description}
             placeholder="Enter description (optional)"
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
@@ -90,4 +85,4 @@ const InsertIncomeModal = ({
   );
 };
 
-export default InsertIncomeModal;
+export default IncomeModal;
