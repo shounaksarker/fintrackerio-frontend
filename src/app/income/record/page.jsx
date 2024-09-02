@@ -7,7 +7,7 @@ import { formattedAmount, getIndividualSum, getSum } from '@/helpers/frontend/ge
 import Button from '@/components/fields/Button';
 import 'react-datepicker/dist/react-datepicker.css';
 import { INCOME_RECORDS_TABLE_HEADER, CURRENCY } from '@/assets/constants';
-import InsertIncomeModal from '@/components/modals/InsertIncomeModal';
+import IncomeModal from '@/components/modals/IncomeModal';
 import TerminalsModal from '@/components/modals/TerminalsModal';
 import CreateTerminalModal from '@/components/modals/CreateTerminalModal';
 import TransferModal from '@/components/modals/TransferModal';
@@ -15,17 +15,22 @@ import {
   GET_TERMINALS_URL,
   TERMINAL_CREATE_URL,
   CREATE_INCOME_RECORD_URL,
+  EDIT_INCOME_RECORD_URL,
   INCOME_BALANCE_TRANSFER_URL,
 } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
 import { CREATE_INCOME_DETAILS_VALUE, TRANSFER_VALUE } from '@/assets/constants/stateValue';
 import { DataContext } from '@/context/DataContext';
 import TransectionIcon from '@/assets/svg/Icon/TransectionIcon';
+import EditIcon from '@/assets/svg/Icon/EditIcon';
 
 const Page = () => {
   const [addIncomeModal, setAddIncomeModal] = useState(false);
   const [addIncomeDetails, setAddIncomeDetails] = useState(CREATE_INCOME_DETAILS_VALUE);
-  const [addIncomeLoading, setAddIncomeLoading] = useState(false);
+  const [incomeDetailsLoading, setIncomeDetailsLoading] = useState(false);
+  // edit income record
+  const [editIncomeDetails, setEditIncomeDetails] = useState();
+  const [editIncomeModal, setEditIncomeModal] = useState(false);
 
   const {
     dateRange,
@@ -77,7 +82,7 @@ const Page = () => {
     }
   };
 
-  const fetchSource = () => {
+  const fetchSource = async () => {
     if (!incomeSources.length) {
       fetchIncomeSource();
     }
@@ -99,7 +104,7 @@ const Page = () => {
     setCtLoading(false);
   };
 
-  const fetchBalanceRecord = (force = false) => {
+  const fetchBalanceRecord = async (force = false) => {
     if (!Object.keys(balance).length || fetchForce || endDate || force) {
       fetchBalance();
     }
@@ -107,19 +112,19 @@ const Page = () => {
 
   const createIncome = async (e) => {
     e.preventDefault();
-    setAddIncomeLoading(true);
+    setIncomeDetailsLoading(true);
     const res = await axios.post(CREATE_INCOME_RECORD_URL, addIncomeDetails);
     if (res.data.success) {
       notification(res.data.msg, { type: 'success', id: 'createTerminal' });
       fetchIncomeRecord();
       fetchDistributedIn();
       setAddIncomeDetails(CREATE_INCOME_DETAILS_VALUE);
-      fetchBalanceRecord(true);
+      await fetchBalanceRecord(true);
       setAddIncomeModal(false);
     } else {
       notification(res.data.msg || 'Failed to create Income Record.', { type: 'error', id: 'createIncome' });
     }
-    setAddIncomeLoading(false);
+    setIncomeDetailsLoading(false);
   };
 
   const balanceTransfer = async () => {
@@ -136,6 +141,61 @@ const Page = () => {
     }
     setTransferLoading(false);
   };
+
+  // <-------- Income Edit functions --------->
+  const handleIncomeEdit = async (info) => {
+    await fetchSource();
+
+    const updatedInfo = {
+      record_id: info.record_id,
+      income_category_id: info.income_category_id,
+      amount: info.amount, // new amount
+      previousAmount: info.amount, // previous amount
+      date: info.date,
+      description: info.description,
+    };
+
+    setEditIncomeDetails(updatedInfo);
+    setEditIncomeModal(true);
+  };
+
+  const submitEditIncome = async (e) => {
+    e.preventDefault();
+    setIncomeDetailsLoading(true);
+    const payload = {
+      income_record_id: editIncomeDetails.record_id,
+      income_category_id: editIncomeDetails.income_category_id,
+      amount: editIncomeDetails.previousAmount, // previous amount
+      newAmount: editIncomeDetails.amount, // new amount
+      date: editIncomeDetails.date,
+      description: editIncomeDetails.description,
+    };
+
+    const res = await axios.put(EDIT_INCOME_RECORD_URL, payload);
+    if (res.data.success) {
+      notification(res.data.msg, { type: 'success', id: 'editIncome' });
+      fetchIncomeRecord();
+      fetchDistributedIn();
+      await fetchBalanceRecord(true);
+      setEditIncomeDetails();
+      setEditIncomeModal(false);
+    } else {
+      notification(res.data.msg || 'Failed to edit Income Record.', { type: 'error', id: 'editIncome' });
+    }
+    setIncomeDetailsLoading(false);
+  };
+
+  const expenseRecordHeader = [
+    {
+      label: 'Action',
+      style: 'w-[90px] h-6 text-sm lg:text-md',
+      target: 'action',
+      action: [
+        { label: <EditIcon className={`h-5`} />, onClick: (row) => handleIncomeEdit(row) },
+        // { label: <DeleteIcon className={`h-5`} />, onClick: (row) => handleDelete(row) },
+      ],
+    },
+  ];
 
   useEffect(() => {
     if (!incomeData.length || fetchForce || endDate) {
@@ -189,7 +249,7 @@ const Page = () => {
           Income Records
         </h3>
         <CustomTable
-          headers={INCOME_RECORDS_TABLE_HEADER}
+          headers={INCOME_RECORDS_TABLE_HEADER(expenseRecordHeader)}
           data={incomeData}
           loading={incomeLoading}
           enablePagination
@@ -225,15 +285,28 @@ const Page = () => {
           </div>
         </div>
       )}
-      <InsertIncomeModal
-        modalOpen={addIncomeModal}
-        setModalOpen={setAddIncomeModal}
-        loading={addIncomeLoading}
-        addIncome={addIncomeDetails}
-        setAddIncomeDetails={setAddIncomeDetails}
-        incomeSources={incomeSources}
-        handleSubmit={createIncome}
-      />
+      {addIncomeModal && (
+        <IncomeModal
+          modalOpen={addIncomeModal}
+          setModalOpen={setAddIncomeModal}
+          loading={incomeDetailsLoading}
+          data={addIncomeDetails}
+          setData={setAddIncomeDetails}
+          incomeSources={incomeSources}
+          handleSubmit={createIncome}
+        />
+      )}
+      {editIncomeModal && (
+        <IncomeModal
+          modalOpen={editIncomeModal}
+          setModalOpen={setEditIncomeModal}
+          loading={incomeDetailsLoading}
+          data={editIncomeDetails}
+          setData={setEditIncomeDetails}
+          incomeSources={incomeSources}
+          handleSubmit={submitEditIncome}
+        />
+      )}
       <TransferModal
         modalOpen={transferModal}
         setModalOpen={setTransferModal}

@@ -2,6 +2,7 @@ export const INCOME_SOURCE_URL = '/api/v1/income-source';
 export const INCOME_SOURCE_EDIT_URL = '/api/v1/income-source/edit';
 export const INCOME_RECORD_URL = '/api/v1/income-record';
 export const CREATE_INCOME_RECORD_URL = '/api/v1/income-record/create';
+export const EDIT_INCOME_RECORD_URL = '/api/v1/income-record/edit';
 
 export const INCOME_DISTRIBUTION_URL = '/api/v1/income-distribution';
 export const TERMINAL_CREATE_URL = '/api/v1/income-distribution/create';
