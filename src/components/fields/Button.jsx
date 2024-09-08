@@ -16,6 +16,7 @@ const Button = ({
   iconClass,
   disabled = false,
   loading = false,
+  loadingText = 'Loading...',
 }) => {
   let btnClasses = 'flex py-2 px-4 rounded focus:outline-none custom-border transition duration-400';
   if (size === 'small') {
@@ -45,7 +46,7 @@ const Button = ({
     >
       {loading ? (
         <div className="flex gap-x-3">
-          <ButtonLoader /> <h1>Loading...</h1>
+          <ButtonLoader /> <h1>{loadingText}</h1>
         </div>
       ) : (
         <div className="flex items-center">
@@ -68,6 +69,8 @@ Button.propTypes = {
   iconClass: PropTypes.string,
   iconLeft: PropTypes.any,
   iconRight: PropTypes.any,
+  loading: PropTypes.bool,
+  loadingText: PropTypes.string,
 };
 
 export default Button;

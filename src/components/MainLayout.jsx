@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
-// import Sidebar from '@/components/Sidebar';
 import Sidebar from './SideBar';
 import Content from './Content';
 import { SIDEBAR_MENU } from '../assets/constants';

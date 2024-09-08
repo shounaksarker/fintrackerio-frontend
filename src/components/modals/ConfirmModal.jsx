@@ -29,6 +29,7 @@ const ConfirmModal = ({
         <div className="flex items-center gap-x-3">
           <Button
             size="small"
+            color="danger"
             className="flex w-full justify-center"
             loading={loading}
             onClick={handleSubmit}
@@ -37,7 +38,6 @@ const ConfirmModal = ({
           </Button>
           <Button
             size="small"
-            color="danger"
             className="flex w-full justify-center"
             disabled={loading}
             onClick={() => cancel()}

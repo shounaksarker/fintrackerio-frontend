@@ -1,14 +1,15 @@
 import { getDate } from '@/helpers/frontend/formateDate';
-import Expencces from '../svg/Icon/Expencces';
-import Income from '../svg/Icon/Income';
-import Overview from '../svg/Icon/Overview';
-import Settings from '../svg/Icon/Settings';
+import Expencces from '@/assets/svg/Icon/Expencces';
+import Income from '@/assets/svg/Icon/Income';
+import Overview from '@/assets/svg/Icon/Overview';
+import Settings from '@/assets/svg/Icon/Settings';
 import dateRangeIcon from '@/assets/images/dateRangeimg.png';
 import btnsImg from '@/assets/images/3buttonimg.png';
 import createExpenseImg from '@/assets/images/expenseRecord.png';
 import incomeRecordImg from '@/assets/images/incomeRecordimg.png';
-import ManualIcon from '../svg/Icon/ManualIcon';
+import ManualIcon from '@/assets/svg/Icon/ManualIcon';
 import { formattedAmount } from '@/helpers/frontend/getSum';
+import NotesIcon from '@/assets/svg/Icon/NotesIcon';
 
 export const CURRENCY = '৳';
 export const TOKEN = 'token';
@@ -35,6 +36,7 @@ export const SIDEBAR_MENU = [
     ],
     icon: <Expencces />,
   },
+  { title: 'Notes', path: '/notes', icon: <NotesIcon /> },
   { title: 'Settings', path: '/setting', icon: <Settings /> },
   { title: 'User Manual', path: '/user-manual', icon: <ManualIcon /> },
 ];
