@@ -4,7 +4,7 @@ import React from 'react';
 import Modal from '@/components/fields/Modal';
 import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
-import Textarea from '@/components/fields/TextArea';
+import Textarea from '@/components/fields/Textarea';
 
 const NotesModal = ({ modalOpen, setModalOpen, heading, loading, info, setInfo, handleSubmit }) => {
   const handleExpense = (e) => {
