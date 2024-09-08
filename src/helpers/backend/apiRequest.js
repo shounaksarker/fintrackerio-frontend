@@ -1,12 +1,13 @@
 const axios = require('axios');
 
-const apiRequest = async (method, url, headers = {}, data = {}) => {
+const apiRequest = async (method, url, headers, data, params) => {
   try {
     const response = await axios({
       method,
       url,
       headers,
       data,
+      params,
     });
     return response;
   } catch (error) {

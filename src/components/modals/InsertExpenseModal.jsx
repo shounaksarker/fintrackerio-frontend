@@ -52,7 +52,7 @@ const InsertExpenseModal = ({
             className="size-full"
             selectClass="text-md font-thin"
             name="expense_category_id"
-            label="Category *"
+            label="Category"
             onChange={(e) => handleExpense(e)}
             value={expense.expense_category_id}
             placeholder="Select Expense Category"
@@ -65,7 +65,7 @@ const InsertExpenseModal = ({
           <SelectOption
             className="size-full"
             name="terminal_id"
-            label="Spend From *"
+            label="Spend From"
             onChange={(e) => handleExpense(e)}
             value={expense.terminal_id}
             placeholder="Select Terminal"

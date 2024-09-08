@@ -27,3 +27,7 @@ export const GET_USER_URL = `${process.env.SERVER_URL}/api/user/info`;
 
 export const RESET_EMAIL_SEND_URL = `${process.env.SERVER_URL}/api/user/send-reset-email`;
 export const RESET_PASSWORD_URL = `${process.env.SERVER_URL}/api/user/reset-password`;
+
+export const CREATE_NOTE_URL = `${process.env.SERVER_URL}/api/notes/create`;
+export const GET_ALL_NOTES_URL = `${process.env.SERVER_URL}/api/notes/get-all`;
+export const SINGLE_NOTE_URL = `${process.env.SERVER_URL}/api/notes/:id`;

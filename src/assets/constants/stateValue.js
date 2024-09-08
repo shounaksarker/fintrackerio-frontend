@@ -47,3 +47,9 @@ export const PASSWORD_TYPE_VALUE = {
   first: true,
   second: true,
 };
+
+export const NOTES_VALUE = {
+  id: '',
+  title: '',
+  description: '',
+};
