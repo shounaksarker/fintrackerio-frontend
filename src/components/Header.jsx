@@ -12,7 +12,7 @@ const Header = () => {
   const { user, sidebarOpen } = useContext(DataContext);
   const pathName = usePathname();
   const isAuthPage = AUTH_PATH.includes(pathName);
-  const isDateRangeHidden = HIDDEN_DATE_RANGE_PATH.includes(pathName);
+  const isDateRangeHidden = HIDDEN_DATE_RANGE_PATH(pathName);
 
   return (
     <>

@@ -112,7 +112,7 @@ const Sidebar = ({ menu }) => {
                     </Link>
                     {item?.submenu && sidebarOpen[index] && (
                       <div className="pl-8">
-                        {item?.submenu.map((subItem, subIndex) => (
+                        {item.submenu.map((subItem, subIndex) => (
                           <Link
                             href={subItem.path || ''}
                             key={subIndex}
