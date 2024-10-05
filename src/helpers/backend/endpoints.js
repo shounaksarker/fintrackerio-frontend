@@ -31,3 +31,6 @@ export const RESET_PASSWORD_URL = `${process.env.SERVER_URL}/api/user/reset-pass
 export const CREATE_NOTE_URL = `${process.env.SERVER_URL}/api/notes/create`;
 export const GET_ALL_NOTES_URL = `${process.env.SERVER_URL}/api/notes/get-all`;
 export const SINGLE_NOTE_URL = `${process.env.SERVER_URL}/api/notes/:id`;
+
+export const GET_AUTO_TRANSFER_URL = `${process.env.SERVER_URL}/api/user/get-auto-transfer`;
+export const SET_AUTO_TRANSFER_URL = `${process.env.SERVER_URL}/api/user/set-auto-transfer`;

@@ -33,3 +33,5 @@ export const RESET_PASSWORD_URL = '/api/v1/reset-password';
 export const CREATE_NOTE_URL = '/api/v1/notes/create';
 export const GET_ALL_NOTES_URL = '/api/v1/notes/get-all';
 export const SINGLE_NOTE_URL = '/api/v1/notes/:id';
+
+export const AUTO_TRANSFER_URL = '/api/v1/user/auto-transfer';

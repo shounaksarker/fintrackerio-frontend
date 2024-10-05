@@ -15,6 +15,7 @@ import { USER } from '@/assets/constants';
 import { MALE_ICONS } from '@/assets/constants/userIcon';
 import EditUserModal from '@/components/modals/EditUserModal';
 import ConfirmModal from '@/components/modals/ConfirmModal';
+import TransferView from '@/components/settings/TransferView';
 
 const Page = () => {
   const { user, getUser } = useContext(DataContext);
@@ -113,7 +114,9 @@ const Page = () => {
               </Button>
             </div>
           </div>
-
+          <div className="my-6 w-full rounded-md bg-lightGray/30 p-4 pb-6 shadow-md">
+            <TransferView />
+          </div>
           <div className="mt-10 flex flex-col gap-y-2">
             <h1 className="mb-4 text-center text-lg font-semibold underline underline-offset-8 xl:text-start">
               Choose your avatar

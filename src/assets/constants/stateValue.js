@@ -53,3 +53,9 @@ export const NOTES_VALUE = {
   title: '',
   description: '',
 };
+
+export const REMAIN_TRANSFER_VALUE = {
+  remainingTransfer: '',
+  expenseTerminal: '',
+  incomeTerminal: '',
+};
