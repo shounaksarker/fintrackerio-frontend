@@ -5,17 +5,23 @@ import axios from 'axios';
 import OnOffToggle from '@/components/fields/OnOffToggle';
 import SelectOption from '@/components/fields/Select';
 import { DataContext } from '@/context/DataContext';
-import { REMAIN_TRANSFER_VALUE } from '@/assets/constants/stateValue';
 import Button from '@/components/fields/Button';
 import { AUTO_TRANSFER_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
 import Shimmer from '@/components/fields/Shimmer';
 
 const TransferView = () => {
-  const { incomeSources, fetchIncomeSource, expenseCategory, fetchExpenseCategory } = useContext(DataContext);
-  const [transferInfo, setTransferInfo] = useState(REMAIN_TRANSFER_VALUE);
+  const {
+    incomeSources,
+    fetchIncomeSource,
+    expenseCategory,
+    fetchExpenseCategory,
+    transferInfo,
+    setTransferInfo,
+    aTInfoLoading,
+    setATaTInfoLoading,
+  } = useContext(DataContext);
   const [checked, setChecked] = useState(false);
-  const [infoLoading, setInfoLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleTransfer = (e) => {
@@ -23,7 +29,7 @@ const TransferView = () => {
   };
 
   const getATDetails = async () => {
-    setInfoLoading(true);
+    setATaTInfoLoading(true);
     try {
       const res = await axios.get(AUTO_TRANSFER_URL);
       if (res.data.success) {
@@ -40,7 +46,7 @@ const TransferView = () => {
     } catch (err) {
       notification(err.message || 'An error occured.');
     }
-    setInfoLoading(false);
+    setATaTInfoLoading(false);
   };
 
   const setATDetails = async (info) => {
@@ -78,15 +84,17 @@ const TransferView = () => {
     if (!expenseCategory.length) {
       fetchExpenseCategory();
     }
-    getATDetails();
   }, []);
+  useEffect(() => {
+    setChecked(transferInfo.remainingTransfer);
+  }, [transferInfo.remainingTransfer]);
   return (
     <div>
       <div className="flex flex-col justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0">
         <span>
-          Do you want to transfer <b>remaining balance</b> to the next month? :
+          Do you want to forward your <b>remaining balance</b> to the next month? :
         </span>
-        {infoLoading ? (
+        {aTInfoLoading ? (
           <Shimmer className="h-9 rounded-md" shimmerClass="max-w-20" />
         ) : (
           <OnOffToggle onChange={() => onToggle()} checked={checked} />

@@ -11,11 +11,13 @@ import {
   INCOME_DISTRIBUTION_URL,
   EXPENSE_CATEGORY_URL,
   GET_USER_URL,
+  AUTO_TRANSFER_URL,
 } from '@/helpers/frontend/apiEndpoints';
 import { getDateRange, getPreviousMonthDateRange } from '@/helpers/frontend/formateDate';
 import { fetchRecord } from '@/helpers/frontend/others';
 import { getUserDetails } from '@/helpers/frontend/getUserDetails';
 import { USER } from '@/assets/constants';
+import { REMAIN_TRANSFER_VALUE } from '@/assets/constants/stateValue';
 
 export const DataContext = createContext();
 
@@ -36,6 +38,9 @@ const DataContextProvider = ({ children }) => {
 
   const [distributedIn, setDistributedIn] = useState([]);
   const [distributedLoading, setDistributedLoading] = useState(true);
+
+  const [transferInfo, setTransferInfo] = useState(REMAIN_TRANSFER_VALUE);
+  const [aTInfoLoading, setATaTInfoLoading] = useState(true);
 
   // others
   const [user, setUser] = useState();
@@ -112,6 +117,27 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
+  // auto-transfer from prev to next month
+  const getATDetails = async () => {
+    setATaTInfoLoading(true);
+    try {
+      const res = await axios.get(AUTO_TRANSFER_URL);
+      if (res.data.success) {
+        const obj = {
+          remainingTransfer: res.data.data.remaining_transfer || false,
+          expenseTerminal: res.data.data.transfer_info?.expenseTerminal || '',
+          incomeTerminal: res.data.data.transfer_info?.incomeTerminal || '',
+        };
+        setTransferInfo(obj);
+      } else {
+        notification(res.data.msg || 'Failed to load info.', { type: 'error', id: 'atError' });
+      }
+    } catch (err) {
+      notification(err.message || 'An error occured.', { type: 'error', id: 'atError' });
+    }
+    setATaTInfoLoading(false);
+  };
+
   // others
   const fetchWithForce = () => {
     setFetchForce(true);
@@ -177,6 +203,12 @@ const DataContextProvider = ({ children }) => {
         fetchDistributedIn,
         distributedLoading,
         setDistributedLoading,
+        // <----- Auto transfer amount from prev to next month ----->
+        getATDetails,
+        transferInfo,
+        setTransferInfo,
+        aTInfoLoading,
+        setATaTInfoLoading,
         // <----- others ----->
         dateRange,
         setDateRange,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import moment from 'moment';
 import { usePathname } from 'next/navigation';
 import ChevronRight from '@/assets/svg/Icon/ChevronRight';
@@ -9,10 +9,14 @@ import { DataContext } from '@/context/DataContext';
 import { AUTH_PATH, HIDDEN_DATE_RANGE_PATH } from '@/assets/constants/conditionalPath';
 
 const Header = () => {
-  const { user, sidebarOpen } = useContext(DataContext);
+  const { user, sidebarOpen, getATDetails } = useContext(DataContext);
   const pathName = usePathname();
   const isAuthPage = AUTH_PATH.includes(pathName);
   const isDateRangeHidden = HIDDEN_DATE_RANGE_PATH(pathName);
+
+  useEffect(() => {
+    getATDetails();
+  }, []);
 
   return (
     <>

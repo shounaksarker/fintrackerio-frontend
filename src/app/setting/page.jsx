@@ -127,7 +127,7 @@ const Page = () => {
                   <h3 className="my-4 ml-3 text-sm font-medium text-pGray underline underline-offset-4">
                     {items.category}
                   </h3>
-                  <div className="mb-6 flex flex-wrap gap-3">
+                  <div className="mb-6 flex flex-wrap justify-between gap-3 md:justify-normal">
                     {items.icons.map((icon, i) => {
                       return (
                         <button key={i} onClick={() => handleImg(icon.src)}>
