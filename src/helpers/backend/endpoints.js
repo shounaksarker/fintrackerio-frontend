@@ -34,3 +34,4 @@ export const SINGLE_NOTE_URL = `${process.env.SERVER_URL}/api/notes/:id`;
 
 export const GET_AUTO_TRANSFER_URL = `${process.env.SERVER_URL}/api/user/get-auto-transfer`;
 export const SET_AUTO_TRANSFER_URL = `${process.env.SERVER_URL}/api/user/set-auto-transfer`;
+export const TRANSFER_TO_NEXT_URL = `${process.env.SERVER_URL}/api/balance/transfer-to-next-month`;

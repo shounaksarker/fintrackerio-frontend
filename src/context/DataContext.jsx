@@ -40,7 +40,7 @@ const DataContextProvider = ({ children }) => {
   const [distributedLoading, setDistributedLoading] = useState(true);
 
   const [transferInfo, setTransferInfo] = useState(REMAIN_TRANSFER_VALUE);
-  const [aTInfoLoading, setATaTInfoLoading] = useState(true);
+  const [aTInfoLoading, setATInfoLoading] = useState(true);
 
   // others
   const [user, setUser] = useState();
@@ -66,6 +66,7 @@ const DataContextProvider = ({ children }) => {
   const fetchIncomeRecord = () => {
     fetchRecord(INCOME_RECORD_URL, setIncomeData, setIncomeLoading, { dateRange });
   };
+
   // get income sources
   const fetchIncomeSource = async () => {
     try {
@@ -117,16 +118,16 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
-  // auto-transfer from prev to next month
+  // get user_settings details
   const getATDetails = async () => {
-    setATaTInfoLoading(true);
+    setATInfoLoading(true);
     try {
       const res = await axios.get(AUTO_TRANSFER_URL);
       if (res.data.success) {
         const obj = {
-          remainingTransfer: res.data.data.remaining_transfer || false,
-          expenseTerminal: res.data.data.transfer_info?.expenseTerminal || '',
-          incomeTerminal: res.data.data.transfer_info?.incomeTerminal || '',
+          is_transfer_allowed: res.data.data.is_transfer_allowed || false,
+          expenseCategoryId: res.data.data.transfer_info?.expenseCategoryId || '',
+          incomeCategoryId: res.data.data.transfer_info?.incomeCategoryId || '',
         };
         setTransferInfo(obj);
       } else {
@@ -135,11 +136,11 @@ const DataContextProvider = ({ children }) => {
     } catch (err) {
       notification(err.message || 'An error occured.', { type: 'error', id: 'atError' });
     }
-    setATaTInfoLoading(false);
+    setATInfoLoading(false);
   };
 
   // others
-  const fetchWithForce = () => {
+  const callMultipleFunctions = () => {
     setFetchForce(true);
     setTimeout(() => {
       setFetchForce(false);
@@ -208,7 +209,7 @@ const DataContextProvider = ({ children }) => {
         transferInfo,
         setTransferInfo,
         aTInfoLoading,
-        setATaTInfoLoading,
+        setATInfoLoading,
         // <----- others ----->
         dateRange,
         setDateRange,
@@ -217,7 +218,7 @@ const DataContextProvider = ({ children }) => {
         endDate,
         setEndDate,
         fetchForce,
-        fetchWithForce,
+        callMultipleFunctions,
         previousDateRange,
         setPreviousDateRange,
         user,

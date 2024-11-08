@@ -30,7 +30,7 @@ import TOON_8 from '@/assets/images/userIcons/toon_8.png';
 import TOON_9 from '@/assets/images/userIcons/toon_9.png';
 import TOON_10 from '@/assets/images/userIcons/toon_10.png';
 
-export const MALE_ICONS = [
+export const PERSON_ICONS = [
   {
     category: 'Person',
     icons: [

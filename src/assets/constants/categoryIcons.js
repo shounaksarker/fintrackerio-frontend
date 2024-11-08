@@ -60,6 +60,7 @@ import transportation from '@/assets/images/categoryIcons/transportation.png';
 import travelBag from '@/assets/images/categoryIcons/travel_bag.png';
 import utility from '@/assets/images/categoryIcons/utility.png';
 import wages from '@/assets/images/categoryIcons/wages.png';
+import makeup from '@/assets/images/categoryIcons/makeup.png';
 
 export const INCOME_CATEGORY_ICONS = [
   { name: 'bonus', icon: bonus, category: 'income' },
@@ -109,6 +110,7 @@ export const EXPENSE_CATEGORY_ICONS = [
   { name: 'loan text', icon: loanText, category: 'expense' },
   { name: 'loan', icon: loan, category: 'expense' },
   { name: 'management', icon: management, category: 'expense' },
+  { name: 'makeup', icon: makeup, category: 'expense' },
   { name: 'others', icon: others, category: 'expense' },
   { name: 'pet care', icon: petCare, category: 'expense' },
   { name: 'pet care2', icon: petCare2, category: 'expense' },

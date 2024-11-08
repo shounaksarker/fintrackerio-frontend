@@ -12,10 +12,10 @@ import { EDIT_USER_VALUE } from '@/assets/constants/stateValue';
 import editIcon from '@/assets/svg/edit.svg';
 import userIcon from '@/assets/images/user.png';
 import { USER } from '@/assets/constants';
-import { MALE_ICONS } from '@/assets/constants/userIcon';
 import EditUserModal from '@/components/modals/EditUserModal';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import TransferView from '@/components/settings/TransferView';
+import AvatarView from '@/components/settings/AvatarView';
 
 const Page = () => {
   const { user, getUser } = useContext(DataContext);
@@ -117,35 +117,7 @@ const Page = () => {
           <div className="my-6 w-full rounded-md bg-lightGray/30 p-4 pb-6 shadow-md">
             <TransferView />
           </div>
-          <div className="mt-10 flex flex-col gap-y-2">
-            <h1 className="mb-4 text-center text-lg font-semibold underline underline-offset-8 xl:text-start">
-              Choose your avatar
-            </h1>
-            {MALE_ICONS.map((items, index) => {
-              return (
-                <div key={index}>
-                  <h3 className="my-4 ml-3 text-sm font-medium text-pGray underline underline-offset-4">
-                    {items.category}
-                  </h3>
-                  <div className="mb-6 flex flex-wrap justify-between gap-3 md:justify-normal">
-                    {items.icons.map((icon, i) => {
-                      return (
-                        <button key={i} onClick={() => handleImg(icon.src)}>
-                          <Image
-                            src={icon}
-                            width={512}
-                            height={512}
-                            alt="user_icon"
-                            className="size-16 rounded-full bg-gray-100 p-2 shadow md:size-20"
-                          />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <AvatarView handleImg={handleImg} />
         </div>
       ) : (
         <div className="flex h-screen w-full items-center justify-center">

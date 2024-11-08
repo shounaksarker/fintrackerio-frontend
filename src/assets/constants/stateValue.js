@@ -55,7 +55,7 @@ export const NOTES_VALUE = {
 };
 
 export const REMAIN_TRANSFER_VALUE = {
-  remainingTransfer: '',
-  expenseTerminal: '',
-  incomeTerminal: '',
+  is_transfer_allowed: '',
+  expenseCategoryId: '',
+  incomeCategoryId: '',
 };

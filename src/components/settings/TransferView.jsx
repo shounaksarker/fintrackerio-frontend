@@ -16,37 +16,16 @@ const TransferView = () => {
     fetchIncomeSource,
     expenseCategory,
     fetchExpenseCategory,
+    getATDetails,
     transferInfo,
     setTransferInfo,
     aTInfoLoading,
-    setATaTInfoLoading,
   } = useContext(DataContext);
   const [checked, setChecked] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleTransfer = (e) => {
     setTransferInfo({ ...transferInfo, [e.target.name]: e.target.value });
-  };
-
-  const getATDetails = async () => {
-    setATaTInfoLoading(true);
-    try {
-      const res = await axios.get(AUTO_TRANSFER_URL);
-      if (res.data.success) {
-        const obj = {
-          remainingTransfer: res.data.data.remaining_transfer || false,
-          expenseTerminal: res.data.data.transfer_info?.expenseTerminal || '',
-          incomeTerminal: res.data.data.transfer_info?.incomeTerminal || '',
-        };
-        setTransferInfo(obj);
-        setChecked(obj.remainingTransfer);
-      } else {
-        notification(res.data.msg || 'Failed to load info.', { type: 'error', id: 'fetcherror' });
-      }
-    } catch (err) {
-      notification(err.message || 'An error occured.');
-    }
-    setATaTInfoLoading(false);
   };
 
   const setATDetails = async (info) => {
@@ -66,9 +45,9 @@ const TransferView = () => {
 
   const onToggle = async () => {
     setChecked(!checked);
-    setTransferInfo({ ...transferInfo, remainingTransfer: !checked });
+    setTransferInfo({ ...transferInfo, is_transfer_allowed: !checked });
     if (checked) {
-      setATDetails({ transfer: false });
+      setATDetails({ is_transfer_allowed: false });
     }
   };
 
@@ -84,10 +63,11 @@ const TransferView = () => {
     if (!expenseCategory.length) {
       fetchExpenseCategory();
     }
+    getATDetails();
   }, []);
   useEffect(() => {
-    setChecked(transferInfo.remainingTransfer);
-  }, [transferInfo.remainingTransfer]);
+    setChecked(transferInfo.is_transfer_allowed);
+  }, [transferInfo.is_transfer_allowed]);
   return (
     <div>
       <div className="flex flex-col justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0">
@@ -104,10 +84,10 @@ const TransferView = () => {
         <form className="mt-8 flex flex-col gap-y-2" onSubmit={handleSubmit}>
           <SelectOption
             className="size-full"
-            name="expenseTerminal"
+            name="expenseCategoryId"
             label="Spend From"
             onChange={(e) => handleTransfer(e)}
-            value={transferInfo.expenseTerminal}
+            value={transferInfo.expenseCategoryId}
             placeholder="Select one"
             labelClass="font-normal"
             options={expenseCategory}
@@ -117,10 +97,10 @@ const TransferView = () => {
           />
           <SelectOption
             className="size-full"
-            name="incomeTerminal"
+            name="incomeCategoryId"
             label="Received In"
             onChange={(e) => handleTransfer(e)}
-            value={transferInfo.incomeTerminal}
+            value={transferInfo.incomeCategoryId}
             placeholder="Select one"
             labelClass="font-normal"
             options={incomeSources}
