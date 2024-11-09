@@ -7,12 +7,8 @@ const OnOffToggle = ({ checked, onChange = () => {} }) => {
     onChange();
   };
   return (
-    <div className="px-4">
-      <label className="switch">
-        <input onChange={handleClick} checked={checked} type="checkbox" className="toggle" />
-        <span className="slider"></span>
-        <span className="card-side"></span>
-      </label>
+    <div>
+      <input className="togglesw" type="checkbox" onChange={handleClick} checked={checked} />
     </div>
   );
 };
