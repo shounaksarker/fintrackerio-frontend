@@ -16,7 +16,7 @@ const DateRangePicker = ({ className }) => {
     setStartDate,
     endDate,
     setEndDate,
-    fetchWithForce,
+    callMultipleFunctions,
   } = useContext(DataContext);
   const onChange = (dates) => {
     const [start, end] = dates;
@@ -25,7 +25,7 @@ const DateRangePicker = ({ className }) => {
     if (dates[0] === null && dates[1] === null) {
       setDateRange(getDateRange());
       setPreviousDateRange(getPreviousMonthDateRange(dateRange));
-      fetchWithForce();
+      callMultipleFunctions();
     }
   };
 
