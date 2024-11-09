@@ -32,7 +32,7 @@ const TransferView = () => {
   const [incomeCategoryValue, setIncomeCategoryValue] = useState({});
   const [expenseCategoryValue, setExpenseCategoryValue] = useState({});
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [categoryType, setCategoryType] = useState('income');
 
   const handleTransfer = (e) => {
@@ -94,7 +94,7 @@ const TransferView = () => {
     if (res.data.success) {
       notification(res.data.msg, { type: 'success', id: 'createSource' });
       setValue(CATEGORY_VALUE);
-      setModalOpen(false);
+      setCategoryModalOpen(false);
       fetchSource();
     } else {
       notification(res.data.msg || 'Failed to add category', { type: 'error', id: 'createSource' });
@@ -104,7 +104,7 @@ const TransferView = () => {
 
   const openModal = (type) => {
     setCategoryType(type);
-    setModalOpen(true);
+    setCategoryModalOpen(true);
   };
 
   useEffect(() => {
@@ -202,11 +202,11 @@ const TransferView = () => {
       ) : null}
       {tipsModalOpen && <TipsModal modalOpen={tipsModalOpen} setModalOpen={setTipsModalOpen} />}
 
-      {modalOpen && (
+      {categoryModalOpen && (
         <CategoryModal
           type={categoryType}
-          modalOpen={modalOpen}
-          setModalOpen={setModalOpen}
+          modalOpen={categoryModalOpen}
+          setModalOpen={setCategoryModalOpen}
           handleCategory={handleCategory}
           data={isIncome() ? incomeCategoryValue : expenseCategoryValue}
           title={isIncome() ? 'Add Income Source' : 'Add Expense Category'}
