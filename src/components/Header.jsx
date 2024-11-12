@@ -25,8 +25,8 @@ const Header = () => {
   const submitTransferToNext = async (e) => {
     e.preventDefault();
     setTransferNextLoading(true);
-    if (transferDetails.remain) delete transferDetails.remain;
-    const res = await axios.post(TRANSFER_TO_NEXT_URL, transferDetails);
+    const { remain, ...restDetails } = transferDetails;
+    const res = await axios.post(TRANSFER_TO_NEXT_URL, restDetails);
     if (res.data.success) {
       notification(res.data.msg, { type: 'success', id: 'atError' });
       fetchBalance();
