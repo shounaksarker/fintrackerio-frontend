@@ -17,7 +17,12 @@ export const POST = async (req) => {
     const option_on = { ...transferDetails.options, is_this_month_done: 1 };
     const option_off = { ...transferDetails.options, is_this_month_done: 0 };
 
-    const updateResponse = await apiRequest('patch', SET_AUTO_TRANSFER_URL, { token }, { option: option_on });
+    const updateResponse = await apiRequest(
+      'patch',
+      SET_AUTO_TRANSFER_URL,
+      { token },
+      { options: option_on }
+    );
 
     if (updateResponse.error) {
       return Response.json(updateResponse.error);
@@ -25,7 +30,7 @@ export const POST = async (req) => {
 
     const response = await apiRequest('post', TRANSFER_TO_NEXT_URL, { token }, payload);
     if (response.error) {
-      await apiRequest('patch', SET_AUTO_TRANSFER_URL, { token }, { option: option_off });
+      await apiRequest('patch', SET_AUTO_TRANSFER_URL, { token }, { options: option_off });
       return Response.json(response.error);
     }
     return Response.json(response.data);

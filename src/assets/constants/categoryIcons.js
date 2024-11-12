@@ -4,6 +4,7 @@ import bike from '@/assets/images/categoryIcons/bike.png';
 import bonus1 from '@/assets/images/categoryIcons/bonus1.png';
 import business from '@/assets/images/categoryIcons/business.png';
 import care from '@/assets/images/categoryIcons/care.png';
+import coffee from '@/assets/images/categoryIcons/coffee.png';
 import confused from '@/assets/images/categoryIcons/confused.png';
 import confusion from '@/assets/images/categoryIcons/confusion.png';
 import creditCard from '@/assets/images/categoryIcons/credit_card.png';
@@ -28,6 +29,7 @@ import kingQueen from '@/assets/images/categoryIcons/king_queen.png';
 import king from '@/assets/images/categoryIcons/king.png';
 import loanText from '@/assets/images/categoryIcons/loan_text.png';
 import loan from '@/assets/images/categoryIcons/loan.png';
+import makeup from '@/assets/images/categoryIcons/makeup.png';
 import management from '@/assets/images/categoryIcons/management.png';
 import marketShare from '@/assets/images/categoryIcons/market_share.png';
 import moneyJar from '@/assets/images/categoryIcons/money_jar.png';
@@ -55,12 +57,13 @@ import subscription from '@/assets/images/categoryIcons/subscription.png';
 import subscriptions from '@/assets/images/categoryIcons/subscriptions.png';
 import surprise from '@/assets/images/categoryIcons/surprise.png';
 import tax from '@/assets/images/categoryIcons/tax.png';
+import transfer from '@/assets/images/categoryIcons/transfer.png';
 import transport from '@/assets/images/categoryIcons/transport.png';
+import transport_metro from '@/assets/images/categoryIcons/transport_metro.png';
 import transportation from '@/assets/images/categoryIcons/transportation.png';
 import travelBag from '@/assets/images/categoryIcons/travel_bag.png';
 import utility from '@/assets/images/categoryIcons/utility.png';
 import wages from '@/assets/images/categoryIcons/wages.png';
-import makeup from '@/assets/images/categoryIcons/makeup.png';
 
 export const INCOME_CATEGORY_ICONS = [
   { name: 'bonus', icon: bonus, category: 'income' },
@@ -85,11 +88,13 @@ export const INCOME_CATEGORY_ICONS = [
   { name: 'queen', icon: queen, category: 'income' },
   { name: 'piggy bank', icon: piggyBank, category: 'income' },
   { name: 'rental', icon: rental, category: 'income' },
+  { name: 'transfer', icon: transfer, category: 'income' },
   { name: 'wages', icon: wages, category: 'income' },
 ];
 
 export const EXPENSE_CATEGORY_ICONS = [
   { name: 'bike', icon: bike, category: 'expense' },
+  { name: 'coffee', icon: coffee, category: 'expense' },
   { name: 'confused', icon: confused, category: 'expense' },
   { name: 'confusion', icon: confusion, category: 'expense' },
   { name: 'credit card', icon: creditCard, category: 'expense' },
@@ -126,6 +131,7 @@ export const EXPENSE_CATEGORY_ICONS = [
   { name: 'tax', icon: tax, category: 'expense' },
   { name: 'tour', icon: transportation, category: 'expense' },
   { name: 'transport', icon: transport, category: 'expense' },
+  { name: 'transport_metro', icon: transport_metro, category: 'expense' },
   { name: 'travel bag', icon: travelBag, category: 'expense' },
   { name: 'utility', icon: utility, category: 'expense' },
 ];
