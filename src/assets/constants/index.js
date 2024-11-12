@@ -15,7 +15,7 @@ export const CURRENCY = '৳';
 export const TOKEN = 'token';
 export const USER = 'user';
 export const TOKEN_EXPIRED_DAY = 3;
-export const MAX_DATE_FOR_AUTO_TRANSFER = 10;
+export const MAX_DATE_FOR_AUTO_TRANSFER = 20;
 
 export const SIDEBAR_MENU = [
   { title: 'Overview', path: '/', icon: <Overview /> },
