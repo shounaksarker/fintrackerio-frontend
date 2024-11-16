@@ -29,8 +29,8 @@ const TransferView = () => {
   const [tipsModalOpen, setTipsModalOpen] = useState(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const [incomeCategoryValue, setIncomeCategoryValue] = useState({});
-  const [expenseCategoryValue, setExpenseCategoryValue] = useState({});
+  const [incomeCategoryValue, setIncomeCategoryValue] = useState(CATEGORY_VALUE);
+  const [expenseCategoryValue, setExpenseCategoryValue] = useState(CATEGORY_VALUE);
   const [loading, setLoading] = useState(false);
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [categoryType, setCategoryType] = useState('income');

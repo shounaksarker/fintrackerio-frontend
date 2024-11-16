@@ -12,6 +12,7 @@ import { handleAutoTransfer, isObjectEmpty } from '@/helpers/frontend/others';
 import ConfirmModal from './modals/ConfirmModal';
 import { TRANSFER_TO_NEXT_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from './notification';
+import { CURRENCY } from '@/assets/constants';
 
 const Header = () => {
   const { user, sidebarOpen, fetchBalance, fetchIncomeRecord, fetchExpenseRecord } = useContext(DataContext);
@@ -71,7 +72,7 @@ const Header = () => {
         <ConfirmModal
           modalOpen={transferNextModal}
           setModalOpen={setTransferNextModal}
-          title={`Would you like to carry over your remaining balance (${transferDetails.remain}) from last month to this month?`}
+          title={`Would you like to carry over your remaining balance (${CURRENCY}${transferDetails.remain}) from last month to this month?`}
           loading={transferNextLoading}
           handleSubmit={submitTransferToNext}
         />
