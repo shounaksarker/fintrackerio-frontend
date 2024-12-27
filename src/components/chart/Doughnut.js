@@ -91,7 +91,7 @@ const DoughnutChart = ({ data = [], labels = [], colors, title, titleStyle, clas
   }, [data]);
 
   return (
-    <div className={`${className}`}>
+    <div className={`${!data.length ? 'hidden' : className}`}>
       <canvas id="DoughnutChart"></canvas>
     </div>
   );

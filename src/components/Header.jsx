@@ -1,18 +1,55 @@
 'use client';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
 import { usePathname } from 'next/navigation';
+import axios from 'axios';
 import ChevronRight from '@/assets/svg/Icon/ChevronRight';
 import DateRangePicker from '@/components/fields/DateRangePicker';
 import { DataContext } from '@/context/DataContext';
 import { AUTH_PATH, HIDDEN_DATE_RANGE_PATH } from '@/assets/constants/conditionalPath';
+import { handleAutoTransfer, isObjectEmpty } from '@/helpers/frontend/others';
+import ConfirmModal from './modals/ConfirmModal';
+import { TRANSFER_TO_NEXT_URL } from '@/helpers/frontend/apiEndpoints';
+import { notification } from './notification';
+import { CURRENCY } from '@/assets/constants';
 
 const Header = () => {
-  const { user, sidebarOpen } = useContext(DataContext);
+  const { user, sidebarOpen, fetchBalance, fetchIncomeRecord, fetchExpenseRecord } = useContext(DataContext);
+  const [transferDetails, setTransferDetails] = useState(null);
+  const [transferNextModal, setTransferNextModal] = useState(false);
+  const [transferNextLoading, setTransferNextLoading] = useState(false);
   const pathName = usePathname();
   const isAuthPage = AUTH_PATH.includes(pathName);
   const isDateRangeHidden = HIDDEN_DATE_RANGE_PATH(pathName);
+
+  const submitTransferToNext = async (e) => {
+    e.preventDefault();
+    setTransferNextLoading(true);
+    const { remain, ...restDetails } = transferDetails;
+    const res = await axios.post(TRANSFER_TO_NEXT_URL, restDetails);
+    if (res.data.success) {
+      notification(res.data.msg, { type: 'success', id: 'atError' });
+      fetchBalance();
+      fetchIncomeRecord();
+      fetchExpenseRecord();
+      setTransferNextModal(false);
+    } else {
+      notification(res.data.msg || 'Failed to transfer', { type: 'error', id: 'atError' });
+    }
+    setTransferNextLoading(false);
+  };
+
+  useEffect(() => {
+    const fetchTransferDetails = async () => {
+      const details = await handleAutoTransfer();
+      setTransferDetails(details);
+      if (!isObjectEmpty(details)) {
+        setTransferNextModal(true);
+      }
+    };
+    fetchTransferDetails();
+  }, []);
 
   return (
     <>
@@ -31,6 +68,15 @@ const Header = () => {
           {!isDateRangeHidden && <DateRangePicker className={sidebarOpen ? '-z-50' : 'z-10'} />}
         </div>
       )}
+      {transferNextModal ? (
+        <ConfirmModal
+          modalOpen={transferNextModal}
+          setModalOpen={setTransferNextModal}
+          title={`Would you like to carry over your remaining balance (${CURRENCY}${transferDetails.remain}) from last month to this month?`}
+          loading={transferNextLoading}
+          handleSubmit={submitTransferToNext}
+        />
+      ) : null}
     </>
   );
 };
