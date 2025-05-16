@@ -4,7 +4,7 @@ import { validateEmail, validatePassword } from '@/helpers/validation';
 
 export const POST = async (request) => {
   const body = await request.json();
-  const { username, email, password } = body; 
+  const { username, email, password } = body;
 
   if (!username) {
     return Response.json({
