@@ -38,8 +38,16 @@ export const getPreviousMonthDateRange = (dateRange) => {
     const previousFrom = getPreviousMonth(fromDate.year(), fromDate.month() + 1);
     const previousTo = getPreviousMonth(toDate.year(), toDate.month() + 1);
 
-    const previousFromDate = moment([previousFrom.year, previousFrom.month - 1, fromDate.date()]);
-    const previousToDate = moment([previousTo.year, previousTo.month - 1, toDate.date()]);
+    const previousFromDate = moment([
+      previousFrom.year,
+      previousFrom.month - 1,
+      Math.min(fromDate.date(), moment([previousFrom.year, previousFrom.month - 1]).daysInMonth()),
+    ]);
+    const previousToDate = moment([
+      previousTo.year,
+      previousTo.month - 1,
+      Math.min(toDate.date(), moment([previousTo.year, previousTo.month - 1]).daysInMonth()),
+    ]);
 
     return {
       from: previousFromDate.format('YYYY-MM-DD'),

@@ -23,6 +23,8 @@ const getBreakdown = (currentMonth = [], prevMonth = [], categoryName = 'expense
       breakdown[expense[categoryName]].spendsOn.push({
         name: expense.spend_on,
         amount: parseFloat(expense.amount),
+        terminal: expense.terminal_name,
+        description: expense.description,
         date: moment(expense.date).format('DD/MM/YYYY'),
       });
     }
