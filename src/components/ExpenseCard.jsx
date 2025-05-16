@@ -33,7 +33,7 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
     return <div>{percentage}%</div>;
   };
   return (
-    <div className="w-full rounded-md md:w-1/2 md:px-3 xl:w-1/3">
+    <div className="w-full cursor-pointer rounded-md md:w-1/2 md:px-3 xl:w-1/3">
       <div className="flex items-center justify-between rounded-t-md bg-lightGray p-3">
         <div className="flex items-center justify-start gap-x-2">
           <span className="rounded-lg bg-lightGray-200 p-2">
