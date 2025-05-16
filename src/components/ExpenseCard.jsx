@@ -11,7 +11,6 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const showDetails = (item) => {
-    console.log('Clicked item:', item);
     setModalData(item);
     setModalOpen(true);
   };
