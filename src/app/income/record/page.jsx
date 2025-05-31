@@ -12,7 +12,6 @@ import TerminalsModal from '@/components/modals/TerminalsModal';
 import CreateTerminalModal from '@/components/modals/CreateTerminalModal';
 import TransferModal from '@/components/modals/TransferModal';
 import {
-  GET_TERMINALS_URL,
   TERMINAL_CREATE_URL,
   CREATE_INCOME_RECORD_URL,
   EDIT_INCOME_RECORD_URL,
@@ -39,19 +38,19 @@ const Page = () => {
     balance,
     incomeData,
     incomeLoading,
-    setIncomeLoading,
     fetchIncomeRecord,
     incomeSources,
     fetchIncomeSource,
     distributedIn,
     fetchDistributedIn,
     fetchBalance,
+    fetchTerminal,
+    allTerminals,
+    allTerminalsLoading,
   } = useContext(DataContext);
 
   // show terminals
-  const [allTerminals, setAllTerminals] = useState([]);
   const [allTerminalsModal, setTerminalModal] = useState(false);
-  const [terminalsLoading, setTerminalsLoading] = useState(false);
 
   // transfer modal
   const [transferModal, setTransferModal] = useState(false);
@@ -62,25 +61,6 @@ const Page = () => {
   const [terminalName, setTerminalName] = useState('');
   const [createTerminalModal, setCreateTerminalModal] = useState(false);
   const [ctLoading, setCtLoading] = useState(false);
-
-  const fetchTerminal = async (force = false) => {
-    if (!allTerminals.length || force) {
-      try {
-        setTerminalsLoading(true);
-        const res = await axios.get(GET_TERMINALS_URL);
-
-        if (res.data.success) {
-          setAllTerminals(res.data.data);
-        } else {
-          notification(res.data.msg || 'Failed to load Terminals', { type: 'error', id: 'terminalsError' });
-        }
-        setIncomeLoading(false);
-        setTerminalsLoading(false);
-      } catch (err) {
-        return err;
-      }
-    }
-  };
 
   const fetchSource = async () => {
     if (!incomeSources.length) {
@@ -324,7 +304,7 @@ const Page = () => {
         allTerminals={allTerminals}
         fetchTerminal={fetchTerminal}
         fetchDistributedIn={fetchDistributedIn}
-        loading={terminalsLoading}
+        loading={allTerminalsLoading}
       />
       <CreateTerminalModal
         modalOpen={createTerminalModal}

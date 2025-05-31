@@ -21,6 +21,7 @@ const InsertExpenseModal = ({
   terminalBalances,
   maxAmount,
   setMaxAmount,
+  isEdit = false,
 }) => {
   const handleExpense = (e) => {
     const { name, value, type } = e.target;
@@ -33,7 +34,12 @@ const InsertExpenseModal = ({
       const selectedTerminal = terminalBalances.find(
         (terminal) => terminal.terminal_id === Number(expense.terminal_id)
       );
-      setMaxAmount(selectedTerminal?.balance || 0);
+
+      if (isEdit && selectedTerminal && selectedTerminal.terminal_id === expense.terminal_id) {
+        setMaxAmount(selectedTerminal.balance + Number(expense.amount) || 0);
+      } else {
+        setMaxAmount(selectedTerminal?.balance || 0);
+      }
     }
   }, [expense.terminal_id]);
   return (
