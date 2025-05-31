@@ -12,6 +12,7 @@ import {
   EXPENSE_CATEGORY_URL,
   GET_USER_URL,
   AUTO_TRANSFER_URL,
+  GET_TERMINALS_URL,
 } from '@/helpers/frontend/apiEndpoints';
 import { getDateRange, getPreviousMonthDateRange } from '@/helpers/frontend/formateDate';
 import { fetchRecord } from '@/helpers/frontend/others';
@@ -41,6 +42,9 @@ const DataContextProvider = ({ children }) => {
 
   const [transferInfo, setTransferInfo] = useState(REMAIN_TRANSFER_VALUE);
   const [aTInfoLoading, setATInfoLoading] = useState(true);
+
+  const [allTerminals, setAllTerminals] = useState([]);
+  const [allTerminalsLoading, setAllTerminalsLoading] = useState(true);
 
   // others
   const [user, setUser] = useState();
@@ -118,7 +122,7 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
-  // get user_settings details
+  // get user_settings details (Auto Transfer);
   const getATDetails = async () => {
     setATInfoLoading(true);
     try {
@@ -137,6 +141,26 @@ const DataContextProvider = ({ children }) => {
       notification(err.message || 'An error occured.', { type: 'error', id: 'atError' });
     }
     setATInfoLoading(false);
+  };
+
+  // get all terminals
+  const fetchTerminal = async (force = false) => {
+    if (!allTerminals.length || force) {
+      try {
+        setAllTerminalsLoading(true);
+        const res = await axios.get(GET_TERMINALS_URL);
+
+        if (res.data.success) {
+          setAllTerminals(res.data.data);
+        } else {
+          notification(res.data.msg || 'Failed to load Terminals', { type: 'error', id: 'terminalsError' });
+        }
+        setIncomeLoading(false);
+        setAllTerminalsLoading(false);
+      } catch (err) {
+        return err;
+      }
+    }
   };
 
   // others
@@ -210,6 +234,12 @@ const DataContextProvider = ({ children }) => {
         setTransferInfo,
         aTInfoLoading,
         setATInfoLoading,
+        // <----- terminals ----->
+        fetchTerminal,
+        allTerminals,
+        setAllTerminals,
+        allTerminalsLoading,
+        setAllTerminalsLoading,
         // <----- others ----->
         dateRange,
         setDateRange,

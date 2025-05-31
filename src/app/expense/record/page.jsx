@@ -14,7 +14,6 @@ import { EXPENSE } from '@/assets/constants/stateValue';
 import EditIcon from '@/assets/svg/Icon/EditIcon';
 import DeleteIcon from '@/assets/svg/Icon/DeleteIcon';
 import {
-  GET_TERMINALS_URL,
   CREATE_EXPENSE_RECORD_URL,
   EDIT_EXPENSE_RECORD_URL,
   DELETE_EXPENSE_RECORD_URL,
@@ -34,11 +33,12 @@ const Page = () => {
     fetchBalance,
     fetchExpenseCategory,
     expenseCategory,
+    fetchTerminal,
+    allTerminals,
   } = useContext(DataContext);
   const [expenseDetails, setExpenseDetails] = useState(EXPENSE);
   const [insertExpenseModal, setInsertExpenseModal] = useState(false);
   const [createExpenseLoading, setCreateExpenseLoading] = useState(false);
-  const [terminals, setTerminals] = useState([]);
   const [maxAmount, setMaxAmount] = useState(0);
   const [maxEditeAmount, setMaxEditeAmount] = useState(0);
   const [editExpenseDetails, setEditExpenseDetails] = useState();
@@ -48,20 +48,6 @@ const Page = () => {
   const [deleteConfirmLoading, setDeleteConfirmLoading] = useState(false);
   const [deleteExpenseId, setDeleteExpenseId] = useState(null);
 
-  const fetchTerminal = async () => {
-    if (!terminals.length) {
-      try {
-        const res = await axios.get(GET_TERMINALS_URL);
-        if (res.data.success) {
-          setTerminals(res.data.data);
-        } else {
-          notification(res.data.msg || 'Failed to load Terminals', { type: 'error', id: 'terminalsError' });
-        }
-      } catch (err) {
-        return err;
-      }
-    }
-  };
   const createExpense = async (e) => {
     e.preventDefault();
     setCreateExpenseLoading(true);
@@ -207,7 +193,7 @@ const Page = () => {
         expense={expenseDetails}
         setExpense={setExpenseDetails}
         expenseCategories={expenseCategory}
-        terminals={terminals}
+        terminals={allTerminals}
         handleSubmit={createExpense}
         terminalBalances={balance.terminal}
         maxAmount={maxAmount}
@@ -222,11 +208,12 @@ const Page = () => {
           expense={editExpenseDetails}
           setExpense={setEditExpenseDetails}
           expenseCategories={expenseCategory}
-          terminals={terminals}
+          terminals={allTerminals}
           terminalBalances={balance.terminal}
           maxAmount={maxEditeAmount}
           setMaxAmount={setMaxEditeAmount}
           handleSubmit={submitEditExpense}
+          isEdit={true}
         />
       )}
       <ConfirmModal
