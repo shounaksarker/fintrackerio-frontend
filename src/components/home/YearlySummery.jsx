@@ -9,7 +9,7 @@ import { notification } from '@/components/notification';
 import { DataContext } from '@/context/DataContext';
 
 const YearlySummery = () => {
-  const { yearlySummery, setYearlySummery } = useContext(DataContext);
+  const { yearlySummery, setYearlySummery, getUser } = useContext(DataContext);
   const [loading, setLoading] = useState(true);
 
   const fetchYearlySummery = async () => {
@@ -43,6 +43,7 @@ const YearlySummery = () => {
     } else {
       setLoading(false);
     }
+    getUser();
   }, []);
 
   return (

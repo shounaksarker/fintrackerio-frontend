@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import { getDateRange, getPreviousMonthDateRange } from '@/helpers/frontend/formateDate';
 import 'react-datepicker/dist/react-datepicker.css';
 import { DataContext } from '@/context/DataContext';
+import Button from './Button';
 
 const DateRangePicker = ({ className }) => {
   const {
@@ -16,8 +17,10 @@ const DateRangePicker = ({ className }) => {
     setStartDate,
     endDate,
     setEndDate,
+    user,
     callMultipleFunctions,
   } = useContext(DataContext);
+
   const onChange = (dates) => {
     const [start, end] = dates;
     setStartDate(start);
@@ -27,6 +30,9 @@ const DateRangePicker = ({ className }) => {
       setPreviousDateRange(getPreviousMonthDateRange(dateRange));
       callMultipleFunctions();
     }
+  };
+  const lifeTimeRecord = () => {
+    onChange([user.start_date, new Date()]);
   };
 
   const isdateChange = (obj1, obj2) => {
@@ -44,9 +50,11 @@ const DateRangePicker = ({ className }) => {
     }
   }, [startDate, endDate]);
   return (
-    <div className={`flex justify-start md:mt-0 md:w-1/2 md:items-center md:justify-center lg:justify-end`}>
+    <div
+      className={`mt-2 flex flex-col justify-start sm:flex-row md:mt-0 md:w-1/2 md:items-center md:justify-center lg:justify-end`}
+    >
       <div
-        className={`custom-border mb-2 w-[70%] py-1 md:w-full ${startDate && endDate ? 'max-w-72' : 'max-w-52'} ${className}`}
+        className={`custom-border mb-2 h-11 w-[70%] py-1 md:w-full ${startDate && endDate ? 'max-w-72' : 'max-w-52'} ${className}`}
       >
         <DatePicker
           showIcon
@@ -63,6 +71,16 @@ const DateRangePicker = ({ className }) => {
           isClearable
         />
       </div>
+      {user?.start_date && (
+        <Button
+          onClick={lifeTimeRecord}
+          className={
+            'mb-2 h-11 max-w-fit !bg-slate-300 !px-2 text-sm font-medium !text-sGray hover:!bg-slate-400 hover:!text-white sm:ml-2'
+          }
+        >
+          Lifetime Records
+        </Button>
+      )}
     </div>
   );
 };
