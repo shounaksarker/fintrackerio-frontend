@@ -12,7 +12,17 @@ import Loader from '@/components/fields/Loader';
 import { DataContext } from '@/context/DataContext';
 
 const Page = () => {
-  const { dateRange, previousDateRange } = useContext(DataContext);
+  const {
+    dateRange,
+    previousDateRange,
+    expenseCategory,
+    allTerminals,
+    fetchTerminal,
+    fetchExpenseRecord,
+    balance,
+    fetchBalance,
+    fetchExpenseCategory,
+  } = useContext(DataContext);
   const [recentMonthData, setRecentMonthData] = useState([]);
   const [pastMonthData, setPastMonthData] = useState([]);
   const [currentMonthAmounts, setCurrentMonthAmounts] = useState([]);
@@ -58,6 +68,15 @@ const Page = () => {
 
   useEffect(() => {
     fetchData();
+    if (!Object.keys(balance).length) {
+      fetchBalance();
+    }
+    if (!expenseCategory.length) {
+      fetchExpenseCategory();
+    }
+    if (!allTerminals.length) {
+      fetchTerminal();
+    }
   }, [dateRange]);
   const generateDateLabels = () => {
     const currentMonth = moment().month();
@@ -98,7 +117,18 @@ const Page = () => {
               <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Breakdown</h1>
               <div className="flex flex-wrap gap-y-5 md:justify-between xl:justify-start">
                 {Object.entries(currentMonthBreakdown).map(([categoryName, categoryData]) => (
-                  <ExpenseCard key={categoryName} categoryName={categoryName} categoryData={categoryData} />
+                  // <ExpenseCard key={categoryName} categoryName={categoryName} categoryData={categoryData} />
+                  <ExpenseCard
+                    key={categoryName}
+                    categoryName={categoryName}
+                    categoryData={categoryData}
+                    expenseCategory={expenseCategory}
+                    allTerminals={allTerminals}
+                    balance={balance}
+                    fetchBalance={fetchBalance}
+                    fetchData={fetchData}
+                    fetchExpenseRecord={fetchExpenseRecord}
+                  />
                 ))}
               </div>
             </div>

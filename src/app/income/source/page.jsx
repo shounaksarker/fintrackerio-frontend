@@ -102,7 +102,6 @@ const Page = () => {
       label: 'Description',
       style: 'w-24 md:w-1/4 md:pr-4 text-sm lg:text-md truncate',
       target: 'description',
-      showInModal: true,
     },
     {
       label: 'Action',
@@ -128,10 +127,10 @@ const Page = () => {
           headers={INCOME_SOURCE_HEADER}
           data={incomeSources}
           enablePagination
-          dataPerPage={10}
           className={'w-full'}
           tableClass={'rounded-md p-4 shadow-md'}
           loading={incomeSourceLoading}
+          enableDetailsView={false}
         />
       </div>
       <CategoryModal

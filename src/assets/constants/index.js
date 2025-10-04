@@ -14,8 +14,9 @@ import NotesIcon from '@/assets/svg/Icon/NotesIcon';
 export const CURRENCY = '৳';
 export const TOKEN = 'token';
 export const USER = 'user';
-export const TOKEN_EXPIRED_DAY = 3;
+export const TOKEN_EXPIRED_DAY = 30;
 export const MAX_DATE_FOR_AUTO_TRANSFER = 7;
+export const DATA_QUANTITY = [10, 25, 50];
 
 export const SIDEBAR_MENU = [
   { title: 'Overview', path: '/', icon: <Overview /> },
@@ -65,7 +66,6 @@ export const INCOME_RECORDS_TABLE_HEADER = (arr = []) => [
     label: 'Description',
     style: 'w-24 md:w-1/4 md:pr-4 truncate text-sm lg:text-md',
     target: 'description',
-    showInModal: true,
   },
   ...arr,
 ];
@@ -101,7 +101,6 @@ export const INCOME_TRANSFER_TABLE_HEADER = [
     label: 'Description',
     style: 'w-24 capitalize md:w-1/4 md:pr-4 truncate text-sm lg:text-md',
     target: 'description',
-    showInModal: true,
   },
 ];
 
@@ -116,7 +115,6 @@ export const EXPENSE_RECORDS_TABLE_HEADER = (arr = []) => [
     label: 'Spend On',
     style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 truncate text-sm lg:text-md capitalize',
     target: 'spend_on',
-    showInModal: true,
   },
   {
     label: 'Spend From',
@@ -139,7 +137,6 @@ export const EXPENSE_RECORDS_TABLE_HEADER = (arr = []) => [
     label: 'Description',
     style: 'max-w-[150px] xl:max-w-full md:w-[15%] h-6 truncate text-sm lg:text-md',
     target: 'description',
-    showInModal: true,
   },
   ...arr,
 ];
