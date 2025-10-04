@@ -233,12 +233,8 @@ const Page = () => {
           data={incomeData}
           loading={incomeLoading}
           enablePagination
-          dataPerPage={10}
           className={'w-full'}
           tableClass={'rounded-md p-4 shadow-md'}
-          inputClass=""
-          headerClass=""
-          rowClass=""
         />
       </div>
       {incomeData.length > 0 && (

@@ -3,13 +3,15 @@ import Image from 'next/image';
 import DetailsModal from '../modals/DetailsModal';
 import Loader from './Loader';
 import targetArrowIcon from '@/assets/svg/targetArrow.svg';
+import { DATA_QUANTITY } from '@/assets/constants';
 
 const CustomTable = ({
   headers,
   data = [],
   enableSearch = false,
-  dataPerPage,
   enablePagination = false,
+  enableDetailsView = true,
+  detailsViewTitle = 'Details',
   className,
   tableClass,
   inputClass,
@@ -25,11 +27,19 @@ const CustomTable = ({
   const [details, setDetails] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = enablePagination ? dataPerPage : data.length;
+  const pageSizeOptions = DATA_QUANTITY;
+  const [selectedPageSize, setSelectedPageSize] = useState(pageSizeOptions[0]);
+  const itemsPerPage = enablePagination ? selectedPageSize : data.length;
 
-  const seeDescription = (info) => {
-    if (info) {
-      setDetails(info);
+  const seeDescription = (rowData) => {
+    if (enableDetailsView && rowData) {
+      const formattedData = headers.map((header) => ({
+        label: header.label,
+        value: header.function
+          ? header.function(rowData[header.target])
+          : rowData[header.target] || rowData[header.label.toLowerCase().replace(' ', '_')] || '-',
+      }));
+      setDetails(formattedData);
       setDetailsModal(true);
     }
   };
@@ -37,18 +47,32 @@ const CustomTable = ({
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
   const filteredData = data.filter((item) => {
     return Object.values(item).some((value) =>
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
+
   const totalItems = filteredData.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
   const paginatedData = filteredData.slice(startIndex, endIndex);
+
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  const handleRowClick = (e, row) => {
+    // Check if the click occurred within an action button
+    const isActionButton = e.target.closest('[data-action-button]');
+    // Only call seeDescription if not clicking on an action button
+    if (!isActionButton) {
+      seeDescription(row);
+    }
   };
 
   return (
@@ -90,7 +114,8 @@ const CustomTable = ({
               paginatedData.map((row, rowIndex) => (
                 <div
                   key={rowIndex}
-                  className={`flex w-full flex-col items-start justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0 md:border-t md:border-bGray md:py-2 ${rowClass || ''}`}
+                  className={`flex w-full flex-col items-start justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0 md:border-t md:border-bGray md:py-2 ${rowClass || ''} cursor-pointer hover:bg-gray-50`}
+                  onClick={(e) => handleRowClick(e, row)}
                 >
                   {headers.map((header, colIndex) => {
                     const conditionalStyle =
@@ -100,12 +125,6 @@ const CustomTable = ({
                       <span
                         key={colIndex}
                         className={`cursor-pointer capitalize ${header.tdIcon || header.dynamicIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.tdStyle ? header.tdStyle : ''} ${conditionalStyle ? conditionalStyle.style : ''}`}
-                        onClick={() =>
-                          (header.onClick && header.onClick(row[header.target])) ||
-                          (header.showInModal &&
-                            row[header.target] &&
-                            seeDescription({ info: row[header.target], label: header.label }))
-                        }
                       >
                         {header.tdIcon && header.tdIcon}
                         {header.dynamicIcon && (
@@ -126,7 +145,11 @@ const CustomTable = ({
                             {header.action.map((action, actionIndex) => (
                               <button
                                 key={actionIndex}
-                                onClick={() => action.onClick(row)}
+                                data-action-button="true"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  action.onClick(row);
+                                }}
                                 className={`mr-2 ${action.style}`}
                               >
                                 {action.label}
@@ -145,29 +168,87 @@ const CustomTable = ({
       </div>
 
       {enablePagination && (
-        <div className={`mt-4 flex justify-end ${paginationClass}`}>
-          {Array.from({ length: totalPages }, (_, index) => (
+        <div className="mt-4 flex items-center justify-end gap-4">
+          <select
+            value={selectedPageSize}
+            onChange={(e) => {
+              setSelectedPageSize(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="rounded border border-gray-300 px-2 py-1"
+          >
+            {pageSizeOptions.map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+
+          <div className={`flex items-center ${paginationClass}`}>
             <button
-              key={index}
-              className={`mx-2 rounded px-3 py-1 ${paginationBtnClass}
-              ${currentPage === index + 1 ? paginationBtnColor || 'bg-gray-300' : `${paginationBtnColor ? `${paginationBtnColor}/50` : 'bg-gray-300/50'}`}`}
-              onClick={() => handlePageChange(index + 1)}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`${totalPages > 2 ? 'mx-2 rounded p-1 text-xs' : 'hidden'} ${paginationBtnClass} 
+              ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
             >
-              {index + 1}
+              {'<- '}Prev
             </button>
-          ))}
+
+            {Array.from({ length: totalPages }, (_, index) => {
+              const pageNum = index + 1;
+
+              if (
+                pageNum <= 2 ||
+                pageNum === totalPages ||
+                pageNum === totalPages - 1 ||
+                Math.abs(currentPage - pageNum) <= 1
+              ) {
+                return (
+                  <button
+                    key={index}
+                    className={`mx-1 rounded px-3 py-1 ${paginationBtnClass}
+                    ${
+                      currentPage === pageNum
+                        ? paginationBtnColor || 'bg-gray-300'
+                        : `${paginationBtnColor ? `${paginationBtnColor}/50` : 'bg-gray-300/50'}`
+                    }`}
+                    onClick={() => handlePageChange(pageNum)}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              }
+              if (
+                (pageNum === 3 && currentPage > 4) ||
+                (pageNum === totalPages - 2 && currentPage < totalPages - 3)
+              ) {
+                return (
+                  <span key={index} className="mx-1">
+                    ...
+                  </span>
+                );
+              }
+              return null;
+            })}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`${totalPages > 2 ? 'mx-2 rounded p-1 text-xs' : 'hidden'} mx-2 rounded p-1 text-xs ${paginationBtnClass}
+              ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}
+            >
+              Next{' ->'}
+            </button>
+          </div>
         </div>
-      )}
-      {enablePagination && !dataPerPage && (
-        <p className="py-3 text-center text-pRed">please define ~data per page~</p>
       )}
 
       <DetailsModal
         loading={false}
         modalOpen={detailsModal}
         setModalOpen={setDetailsModal}
-        title={details.label || 'Details'}
-        data={details.info}
+        title={detailsViewTitle}
+        data={details}
       />
     </div>
   );

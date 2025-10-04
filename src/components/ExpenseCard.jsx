@@ -2,16 +2,34 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
 import { CURRENCY } from '@/assets/constants';
+import { EDIT_EXPENSE_RECORD_URL } from '@/helpers/frontend/apiEndpoints';
 import targetArrowIcon from '@/assets/svg/targetArrow.svg';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 import ComparisonModal from '@/components/modals/ComparisonModal';
 import ExpenseBreakdownModal from './modals/ExpenseBreakdownModal';
+import InsertExpenseModal from './modals/InsertExpenseModal';
+import { notification } from '@/components/notification';
 
-const ExpenseCard = ({ categoryName, categoryData }) => {
+const ExpenseCard = ({
+  categoryName,
+  categoryData,
+  expenseCategory,
+  allTerminals,
+  balance,
+  fetchBalance,
+  fetchData,
+  fetchExpenseRecord,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [comparedModalOpen, setComparedModalOpen] = useState(false);
+  const [editExpenseModal, setEditExpenseModal] = useState(false);
+  const [editExpenseDetails, setEditExpenseDetails] = useState();
+  const [editExpenseLoading, setEditExpenseLoading] = useState(false);
+  const [maxEditAmount, setMaxEditAmount] = useState(0);
+
   const showDetails = (item) => {
     setModalData(item);
     setModalOpen(true);
@@ -33,6 +51,49 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
     }
     return <div>{percentage}%</div>;
   };
+
+  const handleExpenseEdit = async (info) => {
+    setEditExpenseDetails({
+      record_id: info.record_id,
+      amount: info.amount,
+      expense_category_id: info.expense_category_id,
+      spend_on: info.spend_on,
+      terminal_id: info.terminal_id,
+      date: info.date,
+      description: info.description,
+    });
+    setMaxEditAmount(info.amount);
+    setEditExpenseModal(true);
+  };
+
+  const submitEditExpense = async (e) => {
+    e.preventDefault();
+    setEditExpenseLoading(true);
+    try {
+      const res = await axios.put(EDIT_EXPENSE_RECORD_URL, editExpenseDetails);
+      if (res.data.success) {
+        notification(res.data.msg, { type: 'success', id: 'editExpense' });
+        setEditExpenseDetails();
+        setMaxEditAmount(0);
+        fetchExpenseRecord();
+        fetchBalance();
+        await fetchData();
+        setEditExpenseModal(false);
+      } else {
+        notification(res.data.msg || 'Failed to edit Expense Record.', {
+          type: 'error',
+          id: 'editExpense',
+        });
+      }
+    } catch (error) {
+      notification('Failed to edit Expense Record.', {
+        type: 'error',
+        id: 'editExpense',
+      });
+    }
+    setEditExpenseLoading(false);
+  };
+
   return (
     <div className="w-full cursor-pointer rounded-md md:w-1/2 md:px-3 xl:w-1/3">
       <div
@@ -86,6 +147,7 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
         CURRENCY={CURRENCY}
         formattedAmount={formattedAmount}
         targetArrowIcon={targetArrowIcon}
+        onEdit={handleExpenseEdit}
       />
       <ComparisonModal
         isOpen={comparedModalOpen}
@@ -93,6 +155,23 @@ const ExpenseCard = ({ categoryName, categoryData }) => {
         categoryName={categoryName}
         categoryData={categoryData}
       />
+      {editExpenseModal && (
+        <InsertExpenseModal
+          title={'Edit Expense'}
+          modalOpen={editExpenseModal}
+          setModalOpen={setEditExpenseModal}
+          loading={editExpenseLoading}
+          expense={editExpenseDetails}
+          setExpense={setEditExpenseDetails}
+          expenseCategories={expenseCategory}
+          terminals={allTerminals}
+          terminalBalances={balance.terminal}
+          maxAmount={maxEditAmount}
+          setMaxAmount={setMaxEditAmount}
+          handleSubmit={submitEditExpense}
+          isEdit={true}
+        />
+      )}
     </div>
   );
 };

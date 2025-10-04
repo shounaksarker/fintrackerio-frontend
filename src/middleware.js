@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import * as jose from 'jose';
 import { getJwtToken } from './helpers/backend/getJwtToken';
+import { TOKEN } from './assets/constants';
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -31,7 +32,9 @@ export async function middleware(request) {
         return NextResponse.next();
       }
     } catch (err) {
-      return NextResponse.redirect(new URL('/login', request.url));
+      const res = NextResponse.next();
+      res.cookies.set(TOKEN, '', { maxAge: -1 });
+      return res;
     }
   }
 

@@ -174,9 +174,8 @@ const Page = () => {
         <CustomTable
           headers={EXPENSE_RECORDS_TABLE_HEADER(expenseRecordHeader)}
           data={expenseData}
-          // enableSearch
+          enableSearch
           enablePagination
-          dataPerPage={10}
           className={'w-full'}
           tableClass={'rounded-md p-4 shadow-md'}
           loading={expenseLoading}

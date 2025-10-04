@@ -132,9 +132,9 @@ const handleDelete = (row) => {
 <CustomTable
   headers={headers}
   data={data}
-  // enableSearch
-  enablePagination
-  dataPerPage={10}
+  enableSearch={true/false}
+  enablePagination={true/false}
+  enableDetailsView={true/false}
   className={'w-full'}
   tableClass={'rounded-md p-4 shadow-md'}
   inputClass=""

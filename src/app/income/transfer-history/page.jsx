@@ -32,9 +32,9 @@ const Page = () => {
         data={distributedIn}
         loading={distributedLoading}
         enablePagination
-        dataPerPage={10}
         className={'w-full'}
         tableClass={'rounded-md p-4 shadow-md'}
+        enableDetailsView={false}
       />
     </div>
   );

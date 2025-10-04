@@ -2,7 +2,7 @@ import React from 'react';
 import TextLoader from '@/components/fields/TextLoader';
 import Modal from '@/components/fields/Modal';
 
-const DetailsModal = ({ loading, modalOpen, setModalOpen, title, data }) => {
+const DetailsModal = ({ loading, modalOpen, setModalOpen, title, data = [] }) => {
   return (
     <Modal
       isOpen={modalOpen}
@@ -15,10 +15,22 @@ const DetailsModal = ({ loading, modalOpen, setModalOpen, title, data }) => {
           <TextLoader />
         </div>
       ) : (
-        <div className="mx-auto rounded-md p-2">
-          <h3 className="mb-4 text-center text-lg font-semibold capitalize text-pGray">{title}</h3>
-          <div className="flex flex-col items-start gap-x-2 capitalize">{data}</div>
-        </div>
+        <>
+          <h3 className="mb-4 border-b pb-2 text-center text-lg font-semibold">{title || 'Details'}</h3>
+
+          <div className="space-y-3">
+            {data?.length ? (
+              data.map((item, index) => (
+                <div key={index} className="flex">
+                  <span className="w-1/3 font-medium text-gray-700">{item.label}</span>
+                  <span className="w-2/3 text-gray-600">: {item.value}</span>
+                </div>
+              ))
+            ) : (
+              <></>
+            )}
+          </div>
+        </>
       )}
     </Modal>
   );

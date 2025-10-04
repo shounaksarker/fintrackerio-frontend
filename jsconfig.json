@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "lib": ["es2017", "dom", "es2015.promise"],
     "paths": {
       "@/*": ["./src/*"],
       "@fields": ["./src/components/fields/*"]
