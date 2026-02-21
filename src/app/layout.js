@@ -17,7 +17,7 @@ export default async function RootLayout({ children }) {
       <body className={inter.className}>
         <Toaster position="top-right" reverseOrder={false} />
         <MainLayout>{children}</MainLayout>
-        <Analytics />
+        {/* <Analytics /> */}
       </body>
     </html>
   );

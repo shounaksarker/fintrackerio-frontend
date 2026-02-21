@@ -8,6 +8,7 @@ import Eyeoff from '@/assets/svg/Icon/Eyeoff';
 import Eyec from '@/assets/svg/Icon/Eye';
 import loginAction from './loginAction';
 import AuthButton from '@/components/fields/AuthButton';
+import DemoLoginButton from '@/components/fields/DemoLoginButton';
 
 const Page = () => {
   const [email, setEmail] = useState('');
@@ -61,6 +62,7 @@ const Page = () => {
           )}
           <AuthButton text="Log in" loadingText="Loging in..." />
         </form>
+        <DemoLoginButton />
         <div className="flex items-center">
           <hr className="w-[130px] bg-black/10 md:w-[210px]" />
           <div className="mx-4 uppercase text-phGray">or</div>
