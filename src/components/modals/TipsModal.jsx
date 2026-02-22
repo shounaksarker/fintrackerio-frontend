@@ -4,14 +4,14 @@ import React, { useState } from 'react';
 import Modal from '@/components/fields/Modal';
 import { AUTO_TRANSFER_MANUALS } from '@/assets/constants';
 
-const TipsModal = ({ modalOpen, setModalOpen }) => {
+const TipsModal = ({ modalOpen, setModalOpen, manual = AUTO_TRANSFER_MANUALS }) => {
   const [language, setLanguage] = useState('bn');
 
   const toggleLanguage = () => {
     setLanguage((prevLanguage) => (prevLanguage === 'en' ? 'bn' : 'en'));
   };
 
-  const currentContent = AUTO_TRANSFER_MANUALS[language];
+  const currentContent = manual[language];
 
   return (
     <Modal isOpen={modalOpen} setIsOpen={setModalOpen} className={'mx-2 p-6 shadow-xl  shadow-black/40'}>
