@@ -54,6 +54,20 @@ const EditCategoryModal = ({
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
           />
+          {categoryName.toLowerCase() === 'expense' && (
+            <InputField
+              className="size-full "
+              type="number"
+              name="budget"
+              label="New Monthly Budget"
+              onChange={(e) => handleCategory(e)}
+              value={data.budget}
+              placeholder="Enter new budget (optional)"
+              labelClass="font-normal"
+              inputClass="placeholder:text-xs border-2"
+              min="0"
+            />
+          )}
           <IconSelect
             name={categoryName}
             className="size-full"

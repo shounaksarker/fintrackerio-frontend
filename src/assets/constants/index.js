@@ -18,6 +18,12 @@ export const TOKEN_EXPIRED_DAY = 30;
 export const MAX_DATE_FOR_AUTO_TRANSFER = 7;
 export const DATA_QUANTITY = [10, 25, 50];
 
+export const ENVIRONMENT = {
+  STAGE: 'stage',
+  PRODUCTION: 'production',
+  DEVELOPMENT: 'development',
+};
+
 export const SIDEBAR_MENU = [
   { title: 'Overview', path: '/', icon: <Overview /> },
   {

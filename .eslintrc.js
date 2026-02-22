@@ -26,8 +26,8 @@ module.exports = {
         functions: true,
       },
     ],
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'error' : 'off',
     'unused-imports/no-unused-imports': 'warn',
     'import/prefer-default-export': 'off',
     'consistent-return': 'off',
@@ -57,6 +57,9 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
+    },
+    babelOptions: {
+      presets: [require.resolve('next/babel')],
     },
   },
 };

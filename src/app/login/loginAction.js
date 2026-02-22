@@ -18,11 +18,13 @@ const loginAction = async (currentState, formData) => {
   } catch (err) {
     return err.response.data.error.message || 'Login Failed';
   }
-  if (res.data.success) {
-    setToken(TOKEN, res.data.token);
+  if (res.data?.success) {
+    setToken(TOKEN, res?.data?.token);
     permanentRedirect(`${process.env.CLIENT_URL}/`);
   } else {
-    return (typeof res.data === 'object' ? res.data.msg : res.data.error) || 'Error Occured while Logging in';
+    return (
+      (typeof res?.data === 'object' ? res?.data?.msg : res?.data?.error) || 'Error Occured while Logging in'
+    );
   }
 };
 

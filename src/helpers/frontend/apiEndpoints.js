@@ -36,3 +36,5 @@ export const SINGLE_NOTE_URL = '/api/v1/notes/:id';
 
 export const AUTO_TRANSFER_URL = '/api/v1/user/auto-transfer';
 export const TRANSFER_TO_NEXT_URL = '/api/v1/user/auto-transfer/to-next';
+
+export const SEED_URL = '/api/v1/seed-demo-data';
