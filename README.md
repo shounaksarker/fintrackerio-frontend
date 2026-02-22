@@ -78,4 +78,4 @@ FinTracker employs a **Double API Layer Structure:**
 *(For an exhaustive understanding of the database structure, security schema, and backend endpoints, please refer to the `PROJECT_OVERVIEW.md` located in the root of this workspace.)*
 
 ## 🔮 Upcoming
-See `UPCOMING_PLAN.md` for a summary of planned future expansions, including Recurring Transactions, Custom Savings Goals, and Debt Loan Ledgers.
+See `UPCOMING_PLAN.md` for a summary of planned future expansions, including Recurring Transactions, Custom Savings Goals, Debt Loan Ledgers, and more.
