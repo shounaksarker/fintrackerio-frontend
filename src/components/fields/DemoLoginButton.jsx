@@ -2,13 +2,14 @@
 
 import React, { useState, useTransition } from 'react';
 import demoLoginAction from '@/app/login/demoLoginAction';
+import { ENVIRONMENT } from '@/assets/constants';
 
 const DemoLoginButton = () => {
-  const isStage = process.env.NEXT_PUBLIC_NODE_ENV === 'stage';
+  const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === ENVIRONMENT.PRODUCTION;
   const [error, setError] = useState('');
   const [isPending, startTransition] = useTransition();
 
-  if (!isStage) return null;
+  if (isProduction) return null;
 
   const handleDemoLogin = () => {
     setError('');
@@ -35,7 +36,7 @@ const DemoLoginButton = () => {
       >
         {isPending ? (
           <>
-            <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+            <svg className="size-4 animate-spin" viewBox="0 0 24 24" fill="none">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path
                 className="opacity-75"

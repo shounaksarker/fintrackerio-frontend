@@ -22,7 +22,9 @@ const loginAction = async (currentState, formData) => {
     setToken(TOKEN, res?.data?.token);
     permanentRedirect(`${process.env.CLIENT_URL}/`);
   } else {
-    return (typeof res?.data === 'object' ? res?.data?.msg : res?.data?.error) || 'Error Occured while Logging in';
+    return (
+      (typeof res?.data === 'object' ? res?.data?.msg : res?.data?.error) || 'Error Occured while Logging in'
+    );
   }
 };
 

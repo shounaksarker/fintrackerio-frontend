@@ -63,8 +63,8 @@ const RecentTransection = () => {
     <div className="flex w-full flex-col gap-y-5 p-3 md:flex-row md:justify-between md:gap-y-0">
       <div className="w-full md:w-1/2 xl:w-[32%]">
         <h3 className="mb-4 text-lg font-semibold text-pGray">Recent Transection</h3>
-        <div className="border p-2 shadow-md">
-          <div className="mb-3 flex gap-x-2 p-3">
+        <div className="border shadow-md">
+          <div className="mb- flex gap-x-3 bg-white px-5 py-3 shadow-[0px_3px_2px_#a7a7a745]">
             <button
               className={recentTransectionStyle('income')}
               onClick={() => recentTransectionToggle('income')}
@@ -83,7 +83,7 @@ const RecentTransection = () => {
               <Loader />
             </div>
           )}
-          <div className="scrollbar-hidden flex max-h-[360px] flex-col divide-y divide-lightGray-200 overflow-y-scroll">
+          <div className="scrollbar-hidden flex max-h-[360px] flex-col divide-y divide-lightGray-200 overflow-y-scroll px-2 pt-2">
             {inExDetails.showRecentTransection === 'income' ? (
               <div>
                 {!incomeLoading && !incomeData.length && <p className="py-4 text-center">List is empty</p>}

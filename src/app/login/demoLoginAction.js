@@ -3,15 +3,15 @@
 import axios from 'axios';
 import { permanentRedirect } from 'next/navigation';
 import { LOGIN_URL } from '@/helpers/frontend/apiEndpoints';
-import { TOKEN } from '@/assets/constants';
+import { TOKEN, ENVIRONMENT } from '@/assets/constants';
 import { setToken } from '@/helpers/frontend/setToken';
 
 const DEMO_EMAIL = 'testuser@gmail.com';
 const DEMO_PASSWORD = 'Testuser@2';
 
 const demoLoginAction = async () => {
-  if (process.env.NEXT_PUBLIC_NODE_ENV !== 'stage') {
-    return 'Demo login is only available in staging environment.';
+  if (process.env.NEXT_PUBLIC_NODE_ENV === ENVIRONMENT.PRODUCTION) {
+    return 'Demo login is only available in development environment.';
   }
 
   let res;

@@ -6,9 +6,10 @@ import { DataContext } from '@/context/DataContext';
 import { notification } from '@/components/notification';
 import { SEED_URL } from '@/helpers/frontend/apiEndpoints';
 import ConfirmModal from '@/components/modals/ConfirmModal';
+import { ENVIRONMENT } from '@/assets/constants';
 
 const ClearMonthButton = () => {
-  const isStage = process.env.NEXT_PUBLIC_NODE_ENV === 'stage';
+  const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === ENVIRONMENT.PRODUCTION;
   const {
     balance,
     balanceLoading,
@@ -25,13 +26,13 @@ const ClearMonthButton = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
-    if (!isStage || balanceLoading) {
+    if (isProduction || balanceLoading) {
       setVisible(false);
       return;
     }
     const hasData = balance.total_income > 0 || balance.total_expense > 0;
     setVisible(hasData);
-  }, [balance, balanceLoading, isStage]);
+  }, [balance, balanceLoading, isProduction]);
 
   if (!visible) return null;
 

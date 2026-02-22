@@ -58,5 +58,8 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    babelOptions: {
+      presets: [require.resolve('next/babel')],
+    },
   },
 };

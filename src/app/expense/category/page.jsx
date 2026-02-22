@@ -51,6 +51,7 @@ const Page = () => {
       newName: editData.name,
       newDescription: editData.description,
       icon: editData.icon,
+      budget: editData.budget,
     };
     const res = await axios.put(EXPENSE_CATEGORY_EDIT_URL, payload);
     if (res.data.success) {
@@ -93,24 +94,29 @@ const Page = () => {
   const EXPENSE_CATEGORY_TABLE_HEADER = [
     {
       label: 'Name',
-      style: 'w-24 md:w-1/4 text-sm lg:text-md capitalize',
+      style: 'w-24 md:w-1/5 text-sm lg:text-md capitalize',
       target: 'name',
       dynamicIcon: 'icon',
     },
     {
       label: 'Created',
-      style: 'w-24 md:w-1/4 text-sm lg:text-md',
+      style: 'w-24 md:w-1/5 text-sm lg:text-md',
       target: 'created_at',
       function: getDate,
     },
     {
+      label: 'Budget',
+      style: 'w-24 md:w-1/5 text-sm lg:text-md capitalize',
+      target: 'budget',
+    },
+    {
       label: 'Description',
-      style: 'w-24 md:w-1/4 md:pr-4 text-sm lg:text-md truncate',
+      style: 'w-24 md:w-1/5 md:pr-4 text-sm lg:text-md truncate',
       target: 'description',
     },
     {
       label: 'Action',
-      style: 'w-24 md:w-1/4 text-sm lg:text-md',
+      style: 'w-24 md:w-1/5 text-sm lg:text-md',
       target: 'action',
       action: [
         {

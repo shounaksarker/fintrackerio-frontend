@@ -27,6 +27,9 @@
 
 - **Income Management** — income sources (categories), income records, income distribution across terminals
 - **Expense Management** — expense categories, expense records with spend-on details & breakdowns
+- **Monthly Budgets** — set limits for expense categories and track them visually
+- **Financial Health Score** — dynamic score of your savings rate and budget adherence
+- **Financial Insights** — automated trend analysis comparing spending to previous months
 - **Balance Overview** — monthly & yearly summaries with Chart.js graphs
 - **Terminal System** — wallets/accounts with balance tracking & inter-terminal transfers
 - **Notes** — personal notes with full CRUD and pagination
@@ -199,14 +202,14 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 
 ### 5.2 `user_settings`
 
-| Column                     | Type             | Notes                                                               |
-| -------------------------- | ---------------- | ------------------------------------------------------------------- | ----------------------------------------------- |
-| `id`                       | INT (PK)         | Auto-increment                                                      |
-| `user_id`                  | INT (FK → users) |                                                                     |
-| `is_transfer_allowed`      | BOOLEAN          | Enables auto-transfer feature                                       |
-| `options`                  | JSON             | `{ is_this_month_done: 0                                            | 1 }` — tracks if current month transfer is done |
-| `transfer_info`            | JSON             | `{ expenseCategoryId, incomeCategoryId }` — categories for transfer |
-| `transfer_info_updated_at` | DATETIME         |                                                                     |
+| Column                     | Type             | Notes                                                                      |
+| -------------------------- | ---------------- | -------------------------------------------------------------------------- |
+| `id`                       | INT (PK)         | Auto-increment                                                             |
+| `user_id`                  | INT (FK → users) |                                                                            |
+| `is_transfer_allowed`      | BOOLEAN          | Enables auto-transfer feature                                              |
+| `options`                  | JSON             | `{ is_this_month_done: 0 / 1 }` — tracks if current month transfer is done |
+| `transfer_info`            | JSON             | `{ expenseCategoryId, incomeCategoryId }` — categories for transfer        |
+| `transfer_info_updated_at` | DATETIME         |                                                                            |
 
 ### 5.3 `income_categories`
 
@@ -262,6 +265,7 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 | `user_id`             | INT (FK → users) |                             |
 | `name`                | BLOB             | **AES-encrypted**           |
 | `description`         | BLOB             | **AES-encrypted**, nullable |
+| `budget`              | BLOB             | **AES-encrypted**, nullable |
 | `icon`                | VARCHAR          | Emoji or null               |
 
 ### 5.8 `expense_records`
@@ -413,21 +417,71 @@ Get all income categories for authenticated user.
 
 #### `PUT /api/category/edit-income-source` 🔒
 
-Edit income category name.
+Edit income category name, description and icon.
+
+**Request:**
+
+```json
+{
+  "income_category_id": 1,
+  "name": "Salary",
+  "description": "Monthly salary",
+  "icon": "💰"
+}
+```
+
+**Response (200):** `{ msg: Category updated successfully., success: true, status: 200 }`
 
 #### `GET /api/category/expense` 🔒
 
 Get all expense categories.
 
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "msg": "all expense category.",
+  "data": [
+    {
+      "expense_category_id": 1,
+      "user_id": 1,
+      "name": "food",
+      "description": "daily meals",
+      "icon": "🍔",
+      "budget": "1000.00",
+      "created_at": "2024-01-15T10:30:00.000Z"
+    }
+  ]
+}
+```
+
 #### `POST /api/category/expense` 🔒
 
 ```json
-{ "name": "Food", "description": "Daily meals", "icon": "🍔" }
+{ "name": "Food", "description": "Daily meals", "icon": "🍔", "budget": "1000.00" }
 ```
+
+**Response (201):** `{ msg: Expense category created successfully., success: true, status: 201 }`
 
 #### `PUT /api/category/edit-expense-category` 🔒
 
-Edit expense category name.
+Edit expense category name, description and icon.
+
+**Request:**
+
+```json
+{
+  "expense_category_id": 1,
+  "name": "Food",
+  "description": "Daily meals",
+  "icon": "🍔",
+  "budget": "1000.00"
+}
+```
+
+**Response (200):** `{ msg: Category updated successfully., success: true, status: 200 }`
 
 ---
 
@@ -529,6 +583,8 @@ Get all expense records (filtered by date range).
 }
 ```
 
+**Response (201):** `{ msg: Expense record created successfully., success: true, status: 201 }`
+
 #### `PUT /api/records/edit-expense` 🔒
 
 ```json
@@ -543,7 +599,11 @@ Get all expense records (filtered by date range).
 }
 ```
 
+**Response (200):** `{ msg: Expense record updated successfully., success: true, status: 200 }`
+
 #### `DELETE /api/records/delete-expense?record_id=1` 🔒
+
+**Response (200):** `{ msg: Expense record deleted successfully., success: true, status: 200 }`
 
 ---
 
@@ -554,6 +614,8 @@ Get all expense records (filtered by date range).
 ```json
 { "terminal_name": "Bkash" }
 ```
+
+**Response (201):** `{ msg: Terminal created successfully., success: true, status: 201 }`
 
 #### `GET /api/distribution/all-terminals` 🔒
 
@@ -576,6 +638,8 @@ Get all expense records (filtered by date range).
 ```json
 { "terminal_id": 1, "terminal_name": "Cash" }
 ```
+
+**Response (200):** `{ msg: Terminal updated successfully., success: true, status: 200 }`
 
 #### `POST /api/distribution/income` 🔒
 
@@ -600,6 +664,8 @@ Transfer balance between terminals. Creates two records: negative in source, pos
   "description": "Transfer to Bkash" // optional
 }
 ```
+
+**Response (201):** `{ msg: Transfer created successfully., success: true, status: 201 }`
 
 ---
 
@@ -670,6 +736,8 @@ Carries forward remaining balance to next month. Auto-creates expense records (p
 }
 ```
 
+**Response:** `{ msg: Transfer created successfully., success: true, status: 201 }`
+
 ---
 
 ### 6.6 Notes (`/api/notes`)
@@ -686,6 +754,8 @@ Carries forward remaining balance to next month. Auto-creates expense records (p
 
 ```json
 {
+  "success": true,
+  "status": 200,
   "data": {
     "notes": [
       {
@@ -706,13 +776,35 @@ Carries forward remaining balance to next month. Auto-creates expense records (p
 
 Single note detail.
 
+**Response:**
+
+```json
+{
+  "success": true,
+  "status": 200,
+  "msg": "Note",
+  "data": {
+    "note_id": 24,
+    "user_id": 2,
+    "title": "Hello World",
+    "description": "Lorem ipsum world description",
+    "created_at": "2026-02-22T04:59:25.000Z",
+    "updated_at": null
+  }
+}
+```
+
 #### `PUT /api/notes/:id` 🔒
 
 ```json
 { "title": "Updated Title", "description": "Updated content" }
 ```
 
+**Response:** `{ msg: Note updated successfully., success: true, status: 200 }`
+
 #### `DELETE /api/notes/:id` 🔒
+
+**Response:** `{ msg: Note deleted successfully., success: true, status: 200 }`
 
 ---
 
@@ -786,7 +878,7 @@ Called by `cron-job.org` monthly. Resets `is_this_month_done` flag for all users
 
 ### 6.8 Seed (`/api/seed`) — Stage Only
 
-These endpoints are **gated by `NODE_ENV === 'stage'`** and return `403` in any other environment.
+These endpoints are **gated by `NODE_ENV !== 'production'`** and return `403` in any other environment.
 
 #### `POST /api/seed/demo-data` 🔒
 
@@ -1012,3 +1104,6 @@ npm run dev    # next dev, port 3000
 | 2026-02-21 | Added clear month data endpoint + UI button       | `seedController.js`, `ClearMonthButton.jsx`                                           |
 | 2026-02-21 | Performance: batch INSERTs, parallel queries      | `seedController.js`                                                                   |
 | 2026-02-21 | Fix: proper DataContext refetch instead of reload | `SeedDemoButton.jsx`, `ClearMonthButton.jsx`                                          |
+| 2026-02-22 | Feature: Monthly Budgets tracker via DB update    | `expense_categories`, `CategoryModal`, `BudgetOverview`, `categoryController`         |
+| 2026-02-22 | Feature: Financial Health Score widget            | `FinancialHealthScore.jsx`, `app/page.js`                                             |
+| 2026-02-22 | Feature: Financial Insights comparative tracker   | `ExpenseInsights.jsx`, `app/page.js`                                                  |
