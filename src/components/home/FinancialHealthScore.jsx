@@ -1,11 +1,14 @@
 'use client';
 
-import React, { useContext, useMemo, useEffect } from 'react';
+import React, { useContext, useMemo, useEffect, useState } from 'react';
 import { DataContext } from '@/context/DataContext';
+import TipsModal from '@/components/modals/TipsModal';
+import { HEALTH_SCORE_MANUALS } from '@/assets/constants';
 
 const FinancialHealthScore = () => {
   const { balance, balanceLoading, expenseCategory, expenseData, fetchExpenseCategory } =
     useContext(DataContext);
+  const [tipsModalOpen, setTipsModalOpen] = useState(false);
 
   const scoreData = useMemo(() => {
     if (balanceLoading || !Object.keys(balance).length) return null;
@@ -118,7 +121,15 @@ const FinancialHealthScore = () => {
         className={`absolute right-0 top-0 size-32 bg-gradient-to-br ${scoreData.gradient} rounded-full opacity-10 blur-3xl`}
       />
 
-      <h3 className="mb-6 w-full text-left text-lg font-bold text-pGray">Financial Health Score</h3>
+      <div className="mb-6 flex w-full items-center">
+        <h3 className="text-left text-lg font-bold text-pGray">Financial Health Score</h3>
+        <button
+          className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
+          onClick={() => setTipsModalOpen(true)}
+        >
+          i
+        </button>
+      </div>
 
       <div className="flex w-full flex-col items-center gap-8 md:flex-row">
         {/* Animated Circular Progress */}
@@ -166,6 +177,9 @@ const FinancialHealthScore = () => {
           ))}
         </div>
       </div>
+      {tipsModalOpen && (
+        <TipsModal modalOpen={tipsModalOpen} setModalOpen={setTipsModalOpen} manual={HEALTH_SCORE_MANUALS} />
+      )}
     </div>
   );
 };

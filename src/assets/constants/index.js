@@ -323,3 +323,72 @@ export const AUTO_TRANSFER_MANUALS = {
     ],
   },
 };
+
+export const HEALTH_SCORE_MANUALS = {
+  en: {
+    title: 'Financial Health Score',
+    description: `The Financial Health Score evaluates your saving habits and adherence to budgets.`,
+    tipsTitle: 'How it works',
+    tips: [
+      'Savings Rate (50 points): You get maximum points if you save 20% or more of your total income. The score decreases proportionally if you save less.',
+      'Budget Adherence (50 points): You get maximum points if your total spending stays within the allocated budgets. Overspending reduces this score.',
+      'If "budget" not added in your expense-category, a base score is given to encourage setting up limits. The total score determines your status: Excellent (80+), Good (50-79), or Needs Work (<50).',
+    ],
+  },
+  bn: {
+    title: 'ফাইন্যান্সিয়াল হেলথ স্কোর',
+    description: `ফাইন্যান্সিয়াল হেলথ স্কোর আপনার সঞ্চয়ের অভ্যাস এবং বাজেট মেনে চলার মূল্যায়ন করে।`,
+    tipsTitle: 'এটি কীভাবে কাজ করে',
+    tips: [
+      'সঞ্চয় হার (৫০ পয়েন্ট): আপনি যদি আয়ের ২০% বা তার বেশি সঞ্চয় করেন তবে সর্বোচ্চ পয়েন্ট পাবেন। সঞ্চয় কম হলে স্কোর আনুপাতিকভাবে কমে যায়।',
+      'বাজেট মেনে চলা (৫০ পয়েন্ট): যদি আপনার মোট ব্যয় বরাদ্দ বাজেটের মধ্যে থাকে তবে সর্বোচ্চ পয়েন্ট পাবেন। অতিরিক্ত খরচ এই স্কোর কমিয়ে দেয়।',
+      'যদি আপনার expense-category তে "বাজেট" না থাকে তাহলে একটি বেস স্কোর দেওয়া হয়। মোট স্কোর আপনার স্ট্যাটাস নির্ধারণ করে: চমৎকার (৮০+), ভালো (৫০-৭৯), বা আরও উন্নতির প্রয়োজন (<৫০)।',
+    ],
+  },
+};
+
+export const EXPENSE_INSIGHTS_MANUALS = {
+  en: {
+    title: 'Financial Insights',
+    description: `Financial Insights provide automated analysis comparing your spending and savings to previous months.`,
+    tipsTitle: 'How it works',
+    tips: [
+      'It compares your total expenses this month with the last month to show if your spending increased or decreased.',
+      'It evaluates the growth or decline in your savings compared to the previous month.',
+      'It identifies the month with the highest spending in the current year.',
+    ],
+  },
+  bn: {
+    title: 'আর্থিক অন্তর্দৃষ্টি (Financial Insights)',
+    description: `আর্থিক অন্তর্দৃষ্টি আপনার ব্যয় এবং সঞ্চয়কে পূর্ববর্তী মাসের সাথে তুলনা করে স্বয়ংক্রিয় বিশ্লেষণ প্রদান করে।`,
+    tipsTitle: 'এটি কীভাবে কাজ করে',
+    tips: [
+      'এটি গত মাসের সাথে আপনার এই মাসের মোট ব্যয়ের তুলনা করে দেখায় যে আপনার খরচ বেড়েছে নাকি কমেছে।',
+      'এটি আগের মাসের তুলনায় আপনার সঞ্চয়ের বৃদ্ধি বা হ্রাস মূল্যায়ন করে।',
+      'এটি চলতি বছরে আপনার সর্বোচ্চ ব্যয়ের মাসটিকে চিহ্নিত করে।',
+    ],
+  },
+};
+
+export const BUDGET_OVERVIEW_MANUALS = {
+  en: {
+    title: 'Monthly Budgets',
+    description: `Monthly Budgets help you visually track your spending limits for each expense category.`,
+    tipsTitle: 'How it works',
+    tips: [
+      'When adding or editing an expense category, you can set a budget limit.',
+      'This overview displays a progress bar for each category with a budget, showing how much you have spent versus your limit.',
+      'The progress bar turns yellow when you reach 80% of your budget, and red if you exceed it.',
+    ],
+  },
+  bn: {
+    title: 'মাসিক বাজেট',
+    description: `মাসিক বাজেট আপনাকে প্রতিটি ব্যয়ের ক্যাটাগরির জন্য খরচের সীমা ট্র্যাক করতে সাহায্য করে।`,
+    tipsTitle: 'এটি কীভাবে কাজ করে',
+    tips: [
+      'বাজেট সীমা সেট করতে আপনি এক্সপেন্স ক্যাটাগরি যুক্ত বা এডিট করার সময় বাজেট সেট করতে পারেন।',
+      'এই ওভারভিউতে প্রতিটি বাজেটের জন্য একটি প্রগ্রেস বার থাকে, যা দেখায় আপনি সীমার তুলনায় কত খরচ করেছেন।',
+      'বাজেটের ৮০% ছুঁয়ে গেলে প্রগ্রেস বার হলুদ হয়ে যায়, এবং অতিক্রম করলে লাল হয়ে যায়।',
+    ],
+  },
+};

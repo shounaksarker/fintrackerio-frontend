@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { DataContext } from '@/context/DataContext';
-import { CURRENCY } from '@/assets/constants';
+import TipsModal from '@/components/modals/TipsModal';
+import { BUDGET_OVERVIEW_MANUALS, CURRENCY } from '@/assets/constants';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const BudgetProgress = ({ categoryName, spent, budget }) => {
@@ -38,6 +39,7 @@ const BudgetProgress = ({ categoryName, spent, budget }) => {
 
 const BudgetOverview = () => {
   const { expenseCategory, expenseData, expenseCategoryLoading, expenseLoading } = useContext(DataContext);
+  const [tipsModalOpen, setTipsModalOpen] = useState(false);
 
   const budgetItems = useMemo(() => {
     if (!expenseCategory.length) return [];
@@ -68,12 +70,27 @@ const BudgetOverview = () => {
 
   return (
     <div className="w-full rounded-md border bg-white p-4 shadow-md">
-      <h3 className="mb-4 text-lg font-semibold text-pGray">Monthly Budgets</h3>
+      <div className="mb-4 flex w-full items-center">
+        <h3 className="text-lg font-semibold text-pGray">Monthly Budgets</h3>
+        <button
+          className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
+          onClick={() => setTipsModalOpen(true)}
+        >
+          i
+        </button>
+      </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
         {budgetItems.map((item) => (
           <BudgetProgress key={item.id} categoryName={item.name} spent={item.spent} budget={item.budget} />
         ))}
       </div>
+      {tipsModalOpen && (
+        <TipsModal
+          modalOpen={tipsModalOpen}
+          setModalOpen={setTipsModalOpen}
+          manual={BUDGET_OVERVIEW_MANUALS}
+        />
+      )}
     </div>
   );
 };

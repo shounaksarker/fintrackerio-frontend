@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { DataContext } from '@/context/DataContext';
-import { CURRENCY } from '@/assets/constants';
+import TipsModal from '@/components/modals/TipsModal';
+import { EXPENSE_INSIGHTS_MANUALS, CURRENCY } from '@/assets/constants';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 
 const ExpenseInsights = () => {
   const { yearlySummery } = useContext(DataContext);
+  const [tipsModalOpen, setTipsModalOpen] = useState(false);
 
   const insights = useMemo(() => {
     if (!yearlySummery || !yearlySummery.months.length) return [];
@@ -106,7 +108,15 @@ const ExpenseInsights = () => {
 
   return (
     <div className="w-full rounded-2xl border bg-white p-6 shadow-lg">
-      <h3 className="mb-4 text-lg font-bold text-pGray">Financial Insights</h3>
+      <div className="mb-4 flex w-full items-center">
+        <h3 className="text-lg font-bold text-pGray">Financial Insights</h3>
+        <button
+          className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
+          onClick={() => setTipsModalOpen(true)}
+        >
+          i
+        </button>
+      </div>
       <div className="flex flex-col gap-y-3">
         {insights.map((item, idx) => (
           <div key={idx} className={`flex items-center gap-x-3 rounded-xl p-3 ${item.bg}`}>
@@ -115,6 +125,13 @@ const ExpenseInsights = () => {
           </div>
         ))}
       </div>
+      {tipsModalOpen && (
+        <TipsModal
+          modalOpen={tipsModalOpen}
+          setModalOpen={setTipsModalOpen}
+          manual={EXPENSE_INSIGHTS_MANUALS}
+        />
+      )}
     </div>
   );
 };
