@@ -7,6 +7,7 @@ import SelectOption from '@/components/fields/Select';
 import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
 import { formattedAmount } from '@/helpers/frontend/getSum';
+import { RECURRING_INTERVAL } from '@/assets/constants';
 
 const InsertExpenseModal = ({
   modalOpen,
@@ -134,6 +135,35 @@ const InsertExpenseModal = ({
               dateFormat={'dd/MM/yyyy'}
             />
           </div>
+          {expense.is_recurring !== undefined && (
+            <div
+              onClick={() => setExpense({ ...expense, is_recurring: !expense.is_recurring })}
+              className="mb-4 mt-2 flex cursor-pointer items-center justify-between rounded-md p-1"
+            >
+              <label className="cursor-pointer text-sm font-medium text-gray-500">
+                🔄 Set as Repeatative Expense
+              </label>
+              <input type="checkbox" checked={expense.is_recurring || false} />
+            </div>
+          )}
+          {expense.is_recurring && (
+            <SelectOption
+              className="mb-4 size-full"
+              name="recurrence_interval"
+              label="Frequency"
+              onChange={(e) => handleExpense(e)}
+              value={expense.recurrence_interval || RECURRING_INTERVAL.MONTHLY}
+              labelClass="font-normal"
+              options={[
+                { label: 'Weekly', value: RECURRING_INTERVAL.WEEKLY },
+                { label: 'Monthly', value: RECURRING_INTERVAL.MONTHLY },
+                { label: 'Yearly', value: RECURRING_INTERVAL.YEARLY },
+              ]}
+              optionLabel="label"
+              optionValue="value"
+              required
+            />
+          )}
           <Button type="submit" className="flex w-full justify-center" loading={loading}>
             Submit
           </Button>

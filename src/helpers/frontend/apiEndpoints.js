@@ -38,3 +38,6 @@ export const AUTO_TRANSFER_URL = '/api/v1/user/auto-transfer';
 export const TRANSFER_TO_NEXT_URL = '/api/v1/user/auto-transfer/to-next';
 
 export const SEED_URL = '/api/v1/seed-demo-data';
+
+export const CREATE_RECURRING_URL = '/api/v1/recurring/create';
+export const GET_RECURRING_URL = '/api/v1/recurring';

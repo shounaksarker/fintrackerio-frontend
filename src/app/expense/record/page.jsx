@@ -6,7 +6,7 @@ import CustomTable from '@/components/fields/Table';
 import { formattedAmount, getSum } from '@/helpers/frontend/getSum';
 import Button from '@/components/fields/Button';
 import 'react-datepicker/dist/react-datepicker.css';
-import { CURRENCY, EXPENSE_RECORDS_TABLE_HEADER } from '@/assets/constants';
+import { CURRENCY, EXPENSE_RECORDS_TABLE_HEADER, RECURRING_INTERVAL } from '@/assets/constants';
 import InsertExpenseModal from '@/components/modals/InsertExpenseModal';
 import { notification } from '@/components/notification';
 import { DataContext } from '@/context/DataContext';
@@ -17,6 +17,7 @@ import {
   CREATE_EXPENSE_RECORD_URL,
   EDIT_EXPENSE_RECORD_URL,
   DELETE_EXPENSE_RECORD_URL,
+  CREATE_RECURRING_URL,
 } from '@/helpers/frontend/apiEndpoints';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 
@@ -53,6 +54,27 @@ const Page = () => {
     setCreateExpenseLoading(true);
     const res = await axios.post(CREATE_EXPENSE_RECORD_URL, expenseDetails);
     if (res.data.success) {
+      if (expenseDetails.is_recurring) {
+        const nextDate = new Date(expenseDetails.date);
+        if (expenseDetails.recurrence_interval === RECURRING_INTERVAL.WEEKLY)
+          nextDate.setDate(nextDate.getDate() + 7);
+        else if (expenseDetails.recurrence_interval === RECURRING_INTERVAL.MONTHLY)
+          nextDate.setMonth(nextDate.getMonth() + 1);
+        else if (expenseDetails.recurrence_interval === RECURRING_INTERVAL.YEARLY)
+          nextDate.setFullYear(nextDate.getFullYear() + 1);
+
+        await axios.post(CREATE_RECURRING_URL, {
+          type: 'expense',
+          category_id: expenseDetails.expense_category_id,
+          terminal_id: expenseDetails.terminal_id,
+          amount: expenseDetails.amount,
+          spend_on: expenseDetails.spend_on,
+          description: expenseDetails.description || expenseDetails.spend_on,
+          recurrence_interval: expenseDetails.recurrence_interval,
+          next_execution_date: nextDate,
+        });
+      }
+
       notification(res.data.msg, { type: 'success', id: 'createTerminal' });
       setExpenseDetails(EXPENSE);
       setInsertExpenseModal(false);

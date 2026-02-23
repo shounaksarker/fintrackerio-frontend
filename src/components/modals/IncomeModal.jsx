@@ -6,6 +6,7 @@ import Modal from '@/components/fields/Modal';
 import SelectOption from '@/components/fields/Select';
 import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
+import { RECURRING_INTERVAL } from '@/assets/constants';
 
 const IncomeModal = ({ modalOpen, setModalOpen, loading, data, setData, incomeSources, handleSubmit }) => {
   const handleIncome = (e) => {
@@ -65,6 +66,35 @@ const IncomeModal = ({ modalOpen, setModalOpen, loading, data, setData, incomeSo
               placeholderText={'placeholderText'}
             />
           </div>
+          {data.is_recurring !== undefined && (
+            <div
+              onClick={() => setData({ ...data, is_recurring: !data.is_recurring })}
+              className="mb-4 mt-2 flex cursor-pointer items-center justify-between rounded-md p-1"
+            >
+              <label className="cursor-pointer text-sm font-medium text-gray-500">
+                🔄 Set as Repeatative Income
+              </label>
+              <input type="checkbox" checked={data.is_recurring || false} />
+            </div>
+          )}
+          {data.is_recurring && (
+            <SelectOption
+              className="mb-4 size-full"
+              name="recurrence_interval"
+              label="Frequency"
+              onChange={(e) => handleIncome(e)}
+              value={data.recurrence_interval || RECURRING_INTERVAL.MONTHLY}
+              labelClass="font-normal"
+              options={[
+                { label: 'Weekly', value: RECURRING_INTERVAL.WEEKLY },
+                { label: 'Monthly', value: RECURRING_INTERVAL.MONTHLY },
+                { label: 'Yearly', value: RECURRING_INTERVAL.YEARLY },
+              ]}
+              optionLabel="label"
+              optionValue="value"
+              required
+            />
+          )}
           <InputField
             className="size-full "
             type="text"

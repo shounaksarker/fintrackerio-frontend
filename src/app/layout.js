@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
 import { Toaster } from 'react-hot-toast';
-import { Analytics } from '@vercel/analytics/next';
+// import { Analytics } from '@vercel/analytics/next';
 import MainLayout from '@/components/MainLayout';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -17,7 +17,7 @@ export default async function RootLayout({ children }) {
       <body className={inter.className}>
         <Toaster position="top-right" reverseOrder={false} />
         <MainLayout>{children}</MainLayout>
-        <Analytics />
+        {/* <Analytics /> */}
       </body>
     </html>
   );
