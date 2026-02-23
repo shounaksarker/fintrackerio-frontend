@@ -152,7 +152,7 @@ const CustomTable = ({
                                 }}
                                 className={`mr-2 ${action.style}`}
                               >
-                                {action.label}
+                                {typeof action.label === 'function' ? action.label(row) : action.label}
                               </button>
                             ))}
                           </span>

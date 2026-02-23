@@ -41,3 +41,5 @@ export const SEED_URL = '/api/v1/seed-demo-data';
 
 export const CREATE_RECURRING_URL = '/api/v1/recurring/create';
 export const GET_RECURRING_URL = '/api/v1/recurring';
+export const EDIT_RECURRING_URL = '/api/v1/recurring/edit';
+export const DELETE_RECURRING_URL = '/api/v1/recurring/delete';

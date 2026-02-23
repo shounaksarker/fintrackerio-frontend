@@ -40,3 +40,5 @@ export const SEED_DEMO_DATA_URL = `${process.env.SERVER_URL}/api/seed/demo-data`
 
 export const CREATE_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/create`;
 export const GET_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring`;
+export const EDIT_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/edit/:id`;
+export const DELETE_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/delete/:id`;

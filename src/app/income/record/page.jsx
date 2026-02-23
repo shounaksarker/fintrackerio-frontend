@@ -48,6 +48,7 @@ const Page = () => {
     fetchTerminal,
     allTerminals,
     allTerminalsLoading,
+    fetchRecurringData,
   } = useContext(DataContext);
 
   // show terminals
@@ -121,6 +122,9 @@ const Page = () => {
       setAddIncomeDetails(CREATE_INCOME_DETAILS_VALUE);
       await fetchBalanceRecord(true);
       setAddIncomeModal(false);
+      if (addIncomeDetails.is_recurring) {
+        fetchRecurringData();
+      }
     } else {
       notification(res.data.msg || 'Failed to create Income Record.', { type: 'error', id: 'createIncome' });
     }

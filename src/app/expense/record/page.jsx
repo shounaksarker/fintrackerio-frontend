@@ -36,6 +36,7 @@ const Page = () => {
     expenseCategory,
     fetchTerminal,
     allTerminals,
+    fetchRecurringData,
   } = useContext(DataContext);
   const [expenseDetails, setExpenseDetails] = useState(EXPENSE);
   const [insertExpenseModal, setInsertExpenseModal] = useState(false);
@@ -81,6 +82,9 @@ const Page = () => {
       setMaxAmount(0);
       fetchExpenseRecord();
       fetchBalance();
+      if (expenseDetails.is_recurring) {
+        fetchRecurringData();
+      }
     } else {
       notification(res.data.msg || 'Failed to create Expense Record.', {
         type: 'error',

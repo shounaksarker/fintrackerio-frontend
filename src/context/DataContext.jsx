@@ -13,6 +13,7 @@ import {
   GET_USER_URL,
   AUTO_TRANSFER_URL,
   GET_TERMINALS_URL,
+  GET_RECURRING_URL,
 } from '@/helpers/frontend/apiEndpoints';
 import { getDateRange, getPreviousMonthDateRange } from '@/helpers/frontend/formateDate';
 import { fetchRecord } from '@/helpers/frontend/others';
@@ -45,6 +46,9 @@ const DataContextProvider = ({ children }) => {
 
   const [allTerminals, setAllTerminals] = useState([]);
   const [allTerminalsLoading, setAllTerminalsLoading] = useState(true);
+
+  const [recurringData, setRecurringData] = useState([]);
+  const [recurringLoading, setRecurringLoading] = useState(true);
 
   // others
   const [user, setUser] = useState();
@@ -141,6 +145,21 @@ const DataContextProvider = ({ children }) => {
       notification(err.message || 'An error occured.', { type: 'error', id: 'atError' });
     }
     setATInfoLoading(false);
+  };
+
+  const fetchRecurringData = async () => {
+    setRecurringLoading(true);
+    try {
+      const res = await axios.get(GET_RECURRING_URL);
+      if (res.data?.success && res.data?.data) {
+        setRecurringData(res.data.data);
+      } else {
+        notification(res.data.msg || 'Failed to load Recurring Data.', { type: 'error', id: 'fetcherror' });
+      }
+      setRecurringLoading(false);
+    } catch (err) {
+      return err;
+    }
   };
 
   // get all terminals
@@ -240,6 +259,12 @@ const DataContextProvider = ({ children }) => {
         setAllTerminals,
         allTerminalsLoading,
         setAllTerminalsLoading,
+        // <----- recurring ----->
+        recurringData,
+        setRecurringData,
+        recurringLoading,
+        setRecurringLoading,
+        fetchRecurringData,
         // <----- others ----->
         dateRange,
         setDateRange,
