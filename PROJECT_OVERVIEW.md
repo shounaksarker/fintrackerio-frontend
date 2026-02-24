@@ -27,6 +27,7 @@
 
 - **Income Management** — income sources (categories), income records, income distribution across terminals
 - **Expense Management** — expense categories, expense records with spend-on details & breakdowns
+- **Recurring Transactions** — natively automate and manage repeating incomes and expenses on weekly, monthly, or yearly schedules
 - **Monthly Budgets** — set limits for expense categories and track them visually
 - **Financial Health Score** — dynamic score of your savings rate and budget adherence
 - **Financial Insights** — automated trend analysis comparing spending to previous months
@@ -292,6 +293,25 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 | `title`       | BLOB             | **AES-encrypted** |
 | `description` | BLOB             | **AES-encrypted** |
 | `created_at`  | TIMESTAMP        |                   |
+| `updated_at`  | TIMESTAMP        |                   |
+
+### 5.10 `recurring_transactions`
+
+| Column                | Type             | Notes                                                              |
+| --------------------- | ---------------- | ------------------------------------------------------------------ |
+| `id`                  | INT (PK)         | Auto-increment                                                     |
+| `user_id`             | INT (FK → users) |                                                                    |
+| `type`                | ENUM             | `'income'` or `'expense'`                                          |
+| `category_id`         | INT              | Reference to either `income_categories` or `expense_categories` ID |
+| `terminal_id`         | INT              | Nullable, only required for `type = 'expense'`                     |
+| `amount`              | BLOB             | **AES-encrypted**                                                  |
+| `spend_on`            | BLOB             | **AES-encrypted** (what was bought, optional)                      |
+| `description`         | BLOB             | **AES-encrypted** (optional)                                       |
+| `recurrence_interval` | ENUM             | `'weekly'`, `'monthly'`, `'yearly'`                                |
+| `next_execution_date` | DATE             | Looked at by cron job                                              |
+| `is_active`           | BOOLEAN          | Active/Paused state toggle                                         |
+| `created_at`          | TIMESTAMP        | Auto-generated                                                     |
+| `updated_at`          | TIMESTAMP        | Auto-updated                                                       |
 
 ---
 
@@ -1107,3 +1127,5 @@ npm run dev    # next dev, port 3000
 | 2026-02-22 | Feature: Monthly Budgets tracker via DB update    | `expense_categories`, `CategoryModal`, `BudgetOverview`, `categoryController`         |
 | 2026-02-22 | Feature: Financial Health Score widget            | `FinancialHealthScore.jsx`, `app/page.js`                                             |
 | 2026-02-22 | Feature: Financial Insights comparative tracker   | `ExpenseInsights.jsx`, `app/page.js`                                                  |
+| 2026-02-24 | Feature: Migrations Folder created for SQL init   | `migrations/001_init_schema.sql`                                                      |
+| 2026-02-24 | Feature: Recurring Transactions (Income/Expense)  | `recurring_transactions`, `recurringController.js`, `cronJob.js`, `recurring/page`    |
