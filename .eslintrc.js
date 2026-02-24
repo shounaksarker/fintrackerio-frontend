@@ -31,7 +31,7 @@ module.exports = {
     'unused-imports/no-unused-imports': 'warn',
     'import/prefer-default-export': 'off',
     'consistent-return': 'off',
-    'tailwindcss/classnames-order': 'warn',
+    // 'tailwindcss/classnames-order': 'warn',
     'tailwindcss/enforces-shorthand': 'warn',
     'tailwindcss/no-contradicting-classname': 'warn',
     'tailwindcss/no-custom-classname': 'off',
