@@ -71,8 +71,25 @@ _(Note: Using `NEXT_PUBLIC_NODE_ENV = development | stage` unlocks specific demo
 ### 4. Database Setup (Migrations)
 
 If you are setting up the project for the first time or updating an existing production/staging database, use the SQL migration files provided in the backend repository.
-You can run the file located in `../Fintracker-backend/migrations/001_init_schema.sql` directly against your MySQL server.
-It uses `IF NOT EXISTS` statements, making it completely safe to run on both fresh and existing databases without losing any data.
+The initialization file is located at `../Fintracker-backend/migrations/001_init_schema.sql` and uses `IF NOT EXISTS` statements, making it completely safe to run on both fresh and existing databases without losing any data.
+
+**Using Command Line (CLI):**
+
+1. First, create your database if you haven't already:
+   ```bash
+   mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS personal_finance;"
+   ```
+2. Run the migration file against your database:
+   ```bash
+   mysql -u root -p personal_finance < ../Fintracker-backend/migrations/001_init_schema.sql
+   ```
+
+**Using a Database GUI (DBeaver, TablePlus, phpMyAdmin, etc.):**
+
+1. Connect to your local or remote MySQL server.
+2. Create a new database named `personal_finance` (or your preferred name).
+3. Open the `001_init_schema.sql` file in your SQL editor.
+4. Execute/run the entire script.
 
 ### 5. Start Development Server
 
