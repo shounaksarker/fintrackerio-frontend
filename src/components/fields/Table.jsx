@@ -4,6 +4,7 @@ import DetailsModal from '../modals/DetailsModal';
 import Loader from './Loader';
 import targetArrowIcon from '@/assets/svg/targetArrow.svg';
 import { DATA_QUANTITY } from '@/assets/constants';
+import noDataImg from '@/assets/images/no-data.jpg';
 
 const CustomTable = ({
   headers,
@@ -109,7 +110,14 @@ const CustomTable = ({
         ) : (
           <>
             {!paginatedData.length ? (
-              <div className="pb-3 pt-6 text-center font-semibold text-pGray">{`${errorMessage || 'No Data Found...'}`}</div>
+              <div className="flex flex-col items-center justify-center text-center font-semibold text-pGray md:pb-3 md:pt-6">
+                <Image
+                  src={noDataImg}
+                  alt="No transactions"
+                  className="w-[200px] object-contain mix-blend-multiply md:w-[150px]"
+                />
+                {`${errorMessage || 'No Data Found...'}`}
+              </div>
             ) : (
               paginatedData.map((row, rowIndex) => (
                 <div

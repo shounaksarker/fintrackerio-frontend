@@ -47,7 +47,7 @@ const DataContextProvider = ({ children }) => {
   const [allTerminals, setAllTerminals] = useState([]);
   const [allTerminalsLoading, setAllTerminalsLoading] = useState(true);
 
-  const [recurringData, setRecurringData] = useState([]);
+  const [recurringData, setRecurringData] = useState({ expense: [], income: [] });
   const [recurringLoading, setRecurringLoading] = useState(true);
 
   // others
