@@ -11,7 +11,7 @@
     "prepare": "husky"
   },
   "link-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": "prettier --write"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",
