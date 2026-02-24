@@ -5,12 +5,14 @@ FinTracker (Fin-Tracker-io) is a modern, comprehensive personal finance manageme
 This repository contains the **Frontend** application built with Next.js 14.
 
 ## 🔗 Links and Resources
+
 - **Test / Staging Server:** [https://fintrackerio-stage.vercel.app](https://fintrackerio-stage.vercel.app)
 - **Backend Repository:** [https://github.com/shounaksarker/fintrackerio-backend](https://github.com/shounaksarker/fintrackerio-backend)
 
 ---
 
 ## ✨ Features
+
 - **Income & Expense Tracking:** Log incoming funds and outgoings against custom categories with detailed breakdowns and histories.
 - **Terminal Management:** Track wealth across multiple distinct wallets or accounts (e.g., Pocket, bKash, Bank) with seamless inter-terminal transfers.
 - **Monthly Budgets:** Define budget limits for specific expense categories and view progress bars to stay within limits.
@@ -23,6 +25,7 @@ This repository contains the **Frontend** application built with Next.js 14.
 ---
 
 ## 🛠️ Tech Stack
+
 - **Framework:** Next.js 14 (App Router)
 - **Library:** React 18
 - **Styling:** TailwindCSS 3
@@ -42,16 +45,18 @@ You need Node.js installed on your machine. We recommend Node.js 22.x or above.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/shounaksarker/fintrackerio-frontend.git 
+git clone https://github.com/shounaksarker/fintrackerio-frontend.git
 cd Fintracker-frontend
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Environment Variables
+
 To run the app locally, create a `.env` file in the root directory and add the following keys. Make sure your local or remote backend server matches the `SERVER_URL`.
 
 ```env
@@ -60,22 +65,51 @@ SERVER_URL=http://localhost:3001
 JWT_SECRET=your_super_secret_jwt_key
 NEXT_PUBLIC_NODE_ENV=development | stage | production
 ```
-*(Note: Using `NEXT_PUBLIC_NODE_ENV = development | stage` unlocks specific demo features in the UI like 'Demo Login' & 'Seed Demo Data'.)*
 
-### 4. Start Development Server
+_(Note: Using `NEXT_PUBLIC_NODE_ENV = development | stage` unlocks specific demo features in the UI like 'Demo Login' & 'Seed Demo Data'.)_
+
+### 4. Database Setup (Migrations)
+
+If you are setting up the project for the first time or updating an existing production/staging database, use the SQL migration files provided in the backend repository.
+The initialization file is located at `../Fintracker-backend/migrations/001_init_schema.sql` and uses `IF NOT EXISTS` statements, making it completely safe to run on both fresh and existing databases without losing any data.
+
+**Using Command Line (CLI):**
+
+1. First, create your database if you haven't already:
+   ```bash
+   mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS personal_finance;"
+   ```
+2. Run the migration file against your database:
+   ```bash
+   mysql -u root -p personal_finance < ../Fintracker-backend/migrations/001_init_schema.sql
+   ```
+
+**Using a Database GUI (DBeaver, TablePlus, phpMyAdmin, etc.):**
+
+1. Connect to your local or remote MySQL server.
+2. Create a new database named `personal_finance` (or your preferred name).
+3. Open the `001_init_schema.sql` file in your SQL editor.
+4. Execute/run the entire script.
+
+### 5. Start Development Server
+
 ```bash
 npm run dev
 ```
+
 Access the application by navigating to [http://localhost:3000](http://localhost:3000).
 
 ---
 
 ## 📁 Architecture Overview
+
 FinTracker employs a **Double API Layer Structure:**
+
 1. Actions / Client components hit the Next.js standard API Route Handlers (`/api/v1/*`).
 2. The Route Handlers subsequently process and proxy these requests asynchronously to the Express Backend (`SERVER_URL/api/*`).
 
-*(For an exhaustive understanding of the database structure, security schema, and backend endpoints, please refer to the `PROJECT_OVERVIEW.md` located in the root of this workspace.)*
+_(For an exhaustive understanding of the database structure, security schema, and backend endpoints, please refer to the `PROJECT_OVERVIEW.md` located in the root of this workspace.)_
 
 ## 🔮 Upcoming
+
 See `UPCOMING_PLAN.md` for a summary of planned future expansions, including Recurring Transactions, Custom Savings Goals, Debt Loan Ledgers, and more.

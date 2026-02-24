@@ -10,8 +10,9 @@
     "format": "next lint --fix && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "prepare": "husky"
   },
-  "link-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": "next lint --fix",
+    "**/*.{json,yaml,css,md}": "prettier --write"
   },
   "dependencies": {
     "@vercel/analytics": "^1.5.0",

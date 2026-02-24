@@ -6,7 +6,7 @@ import CustomTable from '@/components/fields/Table';
 import { formattedAmount, getIndividualSum, getSum } from '@/helpers/frontend/getSum';
 import Button from '@/components/fields/Button';
 import 'react-datepicker/dist/react-datepicker.css';
-import { INCOME_RECORDS_TABLE_HEADER, CURRENCY } from '@/assets/constants';
+import { INCOME_RECORDS_TABLE_HEADER, CURRENCY, RECURRING_INTERVAL } from '@/assets/constants';
 import IncomeModal from '@/components/modals/IncomeModal';
 import TerminalsModal from '@/components/modals/TerminalsModal';
 import CreateTerminalModal from '@/components/modals/CreateTerminalModal';
@@ -16,6 +16,7 @@ import {
   CREATE_INCOME_RECORD_URL,
   EDIT_INCOME_RECORD_URL,
   INCOME_BALANCE_TRANSFER_URL,
+  CREATE_RECURRING_URL,
 } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
 import { CREATE_INCOME_DETAILS_VALUE, TRANSFER_VALUE } from '@/assets/constants/stateValue';
@@ -47,6 +48,7 @@ const Page = () => {
     fetchTerminal,
     allTerminals,
     allTerminalsLoading,
+    fetchRecurringData,
   } = useContext(DataContext);
 
   // show terminals
@@ -95,12 +97,34 @@ const Page = () => {
     setIncomeDetailsLoading(true);
     const res = await axios.post(CREATE_INCOME_RECORD_URL, addIncomeDetails);
     if (res.data.success) {
+      if (addIncomeDetails.is_recurring) {
+        const nextDate = new Date(addIncomeDetails.date);
+        if (addIncomeDetails.recurrence_interval === RECURRING_INTERVAL.WEEKLY)
+          nextDate.setDate(nextDate.getDate() + 7);
+        else if (addIncomeDetails.recurrence_interval === RECURRING_INTERVAL.MONTHLY)
+          nextDate.setMonth(nextDate.getMonth() + 1);
+        else if (addIncomeDetails.recurrence_interval === RECURRING_INTERVAL.YEARLY)
+          nextDate.setFullYear(nextDate.getFullYear() + 1);
+
+        await axios.post(CREATE_RECURRING_URL, {
+          type: 'income',
+          category_id: addIncomeDetails.income_category_id,
+          amount: addIncomeDetails.amount,
+          description: addIncomeDetails.description,
+          recurrence_interval: addIncomeDetails.recurrence_interval,
+          next_execution_date: nextDate,
+        });
+      }
+
       notification(res.data.msg, { type: 'success', id: 'createTerminal' });
       fetchIncomeRecord();
       fetchDistributedIn();
       setAddIncomeDetails(CREATE_INCOME_DETAILS_VALUE);
       await fetchBalanceRecord(true);
       setAddIncomeModal(false);
+      if (addIncomeDetails.is_recurring) {
+        fetchRecurringData();
+      }
     } else {
       notification(res.data.msg || 'Failed to create Income Record.', { type: 'error', id: 'createIncome' });
     }

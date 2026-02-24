@@ -24,6 +24,12 @@ export const ENVIRONMENT = {
   DEVELOPMENT: 'development',
 };
 
+export const RECURRING_INTERVAL = {
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+};
+
 export const SIDEBAR_MENU = [
   { title: 'Overview', path: '/', icon: <Overview /> },
   {
@@ -44,6 +50,7 @@ export const SIDEBAR_MENU = [
     ],
     icon: <Expencces />,
   },
+  { title: 'Repeatative Hub', path: '/recurring', icon: <NotesIcon /> },
   { title: 'Notes', path: '/notes', icon: <NotesIcon /> },
   { title: 'Settings', path: '/setting', icon: <Settings /> },
   { title: 'User Manual', path: '/user-manual', icon: <ManualIcon /> },

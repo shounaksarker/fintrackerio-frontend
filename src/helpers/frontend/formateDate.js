@@ -5,7 +5,7 @@ const getDate = (date) => {
 };
 
 const getTime = (date) => {
-  moment(date).format('h:mm A');
+  return moment(date).format('h:mm A');
 };
 
 const getDateRange = (month = moment().month() + 1, year = moment().year()) => {
@@ -20,6 +20,10 @@ const getDateRange = (month = moment().month() + 1, year = moment().year()) => {
     .endOf('month')
     .format('YYYY-MM-DD');
   return { from: firstDate, to: lastDate };
+};
+
+const getDateTime = (date) => {
+  return moment(date).format('DD/MM/YY h:mm A');
 };
 
 export const getPreviousMonthDateRange = (dateRange) => {
@@ -56,4 +60,4 @@ export const getPreviousMonthDateRange = (dateRange) => {
   }
 };
 
-export { getDate, getTime, getDateRange };
+export { getDate, getTime, getDateRange, getDateTime };

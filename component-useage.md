@@ -1,4 +1,5 @@
 ## ===== input =====
+
 ```
 <Input className="max-h-[48px] max-w-[400px]"
 type = ['text', 'password', 'checkbox', 'date', 'datetime-local', 'tel', 'week', 'month']
@@ -15,6 +16,7 @@ inputClass=''
 ```
 
 ## ===== button =====
+
 ```
 <Button
   size=['small', 'md', 'large']
@@ -29,6 +31,7 @@ inputClass=''
 ```
 
 ## ===== table =====
+
 ```
 # data part
 
@@ -52,6 +55,7 @@ const data = [
 ];
 
 const headers = [
+  { label: '#', style: 'w-[40px] text-center', index: true }, // for indexing / SL no for each row
   {
     label: 'Name',
     style: 'w-1/4 text-sm lg:text-md capitalize', // for both th and td
@@ -127,6 +131,7 @@ const handleDelete = (row) => {
   console.log('Delete:', row);
 };
 ```
+
 ```
 // --- usage part ---
 <CustomTable
@@ -148,6 +153,7 @@ const handleDelete = (row) => {
 ```
 
 ## ===== select-options =====
+
 ```const [selectedOption, setSelectedOption] = useState('');
 const handle = (option) => {
   setSelectedOption(option.label);
@@ -162,6 +168,7 @@ const options = [
     },
   ];
 ```
+
 ```
 // --- usage part ---
 <SelectOption
@@ -180,6 +187,7 @@ const options = [
 ```
 
 ## ===== modal =====
+
 ```
 const [isOpen, setIsOpen] = useState(false);
 const openModal = () => {
@@ -189,6 +197,7 @@ const afterModalClose = () => {
   console.log('modal is closer')
 };
 ```
+
 ```
 // --- usage part ---
 <button onClick={openModal}>Open Modal</button>
@@ -200,8 +209,8 @@ const afterModalClose = () => {
 </Modal>;
 ```
 
-
 ## ===== Doughnut chart =====
+
 ```
 // --- usage part ---
   <DoughnutChart
@@ -228,6 +237,7 @@ const afterModalClose = () => {
 ```
 
 ## DatePicker
+
 ```
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
