@@ -12,6 +12,7 @@ import { handleAutoTransfer, isObjectEmpty } from '@/helpers/frontend/others';
 import ConfirmModal from './modals/ConfirmModal';
 import { TRANSFER_TO_NEXT_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from './notification';
+import NotificationBell from './notifications/NotificationBell';
 import { CURRENCY } from '@/assets/constants';
 
 const Header = () => {
@@ -55,15 +56,16 @@ const Header = () => {
     <>
       {!isAuthPage && (
         <div className="flex flex-col p-2 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-x-4">
-            <div>
-              Hello <span className="font-semibold capitalize">{user?.username}</span>
+          <div className="flex items-center gap-x-1 md:gap-x-4 ">
+            <div className="text-xs md:text-base ">
+              Hi! <span className="font-semibold capitalize">{user?.username}</span>
             </div>
             <div className="flex gap-x-0">
               <ChevronRight />
               <ChevronRight className={'-ml-3'} />
             </div>
-            <div className="text-sm text-pGray">{moment().format('MMMM DD, YYYY')}</div>
+            <div className="text-xs text-pGray md:text-base">{moment().format('MMMM DD, YYYY')}</div>
+            <NotificationBell />
           </div>
           {!isDateRangeHidden && <DateRangePicker className={sidebarOpen ? '-z-50' : 'z-10'} />}
         </div>
