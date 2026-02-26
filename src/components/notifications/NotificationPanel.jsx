@@ -10,13 +10,8 @@ import {
   MARK_ALL_NOTIFICATIONS_READ_URL,
   DELETE_NOTIFICATION_URL,
 } from '@/helpers/frontend/apiEndpoints';
-
-const NOTIFICATION_TYPE_CONFIG = {
-  info: { icon: 'ℹ️', color: 'text-blue-400', bg: 'bg-blue-500/10' },
-  warning: { icon: '⚠️', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
-  error: { icon: '❌', color: 'text-red-400', bg: 'bg-red-500/10' },
-  success: { icon: '✅', color: 'text-green-400', bg: 'bg-green-500/10' },
-};
+import RedCross from '@/assets/svg/Icon/RedCross';
+import { NOTIFICATION_TYPE_CONFIG } from '@/assets/constants';
 
 const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
   const [expanded, setExpanded] = useState(false);
@@ -46,22 +41,23 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
   return (
     <div
       onClick={handleClick}
-      className={`cursor-pointer border-b border-gray-700/50 px-4 py-3 transition-all duration-200 hover:bg-gray-700/30 ${
-        isRead && !expanded ? 'opacity-60' : 'bg-gray-800/40'
+      className={`cursor-pointer border-b border-gray-300 px-4 py-3 transition-all duration-200 hover:bg-gray-100 ${
+        isRead && !expanded ? 'opacity-70' : 'bg-white'
       }`}
     >
-      <div className="flex items-start gap-3">
+      <div className={`flex gap-3 ${expanded ? 'items-start' : 'items-center'}`}>
         <div className={`mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg ${config.bg}`}>
           <span className="text-sm">{config.icon}</span>
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex flex-col items-start md:flex-row md:items-center md:justify-between md:gap-2">
-            <p
-              className={`truncate text-sm ${isRead ? 'font-normal text-gray-400' : 'font-semibold text-white'}`}
-            >
+          <div
+            className={`flex flex-col items-start md:flex-row md:items-center md:justify-between md:gap-2 ${expanded ? 'items-start' : 'items-center'}`}
+          >
+            <div className={`truncate text-sm ${isRead ? 'font-normal text-gray-500' : 'font-semibold'}`}>
               {notification.title}
-            </p>
+              {!isRead && !expanded && <div className="ml-1 size-1.5 rounded-full bg-pest" />}
+            </div>
             <div className="flex shrink-0 items-center gap-1">
               <span className="shrink-0 whitespace-nowrap text-xs text-gray-500">
                 {moment(notification.created_at).fromNow()}
@@ -71,25 +67,14 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
                 className="ml-1 rounded p-1 text-gray-500 transition-colors hover:bg-red-500/10 hover:text-red-400"
                 title="Delete"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-3.5"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <RedCross />
               </button>
             </div>
           </div>
 
           {expanded && notification.message && (
-            <div className="mt-2 rounded-lg bg-gray-800/60 p-3">
-              <p className="text-xs leading-relaxed text-gray-300">{notification.message}</p>
+            <div className="p-3">
+              <p className="text-xs leading-relaxed text-gray-500">{notification.message}</p>
               {notification.link && (
                 <button
                   onClick={handleNavigate}
@@ -100,8 +85,6 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
               )}
             </div>
           )}
-
-          {!isRead && !expanded && <div className="mt-1 size-1.5 rounded-full bg-pest" />}
         </div>
       </div>
     </div>
@@ -175,10 +158,10 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
       <div className="fixed inset-0 z-40" onClick={onClose} />
 
       {/* Panel */}
-      <div className="absolute -right-[50px] top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-700/50 bg-gray-900 shadow-2xl shadow-black/40 sm:-right-[120px] sm:w-96 md:-right-4 ">
+      <div className="absolute -right-[50px] top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-700/50 bg-white shadow-2xl shadow-black/40 sm:-right-[120px] sm:w-96 md:-right-4 ">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700/50 px-4 py-3">
-          <h3 className="text-sm font-semibold text-white">Notifications</h3>
+          <h3 className="text-sm font-semibold text-black">Notifications</h3>
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllRead}
@@ -199,7 +182,7 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
           {!loading && notifications.length === 0 ? (
             <div className="py-8 text-center">
               <span className="text-2xl">🔔</span>
-              <p className="mt-2 text-sm text-gray-400">No notifications yet</p>
+              <p className="mt-2 text-sm text-gray-600">No notifications yet</p>
             </div>
           ) : null}
           {!loading && notifications.length > 0
@@ -220,17 +203,17 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
             <button
               onClick={() => fetchNotifications(page - 1)}
               disabled={page <= 1}
-              className="text-xs text-gray-400 transition-colors hover:text-white disabled:opacity-30"
+              className="text-xs text-gray-600 transition-colors hover:text-white disabled:opacity-30"
             >
               ← Previous
             </button>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-700">
               {page} / {totalPages}
             </span>
             <button
               onClick={() => fetchNotifications(page + 1)}
               disabled={page >= totalPages}
-              className="text-xs text-gray-400 transition-colors hover:text-white disabled:opacity-30"
+              className="text-xs text-gray-600 transition-colors hover:text-white disabled:opacity-30"
             >
               Next →
             </button>
