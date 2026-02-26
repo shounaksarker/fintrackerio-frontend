@@ -42,3 +42,10 @@ export const CREATE_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/cre
 export const GET_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring`;
 export const EDIT_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/edit/:id`;
 export const DELETE_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/delete/:id`;
+
+export const GET_NOTIFICATIONS_URL = `${process.env.SERVER_URL}/api/notifications`;
+export const GET_UNREAD_COUNT_URL = `${process.env.SERVER_URL}/api/notifications/unread-count`;
+export const MARK_NOTIFICATION_READ_URL = `${process.env.SERVER_URL}/api/notifications/:id`;
+export const MARK_ALL_NOTIFICATIONS_READ_URL = `${process.env.SERVER_URL}/api/notifications/mark-all-read`;
+export const DELETE_NOTIFICATION_URL = `${process.env.SERVER_URL}/api/notifications/:id`;
+export const ADMIN_BROADCAST_URL = `${process.env.SERVER_URL}/api/notifications/admin/broadcast`;

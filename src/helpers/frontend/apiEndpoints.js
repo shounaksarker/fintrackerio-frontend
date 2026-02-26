@@ -43,3 +43,9 @@ export const CREATE_RECURRING_URL = '/api/v1/recurring/create';
 export const GET_RECURRING_URL = '/api/v1/recurring';
 export const EDIT_RECURRING_URL = '/api/v1/recurring/edit';
 export const DELETE_RECURRING_URL = '/api/v1/recurring/delete';
+
+export const GET_NOTIFICATIONS_URL = '/api/v1/notifications';
+export const GET_UNREAD_COUNT_URL = '/api/v1/notifications/unread-count';
+export const MARK_NOTIFICATION_READ_URL = '/api/v1/notifications';
+export const MARK_ALL_NOTIFICATIONS_READ_URL = '/api/v1/notifications/mark-all-read';
+export const DELETE_NOTIFICATION_URL = '/api/v1/notifications';

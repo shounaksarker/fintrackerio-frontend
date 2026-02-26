@@ -1,6 +1,6 @@
 # FinTracker — Full Project Overview
 
-> **Last Updated:** 2026-02-21  
+> **Last Updated:** 2026-02-24  
 > **Purpose:** Single source of truth for any agent/developer working on the FinTracker codebase.
 
 ---
@@ -36,6 +36,7 @@
 - **Notes** — personal notes with full CRUD and pagination
 - **Auto-Transfer** — automatically carry forward remaining balance from previous month
 - **Password Reset** — email-based reset using UUID tokens
+- **Notification System** — in-app notification center with bell icon, soft-delete, admin broadcasts, 120s polling
 - **User Manual** — in-app guide in English & Bangla
 
 **Currency:** `৳` (Bangladeshi Taka — BDT)
@@ -69,13 +70,15 @@
 │  │  /api/balance/*    → balanceController              │  │
 │  │  /api/notes/*      → notesController                │  │
 │  │  /api/user/*       → userController                 │  │
+│  │  /api/recurring/*   → recurringController           │  │
+│  │  /api/notifications/* → notificationController       │  │
 │  │  /api/seed/*       → seedController (stage-only)    │  │
 │  └─────────────────────────────────────────────────────┘  │
 └──────────────────────┬───────────────────────────────────┘
                        │ mysql2
 ┌──────────────────────▼───────────────────────────────────┐
 │                    MySQL Database                          │
-│  (9 tables, AES-encrypted sensitive fields)               │
+│  (11 tables, AES-encrypted sensitive fields)              │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -312,6 +315,35 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 | `is_active`           | BOOLEAN          | Active/Paused state toggle                                         |
 | `created_at`          | TIMESTAMP        | Auto-generated                                                     |
 | `updated_at`          | TIMESTAMP        | Auto-updated                                                       |
+
+### 5.11 `notifications`
+
+| Column           | Type             | Notes                                                       |
+| ---------------- | ---------------- | ----------------------------------------------------------- |
+| `id`             | INT (PK)         | Auto-increment                                              |
+| `user_id`        | INT (FK → users) | Nullable — `NULL` = broadcast to all users                  |
+| `type`           | ENUM             | `'info'`, `'warning'`, `'error'`, `'success'`               |
+| `title`          | VARBINARY(128)   | **AES-encrypted**                                           |
+| `message`        | VARBINARY(512)   | **AES-encrypted**, expandable description                   |
+| `link`           | VARCHAR(500)     | Nullable — clickable route (e.g., `/expense`)               |
+| `reference_type` | VARCHAR(50)      | Nullable — `'recurring_transaction'`, `'budget'`, `'admin'` |
+| `reference_id`   | INT              | Nullable — FK to related row                                |
+| `is_read`        | TINYINT(1)       | Default `0`                                                 |
+| `is_deleted`     | TINYINT(1)       | Default `0` — soft delete                                   |
+| `deleted_at`     | TIMESTAMP        | Nullable — set on soft delete, purged after 30 days         |
+| `created_at`     | TIMESTAMP        | Auto-generated                                              |
+
+### 5.12 `notification_reads` (broadcast per-user state)
+
+| Column            | Type                     | Notes                        |
+| ----------------- | ------------------------ | ---------------------------- |
+| `id`              | INT (PK)                 | Auto-increment               |
+| `notification_id` | INT (FK → notifications) |                              |
+| `user_id`         | INT (FK → users)         |                              |
+| `is_read`         | TINYINT(1)               | Default `0`                  |
+| `is_deleted`      | TINYINT(1)               | Default `0`                  |
+| `deleted_at`      | TIMESTAMP                | Nullable                     |
+| UNIQUE            |                          | `(notification_id, user_id)` |
 
 ---
 
@@ -1116,16 +1148,17 @@ npm run dev    # next dev, port 3000
 
 ## 11. Changelog
 
-| Date       | Change                                            | Files                                                                                 |
-| ---------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| 2026-02-20 | Initial project overview created                  | `PROJECT_OVERVIEW.md`                                                                 |
-| 2026-02-20 | Added demo login button (stage-only)              | `demoLoginAction.js`, `DemoLoginButton.jsx`, `login/page.jsx`, `.env.example`         |
-| 2026-02-21 | Added seed demo data endpoint + UI button         | `seedController.js`, `seedRoutes.js`, `SeedDemoButton.jsx`, `seed-demo-data/route.js` |
-| 2026-02-21 | Added clear month data endpoint + UI button       | `seedController.js`, `ClearMonthButton.jsx`                                           |
-| 2026-02-21 | Performance: batch INSERTs, parallel queries      | `seedController.js`                                                                   |
-| 2026-02-21 | Fix: proper DataContext refetch instead of reload | `SeedDemoButton.jsx`, `ClearMonthButton.jsx`                                          |
-| 2026-02-22 | Feature: Monthly Budgets tracker via DB update    | `expense_categories`, `CategoryModal`, `BudgetOverview`, `categoryController`         |
-| 2026-02-22 | Feature: Financial Health Score widget            | `FinancialHealthScore.jsx`, `app/page.js`                                             |
-| 2026-02-22 | Feature: Financial Insights comparative tracker   | `ExpenseInsights.jsx`, `app/page.js`                                                  |
-| 2026-02-24 | Feature: Migrations Folder created for SQL init   | `migrations/001_init_schema.sql`                                                      |
-| 2026-02-24 | Feature: Recurring Transactions (Income/Expense)  | `recurring_transactions`, `recurringController.js`, `cronJob.js`, `recurring/page`    |
+| Date       | Change                                            | Files                                                                                                                                                                                      |
+| ---------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-02-20 | Initial project overview created                  | `PROJECT_OVERVIEW.md`                                                                                                                                                                      |
+| 2026-02-20 | Added demo login button (stage-only)              | `demoLoginAction.js`, `DemoLoginButton.jsx`, `login/page.jsx`, `.env.example`                                                                                                              |
+| 2026-02-21 | Added seed demo data endpoint + UI button         | `seedController.js`, `seedRoutes.js`, `SeedDemoButton.jsx`, `seed-demo-data/route.js`                                                                                                      |
+| 2026-02-21 | Added clear month data endpoint + UI button       | `seedController.js`, `ClearMonthButton.jsx`                                                                                                                                                |
+| 2026-02-21 | Performance: batch INSERTs, parallel queries      | `seedController.js`                                                                                                                                                                        |
+| 2026-02-21 | Fix: proper DataContext refetch instead of reload | `SeedDemoButton.jsx`, `ClearMonthButton.jsx`                                                                                                                                               |
+| 2026-02-22 | Feature: Monthly Budgets tracker via DB update    | `expense_categories`, `CategoryModal`, `BudgetOverview`, `categoryController`                                                                                                              |
+| 2026-02-22 | Feature: Financial Health Score widget            | `FinancialHealthScore.jsx`, `app/page.js`                                                                                                                                                  |
+| 2026-02-22 | Feature: Financial Insights comparative tracker   | `ExpenseInsights.jsx`, `app/page.js`                                                                                                                                                       |
+| 2026-02-24 | Feature: Migrations Folder created for SQL init   | `migrations/001_init_schema.sql`                                                                                                                                                           |
+| 2026-02-24 | Feature: Recurring Transactions (Income/Expense)  | `recurring_transactions`, `recurringController.js`, `cronJob.js`, `recurring/page`                                                                                                         |
+| 2026-02-24 | Feature: Notification System (Backend + Frontend) | `notifications`, `notification_reads` tables, `notificationController.js`, `notificationRoutes.js`, `createNotification.js`, `NotificationBell.jsx`, `NotificationPanel.jsx`, `Header.jsx` |
