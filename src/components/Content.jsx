@@ -12,10 +12,10 @@ const Content = ({ children }) => {
 
   return (
     <div
-      className={`${!isAuthPage ? 'flex w-full flex-col gap-y-6 lg:w-3/4 xl:w-[80%] 2xl:w-[83%]' : 'w-full'}`}
+      className={`${!isAuthPage ? 'flex w-full flex-col gap-y-6 lg:w-3/4 xl:w-4/5 2xl:w-[83%]' : 'w-full'}`}
     >
       <Header />
-      <div className="min-h-[85vh] px-2">{children}</div>
+      <div className="min-h-[calc(100vh-9.7rem)] px-2">{children}</div>
       <footer className="bottom-0 mt-2 flex w-full justify-between bg-gray-900 p-2 text-xs text-white">
         <Link target="_blank" href={'https://ssraj.vercel.app'} className="italic hover:text-pest">
           &copy; Shounak

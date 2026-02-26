@@ -117,7 +117,7 @@ const Page = () => {
     },
   ];
   return (
-    <div>
+    <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8.7rem)]">
       <Button size="md" color="primary" iconLeft={'+'} onClick={() => setModalOpen(true)}>
         Add Income Source
       </Button>

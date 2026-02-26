@@ -35,6 +35,7 @@ module.exports = {
     'tailwindcss/enforces-shorthand': 'warn',
     'tailwindcss/no-contradicting-classname': 'warn',
     'tailwindcss/no-custom-classname': 'off',
+    'tailwindcss/enforces-negative-arbitrary-values': 'off',
     'arrow-body-style': 0,
     'no-trailing-spaces': 0,
     'eol-last': 0,

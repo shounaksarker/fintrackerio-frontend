@@ -13,6 +13,7 @@ import ConfirmModal from '@/components/modals/ConfirmModal';
 import DeleteIcon from '@/assets/svg/Icon/DeleteIcon';
 import { DataContext } from '@/context/DataContext';
 import noDataImg from '@/assets/images/no-data.jpg';
+import Loader from '@/components/fields/Loader';
 
 const Page = () => {
   const { recurringData, setRecurringData, recurringLoading, fetchRecurringData, fetchForce } =
@@ -182,6 +183,14 @@ const Page = () => {
     statusCol,
     actionCol,
   ];
+
+  if (recurringLoading) {
+    return (
+      <div className="flex h-[40vh] w-full items-center justify-center">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto p-4">

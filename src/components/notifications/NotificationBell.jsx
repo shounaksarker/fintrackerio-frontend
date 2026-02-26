@@ -46,7 +46,7 @@ const NotificationBell = () => {
     <div className="relative ml-2">
       <button
         onClick={togglePanel}
-        className="relative rounded-lg p-2 text-gray-400 transition-all duration-200 hover:bg-gray-800 hover:text-white"
+        className="relative rounded-lg p-2 text-gray-400 transition-all duration-200 hover:bg-gray-300 hover:text-black"
         title="Notifications"
       >
         {/* Bell Icon SVG */}

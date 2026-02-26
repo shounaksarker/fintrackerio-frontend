@@ -10,25 +10,7 @@ import incomeRecordImg from '@/assets/images/incomeRecordimg.png';
 import ManualIcon from '@/assets/svg/Icon/ManualIcon';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 import NotesIcon from '@/assets/svg/Icon/NotesIcon';
-
-export const CURRENCY = '৳';
-export const TOKEN = 'token';
-export const USER = 'user';
-export const TOKEN_EXPIRED_DAY = 30;
-export const MAX_DATE_FOR_AUTO_TRANSFER = 7;
-export const DATA_QUANTITY = [10, 25, 50];
-
-export const ENVIRONMENT = {
-  STAGE: 'stage',
-  PRODUCTION: 'production',
-  DEVELOPMENT: 'development',
-};
-
-export const RECURRING_INTERVAL = {
-  WEEKLY: 'weekly',
-  MONTHLY: 'monthly',
-  YEARLY: 'yearly',
-};
+import RecurringIcon from '@/assets/svg/Icon/Recurring';
 
 export const SIDEBAR_MENU = [
   { title: 'Overview', path: '/', icon: <Overview /> },
@@ -50,7 +32,7 @@ export const SIDEBAR_MENU = [
     ],
     icon: <Expencces />,
   },
-  { title: 'Repeatative Hub', path: '/recurring', icon: <NotesIcon /> },
+  { title: 'Repeatative Hub', path: '/recurring', icon: <RecurringIcon /> },
   { title: 'Notes', path: '/notes', icon: <NotesIcon /> },
   { title: 'Settings', path: '/setting', icon: <Settings /> },
   { title: 'User Manual', path: '/user-manual', icon: <ManualIcon /> },
@@ -398,4 +380,30 @@ export const BUDGET_OVERVIEW_MANUALS = {
       'বাজেটের ৮০% ছুঁয়ে গেলে প্রগ্রেস বার হলুদ হয়ে যায়, এবং অতিক্রম করলে লাল হয়ে যায়।',
     ],
   },
+};
+
+export const CURRENCY = '৳';
+export const TOKEN = 'token';
+export const USER = 'user';
+export const TOKEN_EXPIRED_DAY = 30;
+export const MAX_DATE_FOR_AUTO_TRANSFER = 7;
+export const DATA_QUANTITY = [10, 25, 50];
+
+export const ENVIRONMENT = {
+  STAGE: 'stage',
+  PRODUCTION: 'production',
+  DEVELOPMENT: 'development',
+};
+
+export const RECURRING_INTERVAL = {
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+};
+
+export const NOTIFICATION_TYPE_CONFIG = {
+  info: { icon: 'ℹ️', color: 'text-blue-400', bg: 'bg-blue-500/20' },
+  warning: { icon: '⚠️', color: 'text-yellow-400', bg: 'bg-yellow-500/20' },
+  error: { icon: '❌', color: 'text-red-400', bg: 'bg-red-500/20' },
+  success: { icon: '✅', color: 'text-green-400', bg: 'bg-green-500/20' },
 };
