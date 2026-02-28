@@ -8,6 +8,7 @@ export const HIDDEN_DATE_RANGE_PATH = (pathName) => {
     '/reset-password',
     '/user-manual',
     '/notes',
+    '/sentry',
   ];
 
   const dynamicPatterns = [
