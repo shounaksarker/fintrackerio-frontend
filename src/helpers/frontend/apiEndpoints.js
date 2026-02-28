@@ -49,3 +49,7 @@ export const GET_UNREAD_COUNT_URL = '/api/v1/notifications/unread-count';
 export const MARK_NOTIFICATION_READ_URL = '/api/v1/notifications';
 export const MARK_ALL_NOTIFICATIONS_READ_URL = '/api/v1/notifications/mark-all-read';
 export const DELETE_NOTIFICATION_URL = '/api/v1/notifications';
+
+export const SENTRY_LOG_URL = '/api/v1/sentry/log';
+export const SENTRY_ERRORS_URL = '/api/v1/sentry/errors';
+export const SENTRY_STATS_URL = '/api/v1/sentry/stats';
