@@ -11,6 +11,7 @@ import ManualIcon from '@/assets/svg/Icon/ManualIcon';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 import NotesIcon from '@/assets/svg/Icon/NotesIcon';
 import RecurringIcon from '@/assets/svg/Icon/Recurring';
+import SentryIcon from '@/assets/svg/Icon/SentryIcon';
 
 export const SIDEBAR_MENU = [
   { title: 'Overview', path: '/', icon: <Overview /> },
@@ -36,6 +37,7 @@ export const SIDEBAR_MENU = [
   { title: 'Notes', path: '/notes', icon: <NotesIcon /> },
   { title: 'Settings', path: '/setting', icon: <Settings /> },
   { title: 'User Manual', path: '/user-manual', icon: <ManualIcon /> },
+  { title: 'Error Tracking', path: '/sentry', icon: <SentryIcon />, adminOnly: true },
 ];
 
 export const INCOME_RECORDS_TABLE_HEADER = (arr = []) => [
@@ -407,3 +409,19 @@ export const NOTIFICATION_TYPE_CONFIG = {
   error: { icon: '❌', color: 'text-red-400', bg: 'bg-red-500/20' },
   success: { icon: '✅', color: 'text-green-400', bg: 'bg-green-500/20' },
 };
+
+export const SENTRY_LEVEL_CONFIG = {
+  critical: { label: 'Critical', bg: 'bg-red-100 text-red-700', dot: 'bg-red-500' },
+  high: { label: 'High', bg: 'bg-orange-100 text-orange-700', dot: 'bg-orange-500' },
+  medium: { label: 'Medium', bg: 'bg-yellow-100 text-yellow-700', dot: 'bg-yellow-500' },
+  low: { label: 'Low', bg: 'bg-green-100 text-green-700', dot: 'bg-green-500' },
+};
+export const SENTRY_SOURCE_CONFIG = {
+  backend: { label: 'Backend', bg: 'bg-indigo-100 text-indigo-700' },
+  bff: { label: 'BFF', bg: 'bg-purple-100 text-purple-700' },
+  frontend: { label: 'Frontend', bg: 'bg-gray-200 text-gray-500' },
+};
+
+export const SENTRY_SOURCE_OPTIONS = ['backend', 'bff', 'frontend'];
+export const SENTRY_LEVEL_OPTIONS = ['critical', 'high', 'medium', 'low'];
+export const SENTRY_STATUS_OPTIONS = ['open', 'resolved'];

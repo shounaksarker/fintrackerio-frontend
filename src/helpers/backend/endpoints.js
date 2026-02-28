@@ -49,3 +49,7 @@ export const MARK_NOTIFICATION_READ_URL = `${process.env.SERVER_URL}/api/notific
 export const MARK_ALL_NOTIFICATIONS_READ_URL = `${process.env.SERVER_URL}/api/notifications/mark-all-read`;
 export const DELETE_NOTIFICATION_URL = `${process.env.SERVER_URL}/api/notifications/:id`;
 export const ADMIN_BROADCAST_URL = `${process.env.SERVER_URL}/api/notifications/admin/broadcast`;
+
+export const SENTRY_LOG_URL = `${process.env.SERVER_URL}/api/sentry/log`;
+export const SENTRY_ERRORS_URL = `${process.env.SERVER_URL}/api/sentry/errors`;
+export const SENTRY_STATS_URL = `${process.env.SERVER_URL}/api/sentry/stats`;
