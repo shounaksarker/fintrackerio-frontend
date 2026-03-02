@@ -425,3 +425,4 @@ export const SENTRY_SOURCE_CONFIG = {
 export const SENTRY_SOURCE_OPTIONS = ['backend', 'bff', 'frontend'];
 export const SENTRY_LEVEL_OPTIONS = ['critical', 'high', 'medium', 'low'];
 export const SENTRY_STATUS_OPTIONS = ['open', 'resolved'];
+export const POLL_INTERVAL = 120000; // 120 seconds

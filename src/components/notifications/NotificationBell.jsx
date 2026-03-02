@@ -5,8 +5,7 @@ import axios from 'axios';
 import { GET_UNREAD_COUNT_URL } from '@/helpers/frontend/apiEndpoints';
 import NotificationPanel from './NotificationPanel';
 import Bell from '@/assets/svg/Icon/Bell';
-
-const POLL_INTERVAL = 120000; // 120 seconds
+import { POLL_INTERVAL } from '@/assets/constants';
 
 const NotificationBell = () => {
   const [unreadCount, setUnreadCount] = useState(0);
