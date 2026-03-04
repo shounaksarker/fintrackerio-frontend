@@ -39,6 +39,8 @@ public/sitemap-*.xml
 *.pem
 Thumbs.db
 
+/docs
+
 # debug
 npm-debug.log*
 pnpm-debug.log*

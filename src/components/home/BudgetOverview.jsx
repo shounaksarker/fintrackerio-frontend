@@ -66,7 +66,7 @@ const BudgetOverview = () => {
   }, [expenseCategory, expenseData]);
 
   if (expenseCategoryLoading || expenseLoading) return null;
-  if (!budgetItems.length) return null;
+  if (!budgetItems.length || !budgetItems.some((item) => item.spent)) return null;
 
   return (
     <div className="w-full rounded-md border bg-white p-4 shadow-md">
@@ -80,9 +80,11 @@ const BudgetOverview = () => {
         </button>
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
-        {budgetItems.map((item) => (
-          <BudgetProgress key={item.id} categoryName={item.name} spent={item.spent} budget={item.budget} />
-        ))}
+        {budgetItems.map((item) =>
+          item.spent ? (
+            <BudgetProgress key={item.id} categoryName={item.name} spent={item.spent} budget={item.budget} />
+          ) : null
+        )}
       </div>
       {tipsModalOpen && (
         <TipsModal
