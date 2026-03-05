@@ -6,7 +6,7 @@ import TipsModal from '@/components/modals/TipsModal';
 import { BUDGET_OVERVIEW_MANUALS, CURRENCY } from '@/assets/constants';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 
-const BudgetProgress = ({ categoryName, spent, budget }) => {
+const BudgetProgress = ({ categoryName, spent, budget, className = '' }) => {
   const percentage = Math.min((spent / budget) * 100, 100).toFixed(1);
   const isExceeded = spent > budget;
 
@@ -15,10 +15,10 @@ const BudgetProgress = ({ categoryName, spent, budget }) => {
   if (percentage >= 100 || isExceeded) colorClass = 'bg-pRed';
 
   return (
-    <div className="mb-4">
+    <div className={`mb-4 ${className}`}>
       <div className="mb-1 flex justify-between text-sm">
-        <span className="font-medium capitalize text-pGray">{categoryName}</span>
-        <span className="text-gray-500">
+        <span className="text-sm font-medium capitalize text-pGray md:text-base">{categoryName}</span>
+        <span className="text-sm text-gray-500 md:text-base">
           {CURRENCY}
           {formattedAmount(spent)} / {CURRENCY}
           {formattedAmount(budget)}
@@ -71,7 +71,7 @@ const BudgetOverview = () => {
   return (
     <div className="w-full rounded-md border bg-white p-4 shadow-md">
       <div className="mb-4 flex w-full items-center">
-        <h3 className="text-lg font-semibold text-pGray">Monthly Budgets</h3>
+        <h3 className="text-base font-semibold text-pGray md:text-lg">Monthly Budgets</h3>
         <button
           className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
           onClick={() => setTipsModalOpen(true)}
@@ -80,11 +80,15 @@ const BudgetOverview = () => {
         </button>
       </div>
       <div className="grid grid-cols-1 gap-x-6 gap-y-2 md:grid-cols-2 lg:grid-cols-3">
-        {budgetItems.map((item) =>
-          item.spent ? (
-            <BudgetProgress key={item.id} categoryName={item.name} spent={item.spent} budget={item.budget} />
-          ) : null
-        )}
+        {budgetItems.map((item) => (
+          <BudgetProgress
+            key={item.id}
+            categoryName={item.name}
+            spent={item.spent}
+            budget={item.budget}
+            className={`${item.spent ? '' : 'hidden md:block'}`}
+          />
+        ))}
       </div>
       {tipsModalOpen && (
         <TipsModal

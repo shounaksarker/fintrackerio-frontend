@@ -49,14 +49,15 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
         <div className={`mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg ${config.bg}`}>
           <span className="text-sm">{config.icon}</span>
         </div>
-
         <div className="min-w-0 flex-1">
           <div
-            className={`flex flex-col items-start md:flex-row md:items-center md:justify-between md:gap-2 ${expanded ? 'items-start' : 'items-center'}`}
+            className={`flex flex-col items-start md:flex-row md:items-center md:justify-between md:gap-2`}
           >
-            <div className={`truncate text-sm ${isRead ? 'font-normal text-gray-500' : 'font-semibold'}`}>
+            <div
+              className={`flex items-center gap-x-1 truncate text-sm md:text-[12px] ${isRead ? 'font-normal text-gray-500' : 'font-semibold'}`}
+            >
+              {!isRead && !expanded ? <div className="size-1.5 rounded-full bg-pest" /> : null}
               {notification.title}
-              {!isRead && !expanded && <div className="ml-1 size-1.5 rounded-full bg-pest" />}
             </div>
             <div className="flex shrink-0 items-center gap-1">
               <span className="shrink-0 whitespace-nowrap text-xs text-gray-500">
@@ -64,7 +65,7 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
               </span>
               <button
                 onClick={handleDelete}
-                className="ml-1 rounded p-1 text-gray-500 transition-colors hover:bg-red-500/10 hover:text-red-400"
+                className="ml-1 hidden rounded p-1 text-gray-500 transition-colors hover:bg-red-500/10 hover:text-red-400 md:block"
                 title="Delete"
               >
                 <RedCross />
@@ -86,6 +87,13 @@ const NotificationItem = ({ notification, onMarkRead, onDelete }) => {
             </div>
           )}
         </div>
+        <button
+          onClick={handleDelete}
+          className="ml-1 rounded text-gray-500 transition-colors hover:bg-red-500/10 hover:text-red-400 md:hidden"
+          title="Delete"
+        >
+          <RedCross />
+        </button>
       </div>
     </div>
   );
@@ -158,7 +166,7 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
       <div className="fixed inset-0 z-40" onClick={onClose} />
 
       {/* Panel */}
-      <div className="absolute -right-[50px] top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-700/50 bg-white shadow-2xl shadow-black/40 sm:-right-[120px] sm:w-96 md:-right-4 ">
+      <div className="absolute -right-[70px] top-full z-50 mt-2 w-80 overflow-hidden rounded-xl border border-gray-700/50 bg-white shadow-2xl shadow-black/40 sm:-right-[140px] sm:w-96 md:-right-4 ">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700/50 px-4 py-3">
           <h3 className="text-sm font-semibold text-black">Notifications</h3>

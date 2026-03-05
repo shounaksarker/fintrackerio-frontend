@@ -107,9 +107,9 @@ const ExpenseInsights = () => {
   if (!insights.length) return null;
 
   return (
-    <div className="w-full rounded-2xl border bg-white p-6 shadow-lg">
+    <div className="w-full rounded-2xl border bg-white p-4 shadow-lg md:p-6">
       <div className="mb-4 flex w-full items-center">
-        <h3 className="text-lg font-bold text-pGray">Financial Insights</h3>
+        <h3 className="text-base font-semibold text-pGray md:text-lg">Financial Insights</h3>
         <button
           className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
           onClick={() => setTipsModalOpen(true)}
@@ -117,11 +117,14 @@ const ExpenseInsights = () => {
           i
         </button>
       </div>
-      <div className="flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-2 md:gap-y-3">
         {insights.map((item, idx) => (
-          <div key={idx} className={`flex items-center gap-x-3 rounded-xl p-3 ${item.bg}`}>
-            <span className="text-xl">{item.icon}</span>
-            <p className={`text-sm font-medium ${item.color}`}>{item.text}</p>
+          <div
+            key={idx}
+            className={`flex items-center gap-x-2 rounded-xl px-2 py-1.5 md:gap-x-3 md:p-3 ${item.bg}`}
+          >
+            <span className="text-base md:text-xl">{item.icon}</span>
+            <p className={`text-xs font-medium md:text-sm ${item.color}`}>{item.text}</p>
           </div>
         ))}
       </div>

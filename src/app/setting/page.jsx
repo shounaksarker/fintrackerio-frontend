@@ -81,7 +81,7 @@ const Page = () => {
     <div className="px-4">
       {user ? (
         <div className="md:flex md:flex-col md:items-center md:justify-center xl:items-start">
-          <div className="mt-4 flex w-full flex-col gap-y-4 rounded-lg bg-lightGray/30 p-4 shadow-md md:w-[80%] md:flex-row lg:w-[60%]">
+          <div className="mt-4 flex w-full flex-col gap-y-4 rounded-lg bg-lightGray/30 p-4 shadow-md md:w-4/5 md:flex-row lg:w-3/5">
             <div className="mx-auto md:flex md:w-1/3 md:items-center md:justify-center">
               <Image
                 src={user.avatar || userIcon}
@@ -118,6 +118,22 @@ const Page = () => {
             <TransferView />
           </div>
           <AvatarView handleImg={handleImg} />
+          {/* Support Kori */}
+          <div className="my-6 flex w-full items-center justify-center gap-x-3 rounded-lg bg-[#FFDD00]/10 p-4 shadow-sm md:w-4/5 lg:w-3/5">
+            <span className="text-2xl">☕</span>
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold text-gray-800">Enjoying FinTracker?</span>
+              <span className="text-xs text-gray-500">Your support keeps this project alive!</span>
+            </div>
+            <a
+              href="https://www.supportkori.com/shounak"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-auto rounded-lg bg-black px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#e6c800]"
+            >
+              ☕ Support
+            </a>
+          </div>
         </div>
       ) : (
         <div className="flex h-screen w-full items-center justify-center">

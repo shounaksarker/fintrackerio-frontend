@@ -205,3 +205,11 @@ src/
 3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+---
+
+## ☕ Support
+
+If you find FinTracker useful, consider supporting the development:
+
+[![Support](https://img.shields.io/badge/Support_Kori-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.supportkori.com/shounak)

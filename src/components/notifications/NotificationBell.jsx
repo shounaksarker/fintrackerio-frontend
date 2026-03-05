@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import { GET_UNREAD_COUNT_URL } from '@/helpers/frontend/apiEndpoints';
 import NotificationPanel from './NotificationPanel';
@@ -10,6 +10,7 @@ import { POLL_INTERVAL } from '@/assets/constants';
 const NotificationBell = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [panelOpen, setPanelOpen] = useState(false);
+  const containerRef = useRef(null);
 
   const fetchUnreadCount = useCallback(async () => {
     try {
@@ -22,7 +23,7 @@ const NotificationBell = () => {
     }
   }, []);
 
-  // Poll every 120 seconds + on mount + on page focus
+  // Poll every 180 seconds + on mount + on page focus
   useEffect(() => {
     fetchUnreadCount();
 
@@ -37,12 +38,24 @@ const NotificationBell = () => {
     };
   }, [fetchUnreadCount]);
 
+  // Close panel on any click outside the bell + panel container
+  useEffect(() => {
+    if (!panelOpen) return;
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setPanelOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside, true);
+    return () => document.removeEventListener('click', handleClickOutside, true);
+  }, [panelOpen]);
+
   const togglePanel = () => {
     setPanelOpen(!panelOpen);
   };
 
   return (
-    <div className="relative ml-2">
+    <div className="relative ml-2" ref={containerRef}>
       <button
         onClick={togglePanel}
         className="relative rounded-lg p-2 text-gray-400 transition-all duration-200 hover:bg-gray-300 hover:text-black"
