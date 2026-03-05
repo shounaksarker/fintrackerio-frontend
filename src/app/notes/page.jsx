@@ -9,7 +9,7 @@ import { NOTES_VALUE } from '@/assets/constants/stateValue';
 import NotesModal from '@/components/modals/NotesModal';
 import { CREATE_NOTE_URL, GET_ALL_NOTES_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
-import noDataFound from '@/assets/images/nodatafound.png';
+import noDataFound from '@/assets/images/no-data.jpg';
 import Shimmer from '@/components/fields/Shimmer';
 
 const borderColors = [
@@ -23,6 +23,7 @@ const textColors = ['text-red-500', 'text-green-500', 'text-blue-500', 'text-yel
 
 const Page = () => {
   const [allNotes, setAllNotes] = useState();
+  console.log('🐣 ~ Page ~ allNotes:', allNotes);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [paginationButtons, setPaginationButtons] = useState([]);
@@ -69,14 +70,13 @@ const Page = () => {
   }, [page]);
 
   return (
-    <div>
+    <div className="min-h-[85vh] md:min-h-[83vh]">
       <Button iconLeft={'+'} onClick={() => setNoteModalOpen(true)}>
         Add New Note
       </Button>
       <h2 className="mb-4 mt-8 text-center text-2xl font-semibold underline underline-offset-4 md:mt-4">
         Notes
       </h2>
-
       {loading && (
         <div className="flex w-full flex-col gap-y-4 lg:gap-y-6">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
@@ -87,13 +87,12 @@ const Page = () => {
           ))}
         </div>
       )}
-
-      {!loading && !allNotes?.notes && (
-        <div className="mt-8 flex min-h-[50vh] w-full items-center justify-center lg:mt-16">
+      {!loading && !allNotes?.notes.length && (
+        <div className="mt-16 flex w-full flex-col items-center justify-center">
           <Image src={noDataFound} alt="" className="w-72 lg:w-80" />
+          <p className="text-center font-medium text-gray-500">No data found...</p>
         </div>
       )}
-
       {!loading && allNotes?.notes && (
         <div className="flex flex-col gap-y-4 lg:gap-y-6">
           {allNotes.notes?.map((note, i) => {
@@ -127,7 +126,6 @@ const Page = () => {
           )}
         </div>
       )}
-
       {noteModalOpen ? (
         <NotesModal
           modalOpen={noteModalOpen}

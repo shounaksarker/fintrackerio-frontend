@@ -1,6 +1,6 @@
 # FinTracker — Full Project Overview
 
-> **Last Updated:** 2026-02-21  
+> **Last Updated:** 2026-03-01  
 > **Purpose:** Single source of truth for any agent/developer working on the FinTracker codebase.
 
 ---
@@ -27,6 +27,7 @@
 
 - **Income Management** — income sources (categories), income records, income distribution across terminals
 - **Expense Management** — expense categories, expense records with spend-on details & breakdowns
+- **Recurring Transactions** — natively automate and manage repeating incomes and expenses on weekly, monthly, or yearly schedules
 - **Monthly Budgets** — set limits for expense categories and track them visually
 - **Financial Health Score** — dynamic score of your savings rate and budget adherence
 - **Financial Insights** — automated trend analysis comparing spending to previous months
@@ -35,6 +36,8 @@
 - **Notes** — personal notes with full CRUD and pagination
 - **Auto-Transfer** — automatically carry forward remaining balance from previous month
 - **Password Reset** — email-based reset using UUID tokens
+- **Notification System** — in-app notification center with bell icon, soft-delete, admin broadcasts, 120s polling
+- **Error Tracking (Sentry)** — captures backend, BFF, and frontend errors into `error_logs` table with admin-only dashboard (`/sentry`), resolve/re-open toggle, debounced search, detail caching
 - **User Manual** — in-app guide in English & Bangla
 
 **Currency:** `৳` (Bangladeshi Taka — BDT)
@@ -68,13 +71,16 @@
 │  │  /api/balance/*    → balanceController              │  │
 │  │  /api/notes/*      → notesController                │  │
 │  │  /api/user/*       → userController                 │  │
+│  │  /api/recurring/*   → recurringController           │  │
+│  │  /api/notifications/* → notificationController       │  │
+│  │  /api/sentry/*      → sentryController (admin-only)  │  │
 │  │  /api/seed/*       → seedController (stage-only)    │  │
 │  └─────────────────────────────────────────────────────┘  │
 └──────────────────────┬───────────────────────────────────┘
                        │ mysql2
 ┌──────────────────────▼───────────────────────────────────┐
 │                    MySQL Database                          │
-│  (9 tables, AES-encrypted sensitive fields)               │
+│  (14 tables, AES-encrypted sensitive fields)              │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -186,19 +192,20 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 
 ### 5.1 `users`
 
-| Column                   | Type      | Notes                                            |
-| ------------------------ | --------- | ------------------------------------------------ |
-| `user_id`                | INT (PK)  | Auto-incremented manually via `MAX(user_id) + 1` |
-| `username`               | VARCHAR   | Stored lowercase                                 |
-| `email`                  | VARCHAR   | Stored lowercase, unique                         |
-| `password`               | VARCHAR   | bcrypt-hashed                                    |
-| `phone`                  | VARCHAR   | Nullable                                         |
-| `avatar`                 | VARCHAR   | Nullable                                         |
-| `last_login`             | DATETIME  | Updated on each login                            |
-| `reset_token`            | VARCHAR   | UUID for password reset                          |
-| `reset_token_expiration` | DATETIME  | Token expiry (1 hour)                            |
-| `created_at`             | TIMESTAMP | Auto-generated                                   |
-| `updated_at`             | TIMESTAMP | Auto-updated                                     |
+| Column                   | Type       | Notes                                            |
+| ------------------------ | ---------- | ------------------------------------------------ |
+| `user_id`                | INT (PK)   | Auto-incremented manually via `MAX(user_id) + 1` |
+| `username`               | VARCHAR    | Stored lowercase                                 |
+| `email`                  | VARCHAR    | Stored lowercase, unique                         |
+| `password`               | VARCHAR    | bcrypt-hashed                                    |
+| `phone`                  | VARCHAR    | Nullable                                         |
+| `avatar`                 | VARCHAR    | Nullable                                         |
+| `last_login`             | DATETIME   | Updated on each login                            |
+| `reset_token`            | VARCHAR    | UUID for password reset                          |
+| `reset_token_expiration` | DATETIME   | Token expiry (1 hour)                            |
+| `is_admin`               | TINYINT(1) | Default `0`. `1` = admin (access to sentry, etc) |
+| `created_at`             | TIMESTAMP  | Auto-generated                                   |
+| `updated_at`             | TIMESTAMP  | Auto-updated                                     |
 
 ### 5.2 `user_settings`
 
@@ -249,7 +256,7 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 
 | Column        | Type                            | Notes                                                               |
 | ------------- | ------------------------------- | ------------------------------------------------------------------- |
-| `id`          | INT (PK)                        | Auto-increment                                                      |
+| `id`          | INT (PK)                        | Auto-increment (actual col: `income_distributed_id`)                |
 | `user_id`     | INT (FK → users)                |                                                                     |
 | `terminal_id` | INT (FK → distributed_terminal) |                                                                     |
 | `amount`      | BLOB                            | **AES-encrypted** (negative = transfer-out, positive = transfer-in) |
@@ -292,6 +299,73 @@ NEXT_PUBLIC_NODE_ENV=  # development | stage | production
 | `title`       | BLOB             | **AES-encrypted** |
 | `description` | BLOB             | **AES-encrypted** |
 | `created_at`  | TIMESTAMP        |                   |
+| `updated_at`  | TIMESTAMP        |                   |
+
+### 5.10 `recurring_transactions`
+
+| Column                | Type             | Notes                                                              |
+| --------------------- | ---------------- | ------------------------------------------------------------------ |
+| `id`                  | INT (PK)         | Auto-increment                                                     |
+| `user_id`             | INT (FK → users) |                                                                    |
+| `type`                | ENUM             | `'income'` or `'expense'`                                          |
+| `category_id`         | INT              | Reference to either `income_categories` or `expense_categories` ID |
+| `terminal_id`         | INT              | Nullable, only required for `type = 'expense'`                     |
+| `amount`              | BLOB             | **AES-encrypted**                                                  |
+| `spend_on`            | BLOB             | **AES-encrypted** (what was bought, optional)                      |
+| `description`         | BLOB             | **AES-encrypted** (optional)                                       |
+| `recurrence_interval` | ENUM             | `'weekly'`, `'monthly'`, `'yearly'`                                |
+| `next_execution_date` | DATE             | Looked at by cron job                                              |
+| `is_active`           | BOOLEAN          | Active/Paused state toggle                                         |
+| `created_at`          | TIMESTAMP        | Auto-generated                                                     |
+| `updated_at`          | TIMESTAMP        | Auto-updated                                                       |
+
+### 5.11 `notifications`
+
+| Column           | Type             | Notes                                                       |
+| ---------------- | ---------------- | ----------------------------------------------------------- |
+| `id`             | INT (PK)         | Auto-increment                                              |
+| `user_id`        | INT (FK → users) | Nullable — `NULL` = broadcast to all users                  |
+| `type`           | ENUM             | `'info'`, `'warning'`, `'error'`, `'success'`               |
+| `title`          | VARBINARY(128)   | **AES-encrypted**                                           |
+| `message`        | VARBINARY(512)   | **AES-encrypted**, expandable description                   |
+| `link`           | VARCHAR(500)     | Nullable — clickable route (e.g., `/expense`)               |
+| `reference_type` | VARCHAR(50)      | Nullable — `'recurring_transaction'`, `'budget'`, `'admin'` |
+| `reference_id`   | INT              | Nullable — FK to related row                                |
+| `is_read`        | TINYINT(1)       | Default `0`                                                 |
+| `is_deleted`     | TINYINT(1)       | Default `0` — soft delete                                   |
+| `deleted_at`     | TIMESTAMP        | Nullable — set on soft delete, purged after 30 days         |
+| `created_at`     | TIMESTAMP        | Auto-generated                                              |
+
+### 5.12 `notification_reads` (broadcast per-user state)
+
+| Column            | Type                     | Notes                        |
+| ----------------- | ------------------------ | ---------------------------- |
+| `id`              | INT (PK)                 | Auto-increment               |
+| `notification_id` | INT (FK → notifications) |                              |
+| `user_id`         | INT (FK → users)         |                              |
+| `is_read`         | TINYINT(1)               | Default `0`                  |
+| `is_deleted`      | TINYINT(1)               | Default `0`                  |
+| `deleted_at`      | TIMESTAMP                | Nullable                     |
+| UNIQUE            |                          | `(notification_id, user_id)` |
+
+### 5.13 `error_logs`
+
+| Column        | Type             | Notes                                                 |
+| ------------- | ---------------- | ----------------------------------------------------- |
+| `id`          | INT (PK)         | Auto-increment                                        |
+| `source`      | ENUM             | `'backend'`, `'bff'`, `'frontend'`                    |
+| `level`       | ENUM             | `'low'`, `'medium'`, `'high'`, `'critical'`           |
+| `user_id`     | INT (FK → users) | Nullable — `ON DELETE SET NULL`                       |
+| `method`      | VARCHAR(10)      | HTTP method (GET, POST, etc.)                         |
+| `url`         | VARCHAR(500)     | Request URL                                           |
+| `status_code` | INT              | HTTP status code                                      |
+| `message`     | TEXT             | Error message                                         |
+| `stack`       | TEXT             | Stack trace (nullable)                                |
+| `payload`     | TEXT             | Sanitized request payload (sensitive fields redacted) |
+| `user_agent`  | VARCHAR(500)     | Browser / client user-agent string                    |
+| `ip`          | VARCHAR(45)      | Client IP address                                     |
+| `is_resolved` | TINYINT(1)       | Default `0` — toggle via admin dashboard              |
+| `created_at`  | TIMESTAMP        | Auto-generated                                        |
 
 ---
 
@@ -924,6 +998,96 @@ Clear all income records, expense records, and distribution records for the curr
 
 ---
 
+### 6.9 Recurring (`/api/recurring`)
+
+#### `POST /api/recurring/create` 🔒
+
+Create a recurring transaction template.
+
+```json
+{
+  "type": "expense",
+  "category_id": 3,
+  "terminal_id": 1,
+  "amount": 500,
+  "spend_on": "Netflix",
+  "description": "Monthly subscription",
+  "recurrence_interval": "monthly",
+  "next_execution_date": "2026-03-15"
+}
+```
+
+#### `GET /api/recurring` 🔒
+
+Get all recurring templates for the authenticated user.
+
+#### `PUT /api/recurring/edit/:id` 🔒
+
+Edit a recurring template.
+
+#### `DELETE /api/recurring/delete/:id` 🔒
+
+Delete a recurring template.
+
+#### `GET /api/recurring/cron`
+
+Dedicated endpoint for Vercel Cron Jobs. Executes all due recurring transactions, auto-distributes income to default terminals, validates expense terminal balances, creates per-user notifications, and **notifies all admin users** on success.
+
+---
+
+### 6.10 Sentry / Error Tracking (`/api/sentry`) — Admin Only 🔒
+
+All sentry endpoints require the authenticated user to have `is_admin = 1`.
+
+#### `POST /api/sentry/log` 🔒
+
+Log an error (used internally by backend error middleware, BFF interceptor, and frontend interceptor).
+
+```json
+{
+  "source": "frontend",
+  "level": "high",
+  "method": "GET",
+  "url": "/api/v1/balance/monthly-summery",
+  "status_code": 500,
+  "message": "Internal Server Error",
+  "stack": "Error: ...",
+  "payload": { "from": "2026-01-01" },
+  "user_agent": "Mozilla/5.0 ..."
+}
+```
+
+#### `GET /api/sentry/errors?page=1&limit=20&source=&level=&status=&search=` 🔒
+
+Fetch paginated error list with optional filters.
+
+**Response (200):**
+
+```json
+{
+  "success": true,
+  "msg": "Error logs fetched.",
+  "data": {
+    "results": [ { "id": 1, "source": "backend", "level": "high", "message": "...", ... } ],
+    "total": 86,
+    "totalPages": 5,
+    "currentPage": 1
+  }
+}
+```
+
+#### `GET /api/sentry/errors/:id` 🔒
+
+Fetch single error detail (joins with `users` table for username/email).
+
+#### `PATCH /api/sentry/errors/:id` 🔒
+
+Toggle `is_resolved` status.
+
+#### `GET /api/sentry/stats` 🔒
+
+Get aggregate stats: `total`, `open_count`, `critical_count`, `today_count`.
+
 ## 7. Frontend Architecture
 
 ### Directory Structure
@@ -942,6 +1106,8 @@ Fintracker-frontend/src/
 │   │   ├── balance/monthly-summery/route.js, yearly-summery/route.js
 │   │   ├── notes/create/route.js, get-all/route.js, [id]/route.js
 │   │   ├── user/route.js, edit-user/route.js, auto-transfer/route.js
+│   │   ├── recurring/route.js, create/route.js, edit/[id]/route.js, delete/[id]/route.js
+│   │   ├── sentry/log/route.js, errors/route.js, errors/[id]/route.js, stats/route.js
 │   │   ├── seed-demo-data/route.js     # POST + DELETE proxy (stage-only)
 │   │   └── reset-password/route.js, email-send/route.js
 │   ├── login/              # Login page
@@ -955,6 +1121,8 @@ Fintracker-frontend/src/
 │   ├── setting/            # Settings page (user profile, auto-transfer)
 │   ├── reset-password/     # Password reset page
 │   ├── user-manual/        # User manual page
+│   ├── recurring/          # Recurring transactions page
+│   ├── sentry/             # Error tracking admin dashboard (admin-only)
 │   ├── layout.js           # Root layout (Inter font, Toaster, Analytics)
 │   ├── page.js             # Home/Overview page
 │   ├── loading.jsx         # Global loading UI
@@ -978,6 +1146,9 @@ Fintracker-frontend/src/
 │   │   ├── SeedDemoButton.jsx    # "Populate sample data" banner (stage-only, empty month)
 │   │   └── ClearMonthButton.jsx  # "Clear this month's data" link (stage-only, has data)
 │   ├── modals/             # Modal dialogs (create/edit forms)
+│   ├── sentry/             # Sentry UI components
+│   │   ├── SentryErrorBoundary.jsx  # React Error Boundary for render crashes
+│   │   └── SentryUIComponents.jsx   # Badge, StatCard, FilterSelect
 │   └── settings/           # Settings page components
 ├── helpers/
 │   ├── frontend/           # Client-side helpers
@@ -992,7 +1163,8 @@ Fintracker-frontend/src/
 │   │   ├── endpoints.js    # Backend API URLs (SERVER_URL/api/*)
 │   │   └── getJwtToken.js  # Read JWT from cookies
 │   └── validation.js       # Password validation
-├── context/                # React context (if any)
+├── context/                # React context (DataContext for global state)
+│   └── DataContext.jsx     # User, records, terminals, sidebar state
 ├── assets/
 │   ├── constants/          # App constants, sidebar menu, table headers
 │   ├── images/             # Static images for manual
@@ -1075,7 +1247,9 @@ Both frontend and backend are deployed on **Vercel**.
 - **Backend:** Has `vercel.json` with routing config. Entry point is `index.js`.
 - **Frontend:** Standard Next.js Vercel deployment.
 - **Database:** External MySQL.
-- **Cron:** `cron-job.org` calls `GET /api/user/setting-auto-update` monthly to reset auto-transfer flags.
+- **Cron Jobs:**
+  - `cron-job.org` calls `GET /api/user/setting-auto-update` monthly to reset auto-transfer flags.
+  - Vercel Cron calls `GET /api/recurring/cron` daily to execute due recurring transactions and notify admins.
 - **Swagger:** API docs available at `{SERVER_URL}/api-docs`.
 
 ### Running Locally
@@ -1096,14 +1270,22 @@ npm run dev    # next dev, port 3000
 
 ## 11. Changelog
 
-| Date       | Change                                            | Files                                                                                 |
-| ---------- | ------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| 2026-02-20 | Initial project overview created                  | `PROJECT_OVERVIEW.md`                                                                 |
-| 2026-02-20 | Added demo login button (stage-only)              | `demoLoginAction.js`, `DemoLoginButton.jsx`, `login/page.jsx`, `.env.example`         |
-| 2026-02-21 | Added seed demo data endpoint + UI button         | `seedController.js`, `seedRoutes.js`, `SeedDemoButton.jsx`, `seed-demo-data/route.js` |
-| 2026-02-21 | Added clear month data endpoint + UI button       | `seedController.js`, `ClearMonthButton.jsx`                                           |
-| 2026-02-21 | Performance: batch INSERTs, parallel queries      | `seedController.js`                                                                   |
-| 2026-02-21 | Fix: proper DataContext refetch instead of reload | `SeedDemoButton.jsx`, `ClearMonthButton.jsx`                                          |
-| 2026-02-22 | Feature: Monthly Budgets tracker via DB update    | `expense_categories`, `CategoryModal`, `BudgetOverview`, `categoryController`         |
-| 2026-02-22 | Feature: Financial Health Score widget            | `FinancialHealthScore.jsx`, `app/page.js`                                             |
-| 2026-02-22 | Feature: Financial Insights comparative tracker   | `ExpenseInsights.jsx`, `app/page.js`                                                  |
+| Date       | Change                                            | Files                                                                                                                                                                                      |
+| ---------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-02-20 | Initial project overview created                  | `PROJECT_OVERVIEW.md`                                                                                                                                                                      |
+| 2026-02-20 | Added demo login button (stage-only)              | `demoLoginAction.js`, `DemoLoginButton.jsx`, `login/page.jsx`, `.env.example`                                                                                                              |
+| 2026-02-21 | Added seed demo data endpoint + UI button         | `seedController.js`, `seedRoutes.js`, `SeedDemoButton.jsx`, `seed-demo-data/route.js`                                                                                                      |
+| 2026-02-21 | Added clear month data endpoint + UI button       | `seedController.js`, `ClearMonthButton.jsx`                                                                                                                                                |
+| 2026-02-21 | Performance: batch INSERTs, parallel queries      | `seedController.js`                                                                                                                                                                        |
+| 2026-02-21 | Fix: proper DataContext refetch instead of reload | `SeedDemoButton.jsx`, `ClearMonthButton.jsx`                                                                                                                                               |
+| 2026-02-22 | Feature: Monthly Budgets tracker via DB update    | `expense_categories`, `CategoryModal`, `BudgetOverview`, `categoryController`                                                                                                              |
+| 2026-02-22 | Feature: Financial Health Score widget            | `FinancialHealthScore.jsx`, `app/page.js`                                                                                                                                                  |
+| 2026-02-22 | Feature: Financial Insights comparative tracker   | `ExpenseInsights.jsx`, `app/page.js`                                                                                                                                                       |
+| 2026-02-24 | Feature: Migrations Folder created for SQL init   | `migrations/001_init_schema.sql`                                                                                                                                                           |
+| 2026-02-24 | Feature: Recurring Transactions (Income/Expense)  | `recurring_transactions`, `recurringController.js`, `cronJob.js`, `recurring/page`                                                                                                         |
+| 2026-02-24 | Feature: Notification System (Backend + Frontend) | `notifications`, `notification_reads` tables, `notificationController.js`, `notificationRoutes.js`, `createNotification.js`, `NotificationBell.jsx`, `NotificationPanel.jsx`, `Header.jsx` |
+| 2026-02-28 | Feature: Error Tracking — DB & Backend API        | `error_logs` table, `is_admin` column in `users`, `logError.js`, `sentryController.js`, `sentryRoutes.js`, `sendServerError.js` integration                                                |
+| 2026-02-28 | Feature: Error Tracking — BFF & Frontend Capture  | `sentryInterceptor.js`, `SentryErrorBoundary.jsx`, BFF proxy routes (`/api/v1/sentry/*`), `apiRequest.js` BFF error logging                                                                |
+| 2026-02-28 | Feature: Error Tracking — Admin Dashboard UI      | `sentry/page.jsx`, `SentryUIComponents.jsx`, `SentryIcon.jsx`, sidebar link (admin-only), debounced search, detail caching, optimistic resolve toggle                                      |
+| 2026-03-01 | Feature: Cron Job admin notification              | `recurringRoutes.js` — all admins notified on successful cron execution                                                                                                                    |
+| 2026-03-01 | Docs: PROJECT_OVERVIEW.md comprehensive update    | Added `error_logs` table, `is_admin` column, Sentry API docs, updated architecture diagram (14 tables), frontend structure, cron info, changelog                                           |

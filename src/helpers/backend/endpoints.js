@@ -37,3 +37,19 @@ export const SET_AUTO_TRANSFER_URL = `${process.env.SERVER_URL}/api/user/set-aut
 export const TRANSFER_TO_NEXT_URL = `${process.env.SERVER_URL}/api/balance/transfer-to-next-month`;
 
 export const SEED_DEMO_DATA_URL = `${process.env.SERVER_URL}/api/seed/demo-data`;
+
+export const CREATE_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/create`;
+export const GET_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring`;
+export const EDIT_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/edit/:id`;
+export const DELETE_RECURRING_URL = `${process.env.SERVER_URL}/api/recurring/delete/:id`;
+
+export const GET_NOTIFICATIONS_URL = `${process.env.SERVER_URL}/api/notifications`;
+export const GET_UNREAD_COUNT_URL = `${process.env.SERVER_URL}/api/notifications/unread-count`;
+export const MARK_NOTIFICATION_READ_URL = `${process.env.SERVER_URL}/api/notifications/:id`;
+export const MARK_ALL_NOTIFICATIONS_READ_URL = `${process.env.SERVER_URL}/api/notifications/mark-all-read`;
+export const DELETE_NOTIFICATION_URL = `${process.env.SERVER_URL}/api/notifications/:id`;
+export const ADMIN_BROADCAST_URL = `${process.env.SERVER_URL}/api/notifications/admin/broadcast`;
+
+export const SENTRY_LOG_URL = `${process.env.SERVER_URL}/api/sentry/log`;
+export const SENTRY_ERRORS_URL = `${process.env.SERVER_URL}/api/sentry/errors`;
+export const SENTRY_STATS_URL = `${process.env.SERVER_URL}/api/sentry/stats`;

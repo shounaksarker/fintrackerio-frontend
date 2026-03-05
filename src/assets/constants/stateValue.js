@@ -10,12 +10,16 @@ export const EXPENSE = {
   terminal_id: '',
   amount: '',
   date: new Date(),
+  is_recurring: false,
+  recurrence_interval: 'monthly',
 };
 
 export const CREATE_INCOME_DETAILS_VALUE = {
   income_category_id: '',
   amount: null,
   date: new Date(),
+  is_recurring: false,
+  recurrence_interval: 'monthly',
 };
 
 export const TRANSFER_VALUE = {

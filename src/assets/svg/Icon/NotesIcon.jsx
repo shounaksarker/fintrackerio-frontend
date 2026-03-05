@@ -3,7 +3,6 @@ import React from 'react';
 const NotesIcon = ({ color, width, height }) => {
   return (
     <svg width={width || '22'} height={height || '22'} viewBox="0 0 48 48" fill={color || '#fff'}>
-      <defs></defs>
       <g id="Layer_2">
         <g id="layer_1-2">
           <path className="cls-1" d="M5 42H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h28a1 1 0 0 1 1 1v4h-2V2H2v38h3z" />

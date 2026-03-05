@@ -110,19 +110,19 @@ const FinancialHealthScore = () => {
 
   if (!scoreData) return null;
 
-  const radius = 50;
-  const circumference = 2 * Math.PI * radius;
+  const radiusLg = 50;
+  const circumference = 2 * Math.PI * radiusLg;
   const strokeDashoffset = circumference - (scoreData.score / 100) * circumference;
 
   return (
-    <div className="relative flex w-full flex-col items-center overflow-hidden rounded-2xl border bg-white p-6 shadow-lg">
+    <div className="relative flex w-full flex-col items-center overflow-hidden rounded-2xl border bg-white p-4 shadow-lg md:p-6">
       {/* Decorative background blur */}
       <div
         className={`absolute right-0 top-0 size-32 bg-gradient-to-br ${scoreData.gradient} rounded-full opacity-10 blur-3xl`}
       />
 
-      <div className="mb-6 flex w-full items-center">
-        <h3 className="text-left text-lg font-bold text-pGray">Financial Health Score</h3>
+      <div className="mb-4 flex w-full items-center md:mb-6">
+        <h3 className="text-left text-base font-semibold text-pGray md:text-lg">Financial Health Score</h3>
         <button
           className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
           onClick={() => setTipsModalOpen(true)}
@@ -131,23 +131,23 @@ const FinancialHealthScore = () => {
         </button>
       </div>
 
-      <div className="flex w-full flex-col items-center gap-8 md:flex-row">
+      <div className="flex w-full flex-row items-center gap-4 md:gap-8">
         {/* Animated Circular Progress */}
-        <div className="relative flex size-36 items-center justify-center">
-          <svg className="size-36 -rotate-90 transform">
+        <div className="relative flex size-28 items-center justify-center md:size-36">
+          <svg className="size-28 -rotate-90 md:size-36">
             <circle
-              cx="72"
-              cy="72"
-              r={radius}
+              cx="50%"
+              cy="50%"
+              r={radiusLg}
               stroke="currentColor"
               strokeWidth="8"
               fill="transparent"
               className="text-gray-100"
             />
             <circle
-              cx="70"
-              cy="72"
-              r={radius}
+              cx="50%"
+              cy="50%"
+              r={radiusLg}
               stroke="currentColor"
               strokeWidth="8"
               fill="transparent"
@@ -158,19 +158,21 @@ const FinancialHealthScore = () => {
             />
           </svg>
           <div className="absolute flex flex-col items-center justify-center">
-            <span className={`text-4xl font-extrabold ${scoreData.color}`}>{scoreData.score}</span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+            <span className={`text-3xl font-extrabold md:text-4xl ${scoreData.color}`}>
+              {scoreData.score}
+            </span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 md:text-xs">
               {scoreData.status}
             </span>
           </div>
         </div>
 
         {/* Dynamic Messages */}
-        <div className="flex flex-1 flex-col gap-y-3">
+        <div className="flex flex-1 flex-col gap-y-2 md:gap-y-3">
           {scoreData.messages.map((msg, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-x-2 rounded-lg bg-gray-50 p-2 text-sm text-gray-600"
+              className="flex items-center gap-x-2 rounded-lg bg-gray-50 px-2 py-1.5 text-xs text-gray-600 md:p-2 md:text-sm"
             >
               <span>{msg}</span>
             </div>
