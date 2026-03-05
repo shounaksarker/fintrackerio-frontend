@@ -29,3 +29,17 @@ export const PATCH = async (_, { params }) => {
     return Response.json(error.message);
   }
 };
+
+export const DELETE = async (_, { params }) => {
+  try {
+    const token = await getJwtToken();
+    const { id } = await params;
+    const response = await apiRequest('delete', `${SENTRY_ERRORS_URL}/${id}`, { token });
+    if (response.error) {
+      return Response.json(response.error);
+    }
+    return Response.json(response.data);
+  } catch (error) {
+    return Response.json(error.message);
+  }
+};

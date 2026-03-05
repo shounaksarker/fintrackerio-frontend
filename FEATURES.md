@@ -265,7 +265,7 @@ _Example: "Food spending is up 23% compared to last month (৳4,100 → ৳5,043
 **What it does:** Automate repeating incomes and expenses (subscriptions, bills, salary).
 
 - Create recurring templates: type (income/expense), category, terminal, amount, interval (weekly/monthly/yearly)
-- **Cron-powered execution** — A Vercel Cron Job runs daily and auto-creates records for all due recurring transactions
+- **Cron-powered execution** — An external cron service (e.g., [cron-job.org](https://cron-job.org)) hits the API daily and auto-creates records for all due recurring transactions
 - **Smart validation** — Expense transactions check if the terminal has sufficient funds before execution
 - **Pause/Resume** — Toggle recurring templates on/off without deleting them
 - **Failure notifications** — If a recurring expense fails (e.g., insufficient funds), you get an in-app notification

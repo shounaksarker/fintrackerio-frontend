@@ -7,6 +7,7 @@ import { SENTRY_ERRORS_URL, SENTRY_STATS_URL } from '@/helpers/frontend/apiEndpo
 import { getDateTime } from '@/helpers/frontend/formateDate';
 import Shimmer from '@/components/fields/Shimmer';
 import { Badge, StatCard, FilterSelect } from '@/components/sentry/SentryUIComponents';
+import ConfirmModal from '@/components/modals/ConfirmModal';
 import {
   SENTRY_LEVEL_CONFIG,
   SENTRY_SOURCE_CONFIG,
@@ -35,6 +36,10 @@ const SentryPage = () => {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const searchTimer = useRef(null);
   const detailCache = useRef(new Map());
+
+  // Delete confirmation
+  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // ── Fetch stats ─────────────────────────────────────────────
   const fetchStats = useCallback(async () => {
@@ -126,6 +131,38 @@ const SentryPage = () => {
     } catch {
       notification('Failed to update.', { type: 'error', id: 'sentryResolve' });
     }
+  };
+
+  // ── Delete resolved error ──────────────────────────────────
+  const deleteError = async () => {
+    if (!deleteConfirmId) return;
+    setDeleteLoading(true);
+    try {
+      const res = await axios.delete(`${SENTRY_ERRORS_URL}/${deleteConfirmId}`);
+      if (res.data?.success) {
+        notification('Error log deleted.', { type: 'success', id: 'sentryDelete' });
+
+        // optimistic removal from list
+        setErrors((prev) => prev.filter((e) => e.id !== deleteConfirmId));
+        detailCache.current.delete(deleteConfirmId);
+        if (expandedId === deleteConfirmId) {
+          setExpandedId(null);
+          setDetail(null);
+        }
+
+        // update stats locally
+        setStats((prev) => {
+          if (!prev) return prev;
+          return { ...prev, total: Number(prev.total || 1) - 1 };
+        });
+      } else {
+        notification(res.data?.msg || 'Failed to delete.', { type: 'error', id: 'sentryDelete' });
+      }
+    } catch {
+      notification('Failed to delete.', { type: 'error', id: 'sentryDelete' });
+    }
+    setDeleteLoading(false);
+    setDeleteConfirmId(null);
   };
 
   useEffect(() => {
@@ -359,6 +396,14 @@ const SentryPage = () => {
                         >
                           {detail.is_resolved ? '↩ Re-open' : '✓ Mark Resolved'}
                         </button>
+                        {detail.is_resolved ? (
+                          <button
+                            onClick={() => setDeleteConfirmId(detail.id)}
+                            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+                          >
+                            🗑 Delete
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   )}
@@ -401,6 +446,18 @@ const SentryPage = () => {
           </button>
         </div>
       )}
+
+      {/* ── Delete Confirm Modal ─────────────────────────────── */}
+      <ConfirmModal
+        modalOpen={!!deleteConfirmId}
+        setModalOpen={(v) => {
+          if (!v) setDeleteConfirmId(null);
+        }}
+        title="Permanently delete this error log? This cannot be undone."
+        loading={deleteLoading}
+        handleSubmit={deleteError}
+        afterClose={() => setDeleteConfirmId(null)}
+      />
     </div>
   );
 };
