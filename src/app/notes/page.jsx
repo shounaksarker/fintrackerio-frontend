@@ -23,7 +23,6 @@ const textColors = ['text-red-500', 'text-green-500', 'text-blue-500', 'text-yel
 
 const Page = () => {
   const [allNotes, setAllNotes] = useState();
-  console.log('🐣 ~ Page ~ allNotes:', allNotes);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [paginationButtons, setPaginationButtons] = useState([]);

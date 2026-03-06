@@ -114,8 +114,8 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
         setTotalPages(res.data.data.totalPages || 1);
         setPage(res.data.data.currentPage || 1);
       }
-    } catch (err) {
-      console.error('Failed to fetch notifications:', err);
+    } catch {
+      // Axios interceptor handles sentry logging
     }
     setLoading(false);
   };
@@ -131,8 +131,8 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
       await axios.put(`${MARK_NOTIFICATION_READ_URL}/${id}/read`);
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: 1 } : n)));
       onCountUpdate();
-    } catch (err) {
-      console.error('Failed to mark as read:', err);
+    } catch {
+      // Axios interceptor handles sentry logging
     }
   };
 
@@ -141,8 +141,8 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
       await axios.put(MARK_ALL_NOTIFICATIONS_READ_URL);
       setNotifications((prev) => prev.map((n) => ({ ...n, is_read: 1 })));
       onCountUpdate();
-    } catch (err) {
-      console.error('Failed to mark all as read:', err);
+    } catch {
+      // Axios interceptor handles sentry logging
     }
   };
 
@@ -151,8 +151,8 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
       await axios.delete(`${DELETE_NOTIFICATION_URL}/${id}`);
       setNotifications((prev) => prev.filter((n) => n.id !== id));
       onCountUpdate();
-    } catch (err) {
-      console.error('Failed to delete notification:', err);
+    } catch {
+      // Axios interceptor handles sentry logging
     }
   };
 
