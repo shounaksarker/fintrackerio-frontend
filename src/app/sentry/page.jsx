@@ -41,6 +41,11 @@ const SentryPage = () => {
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
+  // Bulk Actions
+  const [selectedErrors, setSelectedErrors] = useState(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
+  const [bulkDeleteModalOpen, setBulkDeleteModalOpen] = useState(false);
+
   // ── Fetch stats ─────────────────────────────────────────────
   const fetchStats = useCallback(async () => {
     setStatsLoading(true);
@@ -165,6 +170,87 @@ const SentryPage = () => {
     setDeleteConfirmId(null);
   };
 
+  // ── Bulk Resolve ───────────────────────────────────────────
+  const handleBulkResolve = async () => {
+    if (selectedErrors.size === 0) return;
+    setBulkLoading(true);
+    let successCount = 0;
+
+    // Execute multiple PATCH requests in parallel
+    const promises = Array.from(selectedErrors).map((id) =>
+      axios
+        .patch(`${SENTRY_ERRORS_URL}/${id}`)
+        .then((res) => {
+          if (res.data?.success) successCount += 1;
+        })
+        .catch(() => {})
+    );
+
+    await Promise.allSettled(promises);
+
+    if (successCount > 0) {
+      notification(`Resolved ${successCount} errors.`, { type: 'success', id: 'sentryBulkResolve' });
+      setSelectedErrors(new Set()); // Clear selection
+      fetchErrors(); // Refetch the list
+      fetchStats(); // Refetch stats
+    } else {
+      notification('Failed to resolve selected errors.', { type: 'error', id: 'sentryBulkResolve' });
+    }
+    setBulkLoading(false);
+  };
+
+  // ── Bulk Delete ────────────────────────────────────────────
+  const handleBulkDelete = async () => {
+    if (selectedErrors.size === 0) return;
+    setBulkLoading(true);
+    let successCount = 0;
+
+    const promises = Array.from(selectedErrors).map((id) =>
+      axios
+        .delete(`${SENTRY_ERRORS_URL}/${id}`)
+        .then((res) => {
+          if (res.data?.success) successCount += 1;
+        })
+        .catch(() => {})
+    );
+
+    await Promise.allSettled(promises);
+
+    if (successCount > 0) {
+      notification(`Deleted ${successCount} errors.`, { type: 'success', id: 'sentryBulkDelete' });
+      setSelectedErrors(new Set());
+      setExpandedId(null);
+      setDetail(null);
+      fetchErrors();
+      fetchStats();
+    } else {
+      notification('Failed to delete selected errors.', { type: 'error', id: 'sentryBulkDelete' });
+    }
+    setBulkLoading(false);
+    setBulkDeleteModalOpen(false);
+  };
+
+  // ── Handlers for Selection ─────────────────────────────────
+  const toggleSelection = (id) => {
+    const newSet = new Set(selectedErrors);
+    if (newSet.has(id)) {
+      newSet.delete(id);
+    } else {
+      newSet.add(id);
+    }
+    setSelectedErrors(newSet);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedErrors.size === errors.length && errors.length > 0) {
+      // Deselect all
+      setSelectedErrors(new Set());
+    } else {
+      // Select all visible on current page
+      setSelectedErrors(new Set(errors.map((e) => e.id)));
+    }
+  };
+
   useEffect(() => {
     fetchStats();
   }, [fetchStats]);
@@ -177,6 +263,11 @@ const SentryPage = () => {
   useEffect(() => {
     setPage(1);
   }, [source, level, status, debouncedSearch]);
+
+  // Clear selection when page or source data changes
+  useEffect(() => {
+    setSelectedErrors(new Set());
+  }, [page, source, level, status, debouncedSearch, errors.length]);
 
   // ── Render ──────────────────────────────────────────────────
   return (
@@ -249,58 +340,121 @@ const SentryPage = () => {
         </div>
       )}
 
+      {/* ── Bulk Action Bar ────────────────────────────────────── */}
+      {!loading && errors.length > 0 && (
+        <div className="mb-3 flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 shadow-sm">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              className="size-4 cursor-pointer rounded border-gray-300 text-pest focus:ring-pest"
+              checked={selectedErrors.size === errors.length && errors.length > 0}
+              ref={(input) => {
+                if (input) {
+                  input.indeterminate = selectedErrors.size > 0 && selectedErrors.size < errors.length;
+                }
+              }}
+              onChange={toggleSelectAll}
+            />
+            <span className="text-sm font-medium text-gray-700">
+              {selectedErrors.size > 0
+                ? `${selectedErrors.size} item${selectedErrors.size > 1 ? 's' : ''} selected`
+                : 'Select All (This Page)'}
+            </span>
+          </div>
+
+          {selectedErrors.size > 0 && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleBulkResolve}
+                disabled={bulkLoading}
+                className="flex items-center gap-1 rounded bg-pest px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-pest-200 disabled:opacity-50"
+              >
+                {bulkLoading ? 'Processing...' : '✓ Resolve Selected'}
+              </button>
+              <button
+                onClick={() => setBulkDeleteModalOpen(true)}
+                disabled={bulkLoading}
+                className="flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-red-700 disabled:opacity-50"
+              >
+                🗑 Delete Selected
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {!loading && errors.length !== 0 && (
         <div className="flex flex-col gap-2">
           {errors.map((err) => (
             <div
               key={err.id}
-              className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm"
+              className={`overflow-hidden rounded-lg border transition-colors ${
+                selectedErrors.has(err.id)
+                  ? 'border-pest bg-blue-50/30'
+                  : 'border-gray-200 bg-white shadow-sm'
+              }`}
             >
               {/* Row summary */}
-              <button
-                onClick={() => fetchDetail(err.id)}
-                className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50"
-              >
-                <span
-                  className={`size-2.5 shrink-0 rounded-full ${SENTRY_LEVEL_CONFIG[err.level]?.dot || 'bg-gray-400'}`}
-                />
-                <span className="flex-1 truncate text-sm font-medium text-gray-800">
-                  {err.message || 'No message'}
-                </span>
-                <Badge
-                  config={
-                    SENTRY_SOURCE_CONFIG[err.source] || { label: err.source, bg: 'bg-gray-100 text-gray-600' }
-                  }
-                />
-                <Badge
-                  config={
-                    SENTRY_LEVEL_CONFIG[err.level] || { label: err.level, bg: 'bg-gray-100 text-gray-600' }
-                  }
-                />
-                <span
-                  className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                    err.is_resolved ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
-                  }`}
+              <div className="flex w-full items-center px-4 py-3 transition-colors hover:bg-gray-50">
+                {/* Checkbox wrapper */}
+                <div className="flex items-center justify-center pr-3">
+                  <input
+                    type="checkbox"
+                    className="size-4 cursor-pointer rounded border-gray-300 text-pest focus:ring-pest"
+                    checked={selectedErrors.has(err.id)}
+                    onChange={() => toggleSelection(err.id)}
+                  />
+                </div>
+
+                {/* Clickable Expander Region */}
+                <button
+                  onClick={() => fetchDetail(err.id)}
+                  className="flex size-full flex-1 items-center gap-3 text-left"
                 >
-                  {err.is_resolved ? 'Resolved' : 'Open'}
-                </span>
-                {err.method && (
-                  <span className="hidden font-mono text-xs text-gray-400 md:inline">
-                    {err.method} {err.status_code || ''}
+                  <span
+                    className={`size-2.5 shrink-0 rounded-full ${SENTRY_LEVEL_CONFIG[err.level]?.dot || 'bg-gray-400'}`}
+                  />
+                  <span className="flex-1 truncate text-sm font-medium text-gray-800">
+                    {err.message || 'No message'}
                   </span>
-                )}
-                <span className="hidden shrink-0 text-xs text-gray-400 lg:inline">
-                  {getDateTime(err.created_at)}
-                </span>
-                <svg
-                  className={`size-4 shrink-0 text-gray-400 transition-transform ${expandedId === err.id ? 'rotate-180' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+                  <Badge
+                    config={
+                      SENTRY_SOURCE_CONFIG[err.source] || {
+                        label: err.source,
+                        bg: 'bg-gray-100 text-gray-600',
+                      }
+                    }
+                  />
+                  <Badge
+                    config={
+                      SENTRY_LEVEL_CONFIG[err.level] || { label: err.level, bg: 'bg-gray-100 text-gray-600' }
+                    }
+                  />
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                      err.is_resolved ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
+                    }`}
+                  >
+                    {err.is_resolved ? 'Resolved' : 'Open'}
+                  </span>
+                  {err.method && (
+                    <span className="hidden font-mono text-xs text-gray-400 md:inline">
+                      {err.method} {err.status_code || ''}
+                    </span>
+                  )}
+                  <span className="hidden shrink-0 text-xs text-gray-400 lg:inline">
+                    {getDateTime(err.created_at)}
+                  </span>
+                  <svg
+                    className={`size-4 shrink-0 text-gray-400 transition-transform ${expandedId === err.id ? 'rotate-180' : ''}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
 
               {/* Expanded detail */}
               {expandedId === err.id && (
@@ -457,6 +611,15 @@ const SentryPage = () => {
         loading={deleteLoading}
         handleSubmit={deleteError}
         afterClose={() => setDeleteConfirmId(null)}
+      />
+
+      {/* ── Bulk Delete Confirm Modal ────────────────────────── */}
+      <ConfirmModal
+        modalOpen={bulkDeleteModalOpen}
+        setModalOpen={setBulkDeleteModalOpen}
+        title={`Permanently delete ${selectedErrors.size} error logs? This cannot be undone.`}
+        loading={bulkLoading}
+        handleSubmit={handleBulkDelete}
       />
     </div>
   );

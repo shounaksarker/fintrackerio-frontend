@@ -51,17 +51,17 @@ const DateRangePicker = ({ className }) => {
   }, [startDate, endDate]);
   return (
     <div
-      className={`mt-2 flex flex-col justify-start sm:flex-row md:mt-0 md:w-1/2 md:items-center md:justify-center lg:justify-end`}
+      className={`mt-2 flex flex-row items-center justify-start gap-1 sm:gap-2 md:mt-0 md:w-1/2 md:justify-center lg:justify-end`}
     >
       <div
-        className={`custom-border mb-2 h-11 w-[70%] py-1 md:w-full ${startDate && endDate ? 'max-w-72' : 'max-w-52'} ${className}`}
+        className={`custom-border mb-2 h-11 w-3/5 py-1 md:w-full ${startDate && endDate ? 'max-w-72' : 'max-w-52'} ${className}`}
       >
         <DatePicker
           showIcon
           onChange={onChange}
           selected={startDate}
           calendarClassName=""
-          className="ml-2 w-[90%] font-normal text-pBlack"
+          className="ml-2 w-[90%] font-normal text-pBlack placeholder:text-base"
           dateFormat={'dd/MM/yyyy'}
           placeholderText="Select Date Range"
           withPortal
@@ -69,13 +69,25 @@ const DateRangePicker = ({ className }) => {
           startDate={startDate}
           endDate={endDate}
           isClearable
-        />
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          onFocus={(e) => e.target.blur()}
+        >
+          <div className="border-t border-gray-200 p-2 text-center text-sm font-medium">
+            {!startDate && <span className="text-pBlack">👆 Select a start date</span>}
+            {startDate && !endDate && (
+              <span className="animate-pulse text-orange-500">👆 Now select an end date</span>
+            )}
+            {startDate && endDate && <span className="text-green-600">✅ Range selected</span>}
+          </div>
+        </DatePicker>
       </div>
       {user?.start_date && (
         <Button
           onClick={lifeTimeRecord}
           className={
-            'mb-2 h-11 max-w-fit !bg-slate-300 !px-2 text-sm font-medium !text-sGray hover:!bg-slate-400 hover:!text-white sm:ml-2'
+            'mb-2 h-11 w-2/5 max-w-fit !bg-slate-300 !px-1 text-xs font-medium !text-sGray hover:!bg-slate-400 hover:!text-white sm:max-w-fit sm:!px-2 sm:text-sm'
           }
         >
           Lifetime Records
