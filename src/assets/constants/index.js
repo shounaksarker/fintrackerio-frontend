@@ -7,6 +7,13 @@ import dateRangeIcon from '@/assets/images/dateRangeimg.png';
 import btnsImg from '@/assets/images/3buttonimg.png';
 import createExpenseImg from '@/assets/images/expenseRecord.png';
 import incomeRecordImg from '@/assets/images/incomeRecordimg.png';
+import dashboardOverviewImg from '@/assets/images/dashboardOverview.png';
+import incomeSourceImg from '@/assets/images/incomeSourcePage.png';
+import expenseCategoryImg from '@/assets/images/expenseCategoryPage.png';
+import expenseBreakdownImg from '@/assets/images/expenseBreakdownPage.png';
+import recurringImg from '@/assets/images/recurringPage.png';
+import notesImg from '@/assets/images/notesPage.png';
+import settingsImg from '@/assets/images/settingsPage.png';
 import ManualIcon from '@/assets/svg/Icon/ManualIcon';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 import NotesIcon from '@/assets/svg/Icon/NotesIcon';
@@ -206,35 +213,39 @@ export const PASSWORD_CRITERIA_VALUE = {
 
 export const GENERAL_MANUALS = {
   name: {
-    en: 'General Summary',
-    bn: 'সাধারণ সারসংক্ষেপ',
+    en: 'Important Tips',
+    bn: 'গুরুত্বপূর্ণ টিপস',
   },
   instruction: [
     {
-      bn: 'ডিফল্ট ভাবে এটি বর্তমান মাসের ডেটা দেখাবে।',
-      en: "by default it will show current month's data",
-    },
-    {
-      bn: 'ডেটরেঞ্জ (যেমন: ০১/০১/২০২৪ - ৩০/০১/২০২৪) সিলেক্ট করে ওই তারিখের সব ডেটা দেখা যাবে। এবং ক্রস আইকনে ক্লিক করে ডেটরেঞ্জ & ডেটা আবার রিসেট করা যাবে।',
-      en: 'Select the date range (ie: 01/01/2024 - 30/01/2024) to view all the data for that date-range. And the date-range can be reset again by clicking on the cross icon.',
+      en: 'By default, the app shows the current month\'s data. You can use the "Select Date Range" button (top-right corner) to see data from any time period. Click the ✕ icon to reset back to the current month.',
+      bn: 'অ্যাপটি সাধারণত বর্তমান মাসের ডেটা দেখায়। উপরের ডান কোণায় "Select Date Range" বাটন ব্যবহার করে যেকোনো সময়ের ডেটা দেখতে পারবেন। আবার বর্তমান মাসে ফিরে আসতে ✕ আইকনে ক্লিক করুন।',
       img: dateRangeIcon,
     },
     {
-      bn: 'ডেটরেঞ্জ  সিলেক্ট থাকা অবস্থায় প্রতিটি সেকশন ও পেজে সিলেক্টেড ডেটরেঞ্জের ডেটা দেখা যাবে।',
-      en: 'While the date-range is selected, you will see the data of the selected date-range in each section and page.',
+      en: 'When the date range is active, ALL pages (Income, Expense, Breakdown, etc.) will filter data by that range. Example: Select "01/01/2026 - 31/01/2026" to see only January data.',
+      bn: 'ডেট রেঞ্জ সক্রিয় থাকলে সব পেজেই (ইনকাম, এক্সপেন্স, ব্রেকডাউন ইত্যাদি) সেই রেঞ্জের ডেটা দেখাবে। উদাহরণ: "০১/০১/২০২৬ - ৩১/০১/২০২৬" সিলেক্ট করলে শুধু জানুয়ারির ডেটা দেখাবে।',
     },
     {
-      bn: 'কোনো ডেটা ইনপুট দেয়ার সময় যে তারিখ(মাস) সিলেক্ট করবেন, সেই মাসের হিসাবে সেই ডেটা ইনপুট হবে। যেমন: আপনি ১০ ফেব্রুয়ারি,২০২৪ তারিখে "৫/১/২৪" তারিখ সিলেক্ট করে কোনো ডেটা ইনপুট দিলে সেটি জানুয়ারির হিসাবে ইনপুট হবে। সেই ডেটা দেখতে আপনাকে ডেট রেঞ্জ থেকে জানুয়ারির তারিখ সিলেক্ট করতে হবে (৫/১/২০২৪- ৬/১/২০২৪)।',
-      en: 'The date (month) you select while inputting any data, the data will be input as of that month. Eg: If you input any data on February 10, 2024 and select "5/1/2024", it will be input as data of January. To view that data you need to select the January date from the date-range (5/1/2024 - 6/1/2024).',
+      en: "When you add income or expense, the DATE you pick decides which month it belongs to. Example: If today is March 10 but you pick January 5 as the date, the data will go to January's record. To see it, use the date range to view January.",
+      bn: 'ইনকাম বা এক্সপেন্স যোগ করার সময় আপনি যে তারিখ সিলেক্ট করবেন, ডেটা সেই মাসে যাবে। উদাহরণ: আজ ১০ মার্চ কিন্তু তারিখ ৫ জানুয়ারি দিলে, ডেটা জানুয়ারিতে যাবে। দেখতে হলে ডেট রেঞ্জ থেকে জানুয়ারি সিলেক্ট করুন।',
     },
     {
-      bn: 'ইনকাম & এক্সপেন্স রেকর্ড সাবধানে ইনপুট করতে হবে, কারণ রেকর্ড ইডিটের সুযোগ নেই।',
-      en: 'Income & Expense records have to be input carefully, as there is no facility to edit records.',
-    },
-    {
-      bn: 'Income, Expense, Remain - এই ৩টি বাটনে ক্লিক করে এদের ডিটেলস দেখতে পারবেন।',
-      en: 'Income, Expense, Remain - You can see their details by clicking on these 3 buttons.',
+      en: 'The three colored buttons at the top — Income (green), Expense (red), Remain (blue) — show the totals. Click any of them to see the detailed breakdown of that section.',
+      bn: 'উপরের তিনটি রঙিন বাটন — ইনকাম (সবুজ), এক্সপেন্স (লাল), রিমেইন (নীল) — মোট টাকার পরিমাণ দেখায়। যেকোনো বাটনে ক্লিক করলে সেই সেকশনের বিস্তারিত দেখতে পারবেন।',
       img: btnsImg,
+    },
+    {
+      en: 'You can edit and delete almost everything — income sources, expense categories, income records, expense records, notes, and terminal names. Just click the edit (✏️) or delete (🗑️) icon next to the item.',
+      bn: 'আপনি প্রায় সবকিছু এডিট ও ডিলিট করতে পারবেন — ইনকাম সোর্স, এক্সপেন্স ক্যাটাগরি, ইনকাম রেকর্ড, এক্সপেন্স রেকর্ড, নোটস, এবং টার্মিনালের নাম। আইটেমের পাশে এডিট (✏️) বা ডিলিট (🗑️) আইকনে ক্লিক করুন।',
+    },
+    {
+      en: 'The 🔔 bell icon at the top shows your notifications. You will get alerts for important events like recurring transactions being processed.',
+      bn: 'উপরের 🔔 বেল আইকনে আপনার নোটিফিকেশন দেখতে পারবেন। গুরুত্বপূর্ণ ইভেন্ট যেমন রিকারিং ট্রান্সাকশন প্রসেস হলে এখানে অ্যালার্ট আসবে।',
+    },
+    {
+      en: 'You can also click "Lifetime Records" (top-right) to see all data from every month combined, instead of just one month.',
+      bn: 'উপরের ডানে "Lifetime Records" ক্লিক করে সব মাসের ডেটা একসাথে দেখতে পারবেন।',
     },
   ],
 };
@@ -242,50 +253,65 @@ export const GENERAL_MANUALS = {
 export const USER_MANUALS = {
   name: {
     bn: 'ব্যবহার বিধি',
-    en: 'User Manual',
+    en: 'Step-by-Step Guide',
   },
   instruction: [
     {
-      bn: 'প্রথমে Income > "ইনকাম সোর্স (Income Source)" তৈরি করুন।',
-      en: 'First, create an "Income Source" (From: Income > Income Source).',
+      en: '🟢 Step 1: Create Income Source — Go to Income > Income Source. Click "+ Add Income Source". Give it a name (like "Job", "Freelance", "Tuition"), pick an emoji icon, and add a description if you want. This is WHERE your money comes from.',
+      bn: '🟢 ধাপ ১: ইনকাম সোর্স তৈরি — Income > Income Source-এ যান। "+ Add Income Source" ক্লিক করুন। একটি নাম দিন (যেমন: "চাকরি", "ফ্রিল্যান্স", "টিউশন"), একটি ইমোজি আইকন বেছে নিন, চাইলে বর্ণনা দিন। এটি হলো আপনার টাকা কোথা থেকে আসে।',
+      img: incomeSourceImg,
     },
     {
-      bn: 'Income > "ইনকাম রেকর্ড"-এ গিয়ে "Add Income" বাটনে ক্লিক করে ইনকাম-ডেটা ইনপুট দিন। ',
-      en: 'Go to Income > "Income Record" then click on "Add Income" button and input income data.',
+      en: '🟢 Step 2: Add Income Record — Go to Income > Income Record. Click "+ Add Income". Select your income source (e.g. "Job"), enter the amount (e.g. ৳30,000), pick a date, and add a description. This records HOW MUCH money you received.',
+      bn: '🟢 ধাপ ২: ইনকাম রেকর্ড যোগ — Income > Income Record-এ যান। "+ Add Income" ক্লিক করুন। ইনকাম সোর্স সিলেক্ট করুন (যেমন: "চাকরি"), পরিমাণ লিখুন (যেমন: ৳৩০,০০০), তারিখ এবং বিবরণ দিন। এটি রেকর্ড করে আপনি কত টাকা পেয়েছেন।',
       img: incomeRecordImg,
     },
     {
-      bn: 'Create Terminal-এ ক্লিক করে আপনি কিছু টার্মিনাল তৈরি করে নিতে পারেন। যেমন: বিকাশ, কার্ড বা আপনি যেখানে টাকা জমা রাখেন। এটি অপশনাল। যদি টারর্মিনাল তৈরি না করেন, তাহলে ডিফল্ট ভাবে তৈরিকৃত টারর্মিনাল (পকেট) থেকেই সব কার্যক্রম চলবে।',
-      en: `You can create some terminals by clicking "Create Terminal". For example: Bkash, Card or where you store money. This is optional. If you don't create a terminal, all operations will run from the terminal (pocket) created by default.`,
+      en: '🟢 Step 3: Create Terminals (optional) — From Income Record page, click "Create Terminal". Terminals are like your wallets/accounts — for example: "Pocket" (cash), "Bkash", "Bank", "Credit Card". By default, a "Pocket" terminal is already created. If you only use cash, you can skip this step.',
+      bn: '🟢 ধাপ ৩: টার্মিনাল তৈরি (ঐচ্ছিক) — Income Record পেজ থেকে "Create Terminal" ক্লিক করুন। টার্মিনাল হলো আপনার ওয়ালেট/অ্যাকাউন্ট — যেমন: "পকেট" (ক্যাশ), "বিকাশ", "ব্যাংক", "ক্রেডিট কার্ড"। ডিফল্টভাবে "Pocket" টার্মিনাল আগে থেকেই তৈরি থাকে। যদি শুধু ক্যাশ ব্যবহার করেন, এই ধাপ বাদ দিতে পারেন।',
     },
     {
-      bn: 'Show Terminal-এ ক্লিক করে আপনার তৈরিকৃত টার্মিনাল গুলো দেখতে পারবেন। ',
-      en: 'You can see the terminals you have created by clicking "Show Terminal".',
+      en: '🟢 Step 4: Transfer Balance — From Income Record page, click "Balance Transfer". You can move money from one terminal to another. Example: Transfer ৳5,000 from "Pocket" to "Bkash". You can see all past transfers in Income > Transfer History.',
+      bn: '🟢 ধাপ ৪: ব্যালেন্স ট্রান্সফার — Income Record পেজ থেকে "Balance Transfer" ক্লিক করুন। এক টার্মিনাল থেকে আরেকটিতে টাকা সরাতে পারবেন। উদাহরণ: "পকেট" থেকে "বিকাশে" ৳৫,০০০ ট্রান্সফার। Income > Transfer History-তে সব আগের ট্রান্সফার দেখা যাবে।',
     },
     {
-      bn: 'Balance Transfer-এ ক্লিক করে এক টার্মিনাল থেকে আরেক টার্মিনালে ব্যালেন্স ট্রান্সফার করতে পারবেন। যেমন: পকেট থেকে বিকাশে টাকা ট্রান্সফার।',
-      en: 'You can transfer balance from one terminal to another terminal by clicking on balance transfer. Eg: Money Transfer from Pocket to Bkash',
+      en: '🔴 Step 5: Create Expense Category — Go to Expense > Expense Category. Click "+ Add Expense Category". Give it a name (like "Food", "Transport", "Shopping"), pick an icon, add a description, and set a monthly budget (e.g. ৳5,000). The budget helps you track overspending.',
+      bn: '🔴 ধাপ ৫: এক্সপেন্স ক্যাটাগরি তৈরি — Expense > Expense Category-তে যান। "+ Add Expense Category" ক্লিক করুন। নাম দিন (যেমন: "খাবার", "যাতায়াত", "শপিং"), আইকন বেছে নিন, বর্ণনা দিন, এবং মাসিক বাজেট সেট করুন (যেমন: ৳৫,০০০)। বাজেট আপনাকে অতিরিক্ত খরচ ট্র্যাক করতে সাহায্য করবে।',
+      img: expenseCategoryImg,
     },
     {
-      bn: 'এরপর Expense > "এক্সপেন্স ক্যাটাগরি (Expense Category)" তৈরি করুন।',
-      en: 'Next, create an "Income Source". (From: Expense > Expense Category)',
-    },
-    {
-      bn: 'Expense > "এক্সপেন্স রেকর্ড"-এ গিয়ে "Add Expesne" বাটনে ক্লিক করে এক্সপেন্স-ডেটা ইনপুট দিন।',
-      en: 'Go to Expense > "Expense Record" then click on "Add Expense" button and input expense data.',
-    },
-    {
-      bn: 'নোট: "ক্যাটাগরি (category)" এবং "স্পেন্ড-ফর (spend for)" আলাদা & আবশ্যক। যেমন: ক্যাটাগরি: ফুড এবং স্পেন্ড-ফর: বার্গার/অনলাইন অর্ডার/রেগুলার বাজার।',
-      en: 'Reminder: "Category" and "Spend For" are different & required. Eg: "Category" = Food & "Spend For" = Burger/Online Order/Regular bazar.',
+      en: '🔴 Step 6: Add Expense Record — Go to Expense > Expense Record. Click "+ Add Expense". Fill in: Category (e.g. "Food"), Spend For/On (e.g. "Burger King" — this is WHAT you spent on), Amount (e.g. ৳350), Terminal (which wallet the money came from), Date, and Description.',
+      bn: '🔴 ধাপ ৬: এক্সপেন্স রেকর্ড যোগ — Expense > Expense Record-এ যান। "+ Add Expense" ক্লিক করুন। পূরণ করুন: ক্যাটাগরি (যেমন: "খাবার"), স্পেন্ড ফর (যেমন: "বার্গার কিং" — এটি হলো কীসের জন্য খরচ), পরিমাণ (যেমন: ৳৩৫০), টার্মিনাল (কোন ওয়ালেট থেকে টাকা গেছে), তারিখ, এবং বিবরণ।',
       img: createExpenseImg,
     },
     {
-      bn: 'Expense > ব্রেকডাউন-এ মাসের কোন তারিখ কত খরচ হয়েছে এবং আগের মাসের কোন তারিখ কত খরচ হয়েছে তার গ্রাফ পাওয়া যাবে। সেই সাথে কোন ক্যাটাগরিতে টোটাল কত খরচ হয়েছে তার বিস্তারিতও পাওয়া যাবে।',
-      en: 'Expense > Breakdown provides graphs of expenses for any date of the month and for any date of the previous month. Along with that, the details of the total cost in any category can also be found.',
+      en: "📊 Step 7: Check Expense Breakdown — Go to Expense > Breakdown. Here you will see: a graph comparing this month's daily spending with last month, and a list showing total spent per category. This helps you understand WHERE your money goes.",
+      bn: '📊 ধাপ ৭: এক্সপেন্স ব্রেকডাউন দেখুন — Expense > Breakdown-এ যান। এখানে দেখতে পাবেন: এই মাসের দৈনিক খরচের সাথে গত মাসের তুলনামূলক গ্রাফ, এবং প্রতি ক্যাটাগরিতে মোট কত খরচ হয়েছে তার তালিকা। এটি বুঝতে সাহায্য করে আপনার টাকা কোথায় যাচ্ছে।',
+      img: expenseBreakdownImg,
     },
     {
-      bn: 'সর্বশেষে, ওভারভিউ-তে এসে কত ইনকাম, কত খরচ এবং কোন টারর্মিনাল থেকে কত খরচ হয়েছে, কোন টারর্মিনালে কত আছে তা জানা যাবে। সেই সাথে সারা বছরের মাস ভিত্তিক ইনকাম, খরচ, জমা সব কিছুর গ্রাফ ও পাওয়া যাবে।',
-      en: 'Finally, come to the "Overview" to know how much income, how much expenses and how much has been spent from which terminal, how much is in which terminal. Along with that, the graph of all month wise income, expenses, deposits of the whole year will also be available.',
+      en: '🏠 Step 8: Check Overview (Dashboard) — Click "Overview" in the sidebar. This is your home page. Here you see: Total Income, Total Expense, Remaining Balance at the top. Below that: Financial Health Score, Financial Insights, and Monthly Budget tracking with colored progress bars.',
+      bn: '🏠 ধাপ ৮: ওভারভিউ (ড্যাশবোর্ড) দেখুন — সাইডবারে "Overview" ক্লিক করুন। এটি আপনার হোম পেজ। এখানে দেখবেন: উপরে মোট ইনকাম, মোট এক্সপেন্স, অবশিষ্ট ব্যালেন্স। নিচে: ফাইন্যান্সিয়াল হেলথ স্কোর, ফাইন্যান্সিয়াল ইনসাইটস, এবং রঙিন প্রোগ্রেস বার সহ মাসিক বাজেট ট্র্যাকিং।',
+      img: dashboardOverviewImg,
+    },
+    {
+      en: '🔄 Step 9: Recurring Transactions — You can create a recurring transaction by checking the "Make it recurring" option when adding a new income or expense. Set the interval: Weekly, Monthly, or Yearly. Example: Monthly salary of ৳30,000 or Monthly internet bill of ৳1,000. The app will automatically add these records for you! You can also pause/resume (⏸️) or delete (🗑️) any recurring transaction from the Repeatative Hub.',
+      bn: '🔄 ধাপ ৯: রিকারিং ট্রানজেকশন — নতুন ইনকাম বা এক্সপেন্স যোগ করার সময় "Make it recurring" অপশন চেক করে রিকারিং ট্রানজেকশন তৈরি করতে পারবেন। ইন্টারভাল বেছে নিন: সাপ্তাহিক, মাসিক, বা বার্ষিক। উদাহরণ: মাসিক বেতন ৳৩০,০০০ বা মাসিক ইন্টারনেট বিল ৳১,০০০। অ্যাপ স্বয়ংক্রিয়ভাবে এগুলো যোগ করবে! Repeatative Hub থেকে যেকোনো রিকারিং ট্রানজেকশন পজ/রিজিউম (⏸️) বা ডিলিট (🗑️) করতে পারবেন।',
+      img: recurringImg,
+    },
+    {
+      en: '📝 Step 10: Use Notes — Click "Notes" in the sidebar. Click "+ Add New Note" to create a note with a title and description. You can use notes to write personal reminders, shopping lists, or financial goals. Click on a note to view, edit, or delete it.',
+      bn: '📝 ধাপ ১০: নোটস ব্যবহার — সাইডবারে "Notes" ক্লিক করুন। "+ Add New Note" ক্লিক করে একটি শিরোনাম ও বিবরণ সহ নোট তৈরি করুন। নোটসে ব্যক্তিগত রিমাইন্ডার, শপিং লিস্ট, বা আর্থিক লক্ষ্য লিখতে পারেন। নোটে ক্লিক করে দেখুন, এডিট বা ডিলিট করুন।',
+      img: notesImg,
+    },
+    {
+      en: '⚙️ Step 11: Settings — Click "Settings" in the sidebar. Here you can: change your profile avatar, update your name, and set up the "Auto Transfer" feature. Auto Transfer automatically carries your remaining balance from last month to this month\'s income — so you never lose track of leftover money.',
+      bn: '⚙️ ধাপ ১১: সেটিংস — সাইডবারে "Settings" ক্লিক করুন। এখানে: প্রোফাইল অ্যাভাটার পরিবর্তন, নাম আপডেট, এবং "Auto Transfer" ফিচার সেটআপ করতে পারবেন। Auto Transfer স্বয়ংক্রিয়ভাবে গত মাসের অবশিষ্ট ব্যালেন্স এই মাসের ইনকামে যোগ করে — ফলে বাকি টাকার হিসাব কখনো হারাবে না।',
+      img: settingsImg,
+    },
+    {
+      en: '💡 Quick Summary: Income Source = Where money comes from (Job, Freelance). Expense Category = What type of spending (Food, Transport). Terminal = Where money is stored (Pocket, Bkash, Bank). Record = The actual transaction with amount and date.',
+      bn: '💡 সংক্ষেপে: ইনকাম সোর্স = টাকা কোথা থেকে আসে (চাকরি, ফ্রিল্যান্স)। এক্সপেন্স ক্যাটাগরি = কী ধরনের খরচ (খাবার, যাতায়াত)। টার্মিনাল = টাকা কোথায় রাখা আছে (পকেট, বিকাশ, ব্যাংক)। রেকর্ড = আসল লেনদেন — পরিমাণ ও তারিখসহ।',
     },
   ],
 };

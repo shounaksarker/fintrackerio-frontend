@@ -95,9 +95,9 @@ const ExpenseCard = ({
   };
 
   return (
-    <div className="w-full cursor-pointer rounded-md md:w-1/2 md:px-3 xl:w-1/3">
+    <div className="w-full rounded-md md:w-1/2 md:px-3 xl:w-1/3">
       <div
-        className="flex items-center justify-between rounded-t-md bg-lightGray p-3"
+        className="flex cursor-pointer items-center justify-between rounded-t-md bg-lightGray p-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
         onClick={() => setComparedModalOpen(true)}
       >
         <div className="flex items-center justify-start gap-x-2">
@@ -116,7 +116,7 @@ const ExpenseCard = ({
           <div className="flex items-center gap-x-2 text-sm text-pGray">
             {handlePercentage(Number(categoryData.comparison.percentage))}
           </div>
-          <span className="text-[7px] font-light text-sGray">Compare to previous month</span>
+          <span className="text-[8px] font-medium text-sGray">Tap to compare →</span>
         </div>
       </div>
 
@@ -124,15 +124,22 @@ const ExpenseCard = ({
         {categoryData.spendsOn.map((item, index) => (
           <div
             key={index}
-            className={`flex items-center justify-between p-3 text-sBlack ${categoryData.spendsOn.length === 1 ? 'border-b-2 border-bGray' : ''}`}
+            className={`group/row flex cursor-pointer items-center justify-between p-3 text-sBlack transition-all duration-300 hover:bg-gradient-to-r hover:from-pest/10 hover:to-transparent active:scale-[0.98] ${categoryData.spendsOn.length === 1 ? 'border-b-2 border-bGray' : ''}`}
             onClick={() => showDetails(item)}
           >
-            <span className="text-sm capitalize">{item.name}</span>
-            <div className="flex flex-col items-end text-sm">
-              <span>
-                {CURRENCY} {formattedAmount(item.amount)}
+            <span className="relative text-sm capitalize after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-pest after:transition-all after:duration-300 group-hover/row:after:w-full">
+              {item.name}
+            </span>
+            <div className="flex items-center gap-x-2">
+              <div className="flex flex-col items-end text-sm">
+                <span>
+                  {CURRENCY} {formattedAmount(item.amount)}
+                </span>
+                <span className="text-xs text-lightGray-300">{item.date}</span>
+              </div>
+              <span className="text-xs text-gray-400 transition-transform duration-200 group-hover/row:translate-x-0.5">
+                ›
               </span>
-              <span className="text-xs text-lightGray-300">{item.date}</span>
             </div>
           </div>
         ))}
