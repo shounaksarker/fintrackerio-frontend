@@ -18,7 +18,8 @@ const Button = ({
   loading = false,
   loadingText = 'Loading...',
 }) => {
-  let btnClasses = 'flex py-2 px-4 rounded focus:outline-none custom-border transition duration-400';
+  let btnClasses =
+    'inline-flex items-center justify-center rounded-lg border px-4 py-2 font-semibold shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-pest/20 active:scale-[0.98]';
   if (size === 'small') {
     btnClasses += ' text-sm';
   } else if (size === 'large') {
@@ -28,28 +29,32 @@ const Button = ({
   }
 
   if (color === 'primary') {
-    btnClasses += ' bg-pest hover:bg-pest-200 text-white';
+    btnClasses +=
+      ' border-transparent bg-gradient-to-r from-pest to-finance-teal text-white shadow-glow hover:-translate-y-0.5 hover:from-pest-200 hover:to-pest';
   } else if (color === 'secondary') {
-    btnClasses += ' bg-white hover:bg-black text-black hover:text-white';
+    btnClasses +=
+      ' border-finance-border bg-white text-finance-ink hover:-translate-y-0.5 hover:border-pest/40 hover:bg-finance-panel';
   } else if (color === 'danger') {
-    btnClasses += ' bg-pRed hover:bg-pRed-200 text-white hover:text-white';
+    btnClasses +=
+      ' border-transparent bg-gradient-to-r from-pRed to-finance-orange text-white hover:-translate-y-0.5 hover:from-pRed-200 hover:to-pRed';
   } else {
-    btnClasses += ' bg-transparent hover:bg-gray-100 text-black';
+    btnClasses +=
+      ' border-transparent bg-transparent text-finance-muted hover:bg-white/80 hover:text-finance-ink';
   }
 
   return (
     <button
       type={type}
-      className={`disabled:opacity-70 ${btnClasses} ${className || ''}`}
+      className={`disabled:cursor-not-allowed disabled:opacity-70 ${btnClasses} ${className || ''}`}
       onClick={onClick}
       disabled={disabled || loading}
     >
       {loading ? (
-        <div className="flex gap-x-3">
+        <div className="flex items-center gap-x-3">
           <ButtonLoader /> <h1>{loadingText}</h1>
         </div>
       ) : (
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
           {iconLeft && <span className={`pr-2 ${iconClass || ''}`}>{iconLeft}</span>}
           {children}
           {iconRight && <span className={`pl-2 ${iconClass || ''}`}>{iconRight}</span>}

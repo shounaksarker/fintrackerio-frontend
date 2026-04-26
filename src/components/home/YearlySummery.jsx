@@ -49,10 +49,15 @@ const YearlySummery = () => {
   return (
     !loading &&
     yearlySummery && (
-      <div className="mt-2">
-        <h2 className="mb-6 text-center text-lg font-semibold text-pGray">Year Summery</h2>
+      <div className="app-surface rounded-3xl py-5">
+        <div className="mb-5 px-5">
+          <h2 className="text-lg font-black text-finance-ink">Year Summary</h2>
+          <p className="text-xs font-medium text-finance-muted">
+            Income, expense, and remaining balance by month
+          </p>
+        </div>
         <ScaleChart
-          className={'w-full px-2 md:h-full'}
+          className={'w-full px-2 md:h-full md:px-5 xl:min-h-[320px]'}
           xLabel={yearlySummery.months}
           data={[
             { label: 'Income', data: yearlySummery.incomes, hoverBackgroundColor: '#1d756c' },
@@ -65,8 +70,8 @@ const YearlySummery = () => {
             {
               label: 'Remain',
               data: yearlySummery.savings,
-              backgroundColor: '#003bff87',
-              hoverBackgroundColor: '#003bff9e',
+              backgroundColor: '#7c3aed80',
+              hoverBackgroundColor: '#7c3aed',
             },
           ]}
         />

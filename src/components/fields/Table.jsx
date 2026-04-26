@@ -84,18 +84,20 @@ const CustomTable = ({
           value={searchTerm}
           onChange={handleSearchChange}
           placeholder="Search..."
-          className={`mb-4 rounded border border-gray-300 p-2 ${inputClass || ''}`}
+          className={`custom-border mb-4 w-full max-w-sm px-3 py-2.5 text-sm text-finance-ink placeholder:text-finance-muted/70 focus:border-pest focus:ring-2 focus:ring-pest/15 ${inputClass || ''}`}
         />
       )}
 
-      <div className={`flex gap-x-6 overflow-x-auto md:flex-col md:gap-x-0 ${tableClass || ''}`}>
+      <div
+        className={`scrollbar-thin flex gap-x-6 overflow-x-auto rounded-2xl border border-white/70 bg-white/85 p-4 shadow-card backdrop-blur-xl md:flex-col md:gap-x-0 ${tableClass || ''}`}
+      >
         <div
-          className={`flex w-full flex-col items-start justify-between gap-y-4 md:mb-4 md:flex-row md:items-center md:gap-y-0 ${headerClass || ''}`}
+          className={`flex w-full flex-col items-start justify-between gap-y-4 text-finance-muted md:mb-3 md:flex-row md:items-center md:gap-y-0 ${headerClass || ''}`}
         >
           {headers.map((header, index) => (
             <span
               key={index}
-              className={`font-bold  ${header.thIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.thStyle ? header.thStyle : ''}`}
+              className={`text-xs font-bold uppercase tracking-wide md:text-sm ${header.thIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.thStyle ? header.thStyle : ''}`}
             >
               {header.thIcon && header.thIcon}
               {header.label}
@@ -122,7 +124,7 @@ const CustomTable = ({
               paginatedData.map((row, rowIndex) => (
                 <div
                   key={rowIndex}
-                  className={`flex w-full flex-col items-start justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0 md:border-t md:border-bGray md:py-2 ${rowClass || ''} cursor-pointer hover:bg-gray-50`}
+                  className={`flex w-full cursor-pointer flex-col items-start justify-between gap-y-4 rounded-xl px-2 py-3 text-finance-ink transition-all hover:bg-finance-panel md:flex-row md:items-center md:gap-y-0 md:border-t md:border-finance-border md:px-3 ${rowClass || ''}`}
                   onClick={(e) => handleRowClick(e, row)}
                 >
                   {headers.map((header, colIndex) => {
@@ -176,14 +178,14 @@ const CustomTable = ({
       </div>
 
       {enablePagination && (
-        <div className="mt-4 flex items-center justify-end gap-4">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
           <select
             value={selectedPageSize}
             onChange={(e) => {
               setSelectedPageSize(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="rounded border border-gray-300 px-2 py-1"
+            className="custom-border px-2 py-1 text-sm text-finance-ink"
           >
             {pageSizeOptions.map((size) => (
               <option key={size} value={size}>
@@ -192,12 +194,12 @@ const CustomTable = ({
             ))}
           </select>
 
-          <div className={`flex items-center ${paginationClass}`}>
+          <div className={`flex flex-wrap items-center gap-y-2 ${paginationClass}`}>
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
               className={`${totalPages > 2 ? 'mx-2 rounded p-1 text-xs' : 'hidden'} ${paginationBtnClass} 
-              ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+              ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : 'hover:text-pest'}`}
             >
               {'<- '}Prev
             </button>
@@ -214,11 +216,11 @@ const CustomTable = ({
                 return (
                   <button
                     key={index}
-                    className={`mx-1 rounded px-3 py-1 ${paginationBtnClass}
+                    className={`mx-1 rounded-full px-3 py-1 text-sm ${paginationBtnClass}
                     ${
                       currentPage === pageNum
-                        ? paginationBtnColor || 'bg-gray-300'
-                        : `${paginationBtnColor ? `${paginationBtnColor}/50` : 'bg-gray-300/50'}`
+                        ? paginationBtnColor || 'bg-pest text-white'
+                        : `${paginationBtnColor ? `${paginationBtnColor}/50` : 'bg-white text-finance-muted hover:bg-finance-panel'}`
                     }`}
                     onClick={() => handlePageChange(pageNum)}
                   >
@@ -243,7 +245,7 @@ const CustomTable = ({
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
               className={`${totalPages > 2 ? 'mx-2 rounded p-1 text-xs' : 'hidden'} mx-2 rounded p-1 text-xs ${paginationBtnClass}
-              ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}
+              ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : 'hover:text-pest'}`}
             >
               Next{' ->'}
             </button>

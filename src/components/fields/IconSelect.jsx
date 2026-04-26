@@ -42,11 +42,13 @@ const IconSelect = ({
 
   return (
     <div className={`mb-4 ${className}`} ref={dropdownRef}>
-      {label && <label className={`mb-2 block text-sm font-bold text-gray-700 ${labelClass}`}>{label}</label>}
+      {label && (
+        <label className={`mb-2 block text-sm font-semibold text-finance-ink ${labelClass}`}>{label}</label>
+      )}
       <div className="relative">
         <button
           type="button"
-          className={`custom-border w-full px-3 text-start capitalize ${selected ? 'py-1' : 'py-2'} ${selectClass}`}
+          className={`custom-border w-full px-3 text-start capitalize text-finance-ink focus:border-pest focus:ring-2 focus:ring-pest/15 ${selected ? 'py-1.5' : 'py-2.5'} ${selectClass}`}
           onClick={toggleDropdown}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
@@ -56,18 +58,18 @@ const IconSelect = ({
               <Image src={src} alt="icon" width={30} height={30} />
             </div>
           ) : (
-            <span className="text-gray-400">{placeholder}</span>
+            <span className="text-finance-muted/70">{placeholder}</span>
           )}
         </button>
         {isOpen && (
           <ul
-            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-300 bg-white shadow-lg"
+            className="scrollbar-thin absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-xl border border-finance-border bg-white shadow-card"
             role="listbox"
           >
             {options.map((option, index) => (
               <li
                 key={index}
-                className="flex cursor-pointer items-center px-3 py-2 hover:bg-gray-100"
+                className="flex cursor-pointer items-center px-3 py-2 text-finance-ink hover:bg-finance-panel"
                 role="option"
                 aria-selected={selected === option}
                 onClick={() => handleSelect(option)}
@@ -83,7 +85,7 @@ const IconSelect = ({
             ))}
           </ul>
         )}
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-finance-muted">
           <svg className="size-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M5 7l5 5 5-5z" />
           </svg>

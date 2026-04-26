@@ -77,11 +77,17 @@ const DoughnutChart = ({ data = [], labels = [], colors, title, titleStyle, clas
       data: dataObj,
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'top',
+            position: 'right',
+            labels: {
+              boxWidth: 10,
+              boxHeight: 10,
+              usePointStyle: true,
+            },
           },
-          title: titleObj,
+          // title: titleObj,
         },
       },
     };

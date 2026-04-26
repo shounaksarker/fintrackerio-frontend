@@ -95,36 +95,36 @@ const ExpenseCard = ({
   };
 
   return (
-    <div className="w-full rounded-md md:w-1/2 md:px-3 xl:w-1/3">
+    <div className="w-full">
       <div
-        className="flex cursor-pointer items-center justify-between rounded-t-md bg-lightGray p-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+        className="flex cursor-pointer items-center justify-between rounded-t-2xl border border-finance-border bg-white/90 p-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card"
         onClick={() => setComparedModalOpen(true)}
       >
         <div className="flex items-center justify-start gap-x-2">
-          <span className="rounded-lg bg-lightGray-200 p-2">
+          <span className="rounded-xl bg-finance-panel p-2">
             <Image src={categoryData.icon || targetArrowIcon} alt="icon" width={32} height={32} />
           </span>
           <div>
-            <h4 className="font-bold capitalize text-pGray">{categoryName}</h4>
-            <h2 className="text-sm font-medium text-pBlack">
+            <h4 className="font-bold capitalize text-finance-ink">{categoryName}</h4>
+            <h2 className="text-sm font-medium text-finance-muted">
               {CURRENCY} {formattedAmount(categoryData.totalAmount)}
             </h2>
           </div>
         </div>
 
         <div className="flex flex-col items-end">
-          <div className="flex items-center gap-x-2 text-sm text-pGray">
+          <div className="flex items-center gap-x-2 text-sm font-bold text-finance-ink">
             {handlePercentage(Number(categoryData.comparison.percentage))}
           </div>
-          <span className="text-[8px] font-medium text-sGray">Tap to compare →</span>
+          <span className="text-[10px] font-medium text-finance-muted">Tap to compare →</span>
         </div>
       </div>
 
-      <div className="max-h-36 divide-y-2 divide-bGray overflow-y-scroll rounded-b-md border md:h-32">
+      <div className="scrollbar-thin max-h-40 divide-y divide-finance-border overflow-y-auto rounded-b-2xl border-x border-b border-finance-border bg-white/75 md:h-36">
         {categoryData.spendsOn.map((item, index) => (
           <div
             key={index}
-            className={`group/row flex cursor-pointer items-center justify-between p-3 text-sBlack transition-all duration-300 hover:bg-gradient-to-r hover:from-pest/10 hover:to-transparent active:scale-[0.98] ${categoryData.spendsOn.length === 1 ? 'border-b-2 border-bGray' : ''}`}
+            className={`group/row flex cursor-pointer items-center justify-between p-3 text-finance-ink transition-all duration-300 hover:bg-gradient-to-r hover:from-pest/10 hover:to-transparent active:scale-[0.98] ${categoryData.spendsOn.length === 1 ? 'border-b border-finance-border' : ''}`}
             onClick={() => showDetails(item)}
           >
             <span className="relative text-sm capitalize after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-pest after:transition-all after:duration-300 group-hover/row:after:w-full">

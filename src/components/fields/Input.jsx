@@ -28,7 +28,7 @@ const InputField = ({
   return (
     <div className={`mb-4 ${className}`}>
       {label && (
-        <label className={`mb-2 block text-sm font-bold text-gray-700 ${labelClass}`}>
+        <label className={`mb-2 block text-sm font-semibold text-finance-ink ${labelClass}`}>
           {label} {required && <sup className="text-[10px] text-red-500">*</sup>}
         </label>
       )}
@@ -53,7 +53,7 @@ const InputField = ({
           onChange={onChange}
           max={max}
           min={min}
-          className={`custom-border w-full px-3 py-2 ${iconLeft ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? '!border-red-600' : 'focus:border-[#b7bbc1]'} ${inputClass}`}
+          className={`custom-border w-full px-3 py-2.5 text-finance-ink placeholder:text-finance-muted/70 focus:border-pest focus:ring-2 focus:ring-pest/15 ${iconLeft ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? '!border-red-600 !ring-red-600/10' : ''} ${inputClass}`}
         />
         {error && <small className="text-[10px] font-semibold text-red-700 md:text-xs">{error}</small>}
         {iconRight && (

@@ -211,72 +211,77 @@ const Page = () => {
   }, [dateRange]);
 
   return (
-    <div>
-      <div className="mt-6">
-        <div className="custom-border flex flex-wrap justify-end gap-x-3 rounded-sm p-2 shadow-sm">
-          <Button
-            size="small"
-            iconLeft={'+'}
-            onClick={() => {
-              setAddIncomeModal(true);
-              fetchSource();
-            }}
-          >
-            Add Income
-          </Button>
-          <Button size="small" onClick={() => setCreateTerminalModal(true)}>
-            Create Terminal
-          </Button>
-          <Button
-            size="small"
-            onClick={() => {
-              fetchTerminal();
-              setTerminalModal(true);
-            }}
-          >
-            Show Terminals
-          </Button>
-          <Button
-            size="small"
-            iconLeft={<TransectionIcon />}
-            onClick={() => {
-              fetchTerminal();
-              fetchBalanceRecord();
-              setTransferModal(true);
-            }}
-          >
-            Balance Transfer
-          </Button>
+    <div className="page-shell">
+      <div>
+        <div className="page-toolbar">
+          <div>
+            <h1 className="page-title">Income Records</h1>
+            <p className="page-subtitle">Add income, manage wallet, and move balances.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              size="small"
+              iconLeft={'+'}
+              onClick={() => {
+                setAddIncomeModal(true);
+                fetchSource();
+              }}
+            >
+              Add Income
+            </Button>
+            <Button size="small" color="secondary" onClick={() => setCreateTerminalModal(true)}>
+              Create Wallet
+            </Button>
+            <Button
+              size="small"
+              color="secondary"
+              onClick={() => {
+                fetchTerminal();
+                setTerminalModal(true);
+              }}
+            >
+              Show Wallets
+            </Button>
+            <Button
+              size="small"
+              color="secondary"
+              iconLeft={<TransectionIcon />}
+              onClick={() => {
+                fetchTerminal();
+                fetchBalanceRecord();
+                setTransferModal(true);
+              }}
+            >
+              Balance Transfer
+            </Button>
+          </div>
         </div>
 
-        <h3 className="my-6 text-center text-2xl font-bold text-pGray underline underline-offset-4">
-          Income Records
-        </h3>
         <CustomTable
           headers={INCOME_RECORDS_TABLE_HEADER(expenseRecordHeader)}
           data={incomeData}
           loading={incomeLoading}
           enablePagination
-          className={'w-full'}
-          tableClass={'rounded-md p-4 shadow-md'}
+          className={'mt-4 w-full'}
         />
       </div>
       {incomeData.length > 0 && (
-        <div className="flex flex-col items-start justify-start md:mx-auto md:mt-6 md:max-w-72">
-          <div className="w-full rounded-md border border-phGray py-4 shadow-md">
-            <h4 className="mx-auto mb-4 w-48 rounded-md bg-sBlack py-2 text-center text-white">
+        <div className="flex flex-col items-start justify-start md:mx-auto md:max-w-80">
+          <div className="app-surface w-full rounded-2xl p-4">
+            <h4 className="summary-pill mx-auto mb-4 w-full">
               Total - {CURRENCY} {formattedAmount(getSum(incomeData, 'amount') || balance.total_income)}
             </h4>
-            <h5 className="mb-4 text-center text-lg font-semibold text-pGray underline">
-              Income Distributed in
-            </h5>
+            <h5 className="mb-4 text-center text-lg font-black text-finance-ink">Income Distributed In</h5>
             <div>
-              <div className="flex border-y py-1 text-center font-semibold">
-                <h4 className="w-1/2">Terminal</h4>
+              <div className="flex border-y border-finance-border py-2 text-center text-sm font-bold text-finance-muted">
+                <h4 className="w-1/2">Wallet</h4>
                 <h4 className="w-1/2">Amount</h4>
               </div>
               {Object.entries(getIndividualSum(distributedIn)).map(([terminal, total], i) => (
-                <div key={i} className="flex w-full border-b py-1 text-sm capitalize text-gray-600">
+                <div
+                  key={i}
+                  className="flex w-full border-b border-finance-border py-2 text-sm capitalize text-finance-ink"
+                >
                   <div className="w-1/2 text-center">{terminal}</div>
                   <div className="w-1/2 text-center">{formattedAmount(total)}</div>
                 </div>

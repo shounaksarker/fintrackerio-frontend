@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import cross from '@/assets/svg/x-1.svg';
 
 const afterCloseFunction = () => {};
@@ -12,6 +13,12 @@ const Modal = ({
   className,
   afterClose = afterCloseFunction,
 }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
     return () => {
@@ -30,21 +37,29 @@ const Modal = ({
     }
   };
 
-  return isOpen ? (
+  if (!isOpen || !mounted) return null;
+
+  return createPortal(
     <div
       onClick={handleOverlayClick}
-      className={`fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 transition-all`}
+      className="fixed inset-0 z-[1000] flex min-h-dvh items-center justify-center overflow-y-auto bg-gray-950/70 p-3 backdrop-blur-sm transition-all"
     >
-      <div className={`relative w-full max-w-md rounded-lg bg-white p-2 ${className || ''}`}>
+      <div
+        className={`app-surface relative w-full max-w-md rounded-2xl p-2 text-finance-ink ${className || ''}`}
+      >
         {showCloseButton && (
-          <button className="absolute right-2 top-2 text-gray-600 hover:text-gray-800" onClick={handleClose}>
+          <button
+            className="absolute right-2 top-2 rounded-full bg-white/80 p-1 text-gray-600 shadow-sm transition hover:bg-finance-panel hover:text-gray-800"
+            onClick={handleClose}
+          >
             <Image src={cross} alt="cross-btn" />
           </button>
         )}
         <div>{children}</div>
       </div>
-    </div>
-  ) : null;
+    </div>,
+    document.body
+  );
 };
 
 export default Modal;

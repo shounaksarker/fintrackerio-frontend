@@ -59,11 +59,11 @@ const SeedDemoButton = () => {
   };
 
   return (
-    <div className="mb-2 overflow-hidden rounded-xl border-2 border-dashed border-amber-400/60 bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 p-6 shadow-lg">
+    <div className="mb-2 overflow-hidden rounded-2xl border border-amber-300/70 bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 p-5 shadow-soft">
       <div className="flex flex-col gap-y-4 md:flex md:flex-row md:justify-between md:gap-y-4">
         <div className="flex flex-col md:max-w-[55%]">
           <div className="flex gap-x-2">
-            <div className="animate-bounce text-2xl">✨</div>
+            <div className="text-2xl">✨</div>
             <h3 className="text-lg font-bold text-gray-800">Your dashboard is empty!</h3>
           </div>
           <p className="text-sm text-gray-500">
@@ -74,7 +74,7 @@ const SeedDemoButton = () => {
           type="button"
           onClick={handleSeed}
           disabled={loading}
-          className="group relative inline-flex items-center justify-center gap-x-2 overflow-hidden rounded-full bg-gradient-to-r from-[#34c4b5] via-[#218379] to-[#1d6f67] py-2 text-sm font-bold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-300/50 active:scale-95 disabled:opacity-70 disabled:hover:scale-100 md:px-8 md:py-3 lg:text-base"
+          className="group relative inline-flex items-center justify-center gap-x-2 overflow-hidden rounded-xl bg-gradient-to-r from-pest to-finance-teal px-4 py-2 text-sm font-bold text-white shadow-soft transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70 md:px-8 md:py-3 lg:text-base"
         >
           {/* Shine effect */}
           <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
@@ -93,7 +93,6 @@ const SeedDemoButton = () => {
             </>
           ) : (
             <>
-              <span className="text-xl">🚀</span>
               <span>Populate with Sample Data</span>
             </>
           )}

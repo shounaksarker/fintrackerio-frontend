@@ -9,10 +9,13 @@ import SeedDemoButton from '@/components/home/SeedDemoButton';
 
 const Home = async () => {
   return (
-    <div className="flex flex-col gap-y-8">
-      <SeedDemoButton />
+    <div className="flex flex-col gap-y-6">
+      <div className="flex flex-col gap-3">
+        <SeedDemoButton />
+        <ClearMonthButton />
+      </div>
+
       <BalanceDetails />
-      <ClearMonthButton />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <FinancialHealthScore />

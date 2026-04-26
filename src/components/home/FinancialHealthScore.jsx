@@ -115,16 +115,19 @@ const FinancialHealthScore = () => {
   const strokeDashoffset = circumference - (scoreData.score / 100) * circumference;
 
   return (
-    <div className="relative flex w-full flex-col items-center overflow-hidden rounded-2xl border bg-white p-4 shadow-lg md:p-6">
+    <div className="app-surface relative flex w-full flex-col items-center overflow-hidden rounded-3xl p-5 md:p-6">
       {/* Decorative background blur */}
       <div
         className={`absolute right-0 top-0 size-32 bg-gradient-to-br ${scoreData.gradient} rounded-full opacity-10 blur-3xl`}
       />
 
       <div className="mb-4 flex w-full items-center md:mb-6">
-        <h3 className="text-left text-base font-semibold text-pGray md:text-lg">Financial Health Score</h3>
+        <div>
+          <h3 className="text-left text-lg font-black text-finance-ink">Financial Health Score</h3>
+          <p className="text-xs font-medium text-finance-muted">Savings rate and budget discipline</p>
+        </div>
         <button
-          className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
+          className="bg-pest/8 ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 px-1.5 py-0 text-xs font-semibold text-pest"
           onClick={() => setTipsModalOpen(true)}
         >
           i
@@ -142,7 +145,7 @@ const FinancialHealthScore = () => {
               stroke="currentColor"
               strokeWidth="8"
               fill="transparent"
-              className="text-gray-100"
+              className="text-finance-panel"
             />
             <circle
               cx="50%"
@@ -172,7 +175,7 @@ const FinancialHealthScore = () => {
           {scoreData.messages.map((msg, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-x-2 rounded-lg bg-gray-50 px-2 py-1.5 text-xs text-gray-600 md:p-2 md:text-sm"
+              className="flex items-center gap-x-2 rounded-xl border border-finance-border bg-white/80 px-2 py-1.5 text-xs font-medium text-finance-muted md:p-2 md:text-sm"
             >
               <span>{msg}</span>
             </div>

@@ -128,18 +128,22 @@ const Page = () => {
     },
   ];
   return (
-    <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8.7rem)]">
-      <Button size="md" color="primary" iconLeft={'+'} onClick={() => setModalOpen(true)}>
-        Add Expense Category
-      </Button>
-      <div className="mt-6">
-        <h3 className="mb-4 text-center text-xl font-semibold text-pBlack lg:mb-8">Expense Category List</h3>
+    <div className="page-shell">
+      <div className="page-toolbar">
+        <div>
+          <h1 className="page-title">Expense Categories</h1>
+          <p className="page-subtitle">Organize spending groups and monthly budget limits.</p>
+        </div>
+        <Button size="md" color="primary" iconLeft={'+'} onClick={() => setModalOpen(true)}>
+          Add Expense Category
+        </Button>
+      </div>
+      <div>
         <CustomTable
           headers={EXPENSE_CATEGORY_TABLE_HEADER}
           data={expenseCategory}
           enablePagination
           className={'w-full'}
-          tableClass={'rounded-md p-4 shadow-md'}
           loading={expenseCategoryLoading}
           enableDetailsView={false}
         />

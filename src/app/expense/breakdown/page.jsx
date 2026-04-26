@@ -100,11 +100,14 @@ const Page = () => {
           <Loader />
         </div>
       ) : (
-        <div>
-          <div className="my-12 md:mt-6">
-            <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Comparison</h1>
+        <div className="page-shell">
+          <div className="app-surface rounded-3xl p-4 md:p-6">
+            <div className="mb-5">
+              <h1 className="page-title">Expense Comparison</h1>
+              <p className="page-subtitle">This month compared with the previous month by day.</p>
+            </div>
             <ScaleChart
-              className={'md:h-full'}
+              className={'h-[280px] md:h-[360px]'}
               xLabel={dateAndDays}
               data={[
                 { label: 'This Month', data: currentMonthAmounts, hoverBackgroundColor: '#1d756c' },
@@ -114,8 +117,11 @@ const Page = () => {
           </div>
           {Object.entries(currentMonthBreakdown).length ? (
             <div>
-              <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Breakdown</h1>
-              <div className="flex flex-wrap gap-y-5 md:justify-between xl:justify-start">
+              <div className="mb-5">
+                <h1 className="page-title">Expense Breakdown</h1>
+                <p className="page-subtitle">Tap a category to compare, or a row to inspect spending.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {Object.entries(currentMonthBreakdown).map(([categoryName, categoryData]) => (
                   <ExpenseCard
                     key={categoryName}

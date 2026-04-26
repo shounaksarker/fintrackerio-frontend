@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
 import { usePathname } from 'next/navigation';
 import axios from 'axios';
-import ChevronRight from '@/assets/svg/Icon/ChevronRight';
 import DateRangePicker from '@/components/fields/DateRangePicker';
 import { DataContext } from '@/context/DataContext';
 import { AUTH_PATH, HIDDEN_DATE_RANGE_PATH } from '@/assets/constants/conditionalPath';
@@ -55,20 +54,29 @@ const Header = () => {
   return (
     <>
       {!isAuthPage && (
-        <div className="flex flex-col p-2 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-x-1 md:gap-x-4 ">
-            <div className="text-xs md:text-base ">
-              Hi! <span className="font-semibold capitalize">{user?.username}</span>
+        <header className="relative z-30 px-2 pt-3 md:px-4 lg:px-6">
+          <div className="app-surface flex flex-col gap-3 rounded-2xl p-3 pr-8 md:flex-row md:items-center md:justify-between md:px-4 md:pr-8 lg:pr-4">
+            <div className="flex min-w-0 items-center justify-between gap-3 md:min-w-fit md:flex-1">
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-pest via-finance-accent to-finance-pink text-sm font-black text-white shadow-glow">
+                  FT
+                </div>
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-semibold text-finance-ink md:text-base">
+                    Hi, <span className="capitalize">{user?.username || 'there'}</span>
+                  </div>
+                  <div className="text-xs font-medium text-finance-muted md:text-sm">
+                    {moment().format('dddd, MMMM DD, YYYY')}
+                  </div>
+                </div>
+              </div>
+              <div className="shrink-0">
+                <NotificationBell />
+              </div>
             </div>
-            <div className="flex gap-x-0">
-              <ChevronRight />
-              <ChevronRight className={'-ml-3'} />
-            </div>
-            <div className="text-xs text-pGray md:text-base">{moment().format('MMMM DD, YYYY')}</div>
-            <NotificationBell />
+            {!isDateRangeHidden && <DateRangePicker className={sidebarOpen ? '-z-50' : 'z-10'} />}
           </div>
-          {!isDateRangeHidden && <DateRangePicker className={sidebarOpen ? '-z-50' : 'z-10'} />}
-        </div>
+        </header>
       )}
       {transferNextModal ? (
         <ConfirmModal
