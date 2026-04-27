@@ -127,7 +127,7 @@ const FinancialHealthScore = () => {
           <p className="text-xs font-medium text-finance-muted">Savings rate and budget discipline</p>
         </div>
         <button
-          className="bg-pest/8 ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 px-1.5 py-0 text-xs font-semibold text-pest"
+          className="ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 bg-pest/10 px-1.5 py-0 text-xs font-semibold text-pest"
           onClick={() => setTipsModalOpen(true)}
         >
           i

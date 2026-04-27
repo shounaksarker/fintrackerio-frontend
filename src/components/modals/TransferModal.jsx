@@ -70,7 +70,7 @@ const TransferModal = ({
         <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">Balance Transfer</h1>
         <form onSubmit={submit}>
           <SelectOption
-            className="size-full"
+            className="w-full"
             name="from_terminal_id"
             label="From"
             onChange={(e) => handleTransfer(e)}
@@ -83,7 +83,7 @@ const TransferModal = ({
             required
           />
           <SelectOption
-            className="size-full"
+            className="w-full"
             name="to_terminal_id"
             label="To"
             onChange={(e) => handleTransfer(e)}
@@ -96,7 +96,7 @@ const TransferModal = ({
             required
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="number"
             name="amount"
             label="Amount"
@@ -125,7 +125,7 @@ const TransferModal = ({
             />
           </div>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="description"
             label="Description"

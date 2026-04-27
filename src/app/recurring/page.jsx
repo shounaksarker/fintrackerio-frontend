@@ -87,7 +87,7 @@ const Page = () => {
 
   const actionCol = {
     label: 'Action',
-    style: 'md:w-[90px] text-center',
+    style: 'w-20 md:w-[90px] text-center',
     target: 'action',
     action: [
       {
@@ -100,7 +100,7 @@ const Page = () => {
 
   const statusCol = {
     label: 'Status',
-    style: 'md:w-[10%]',
+    style: 'w-24 md:w-[10%]',
     target: 'is_active',
     function: (val) => (
       <span
@@ -112,37 +112,37 @@ const Page = () => {
   };
 
   const expenseHeader = [
-    { label: '#', style: 'md:w-[5%] text-center', index: true },
+    { label: '#', style: 'w-10 md:w-[5%] text-center', index: true },
     {
       label: 'Category',
-      style: 'md:w-[15%] capitalize',
+      style: 'w-32 md:w-[15%] capitalize',
       target: 'category_name',
     },
     {
       label: 'Spend On',
-      style: 'md:w-[15%] capitalize truncate',
+      style: 'w-36 md:w-[15%] capitalize truncate',
       target: 'spend_on',
     },
     {
       label: 'Terminal',
-      style: 'md:w-[10%] capitalize',
+      style: 'w-28 md:w-[10%] capitalize',
       target: 'terminal_name',
     },
     {
       label: `Amount (${CURRENCY})`,
-      style: 'md:w-[10%] font-semibold md:pl-3',
+      style: 'w-28 md:w-[10%] font-semibold md:pl-3',
       target: 'amount',
       thStyle: '!pl-0',
       function: formattedAmount,
     },
     {
       label: 'Interval',
-      style: 'md:w-[10%] capitalize',
+      style: 'w-24 md:w-[10%] capitalize',
       target: 'recurrence_interval',
     },
     {
       label: 'Next Execution',
-      style: 'md:w-[15%]',
+      style: 'w-32 md:w-[15%]',
       target: 'next_execution_date',
       function: getDate,
     },
@@ -151,32 +151,32 @@ const Page = () => {
   ];
 
   const incomeHeader = [
-    { label: '#', style: 'md:w-[5%] text-center', index: true },
+    { label: '#', style: 'w-10 md:w-[5%] text-center', index: true },
     {
       label: 'Category',
-      style: 'md:w-[20%] capitalize',
+      style: 'w-32 md:w-[20%] capitalize',
       target: 'category_name',
     },
     {
       label: 'Description',
-      style: 'md:w-[20%] capitalize truncate',
+      style: 'w-40 md:w-[20%] capitalize truncate',
       target: 'description',
     },
     {
       label: `Amount (${CURRENCY})`,
-      style: 'md:w-[15%] font-semibold md:pl-3',
+      style: 'w-28 md:w-[15%] font-semibold md:pl-3',
       target: 'amount',
       thStyle: '!pl-0',
       function: formattedAmount,
     },
     {
       label: 'Interval',
-      style: 'md:w-[10%] capitalize',
+      style: 'w-24 md:w-[10%] capitalize',
       target: 'recurrence_interval',
     },
     {
       label: 'Next Execution',
-      style: 'md:w-[15%]',
+      style: 'w-32 md:w-[15%]',
       target: 'next_execution_date',
       function: getDate,
     },
@@ -193,18 +193,24 @@ const Page = () => {
   }
 
   return (
-    <div className="mx-auto p-4">
+    <div className="page-shell">
+      <div className="page-toolbar">
+        <div>
+          <h1 className="page-title">Repeatative Hub</h1>
+          <p className="page-subtitle">Pause, resume, or remove recurring income and expense records.</p>
+        </div>
+      </div>
       {!recurringLoading && !recurringData?.expense?.length && !recurringData?.income?.length && (
-        <div className="flex flex-col items-center justify-center pt-10">
+        <div className="app-surface flex flex-col items-center justify-center rounded-3xl py-12 text-center">
           <Image
             src={noDataImg}
             alt="No transactions"
-            className="w-[200px] object-contain mix-blend-multiply"
+            className="w-[200px] object-contain mix-blend-multiply md:w-[240px]"
           />
-          <h3 className="mt-4 text-lg font-bold text-gray-600 md:text-2xl">
+          <h3 className="mt-4 text-lg font-black text-finance-ink md:text-2xl">
             No repeatative transactions found.
           </h3>
-          <p className="mt-2 text-[15px] text-gray-400 md:text-center md:text-base">
+          <p className="mt-2 max-w-xl text-[15px] text-finance-muted md:text-base">
             Automate your finances! Next time you add an income or expense,
             <br />
             just enable the &quot;Make it Repeatative&quot; option to see it appear here.
@@ -214,29 +220,23 @@ const Page = () => {
 
       {recurringData?.expense?.length > 0 && (
         <>
-          <h3 className="my-6 text-center text-2xl font-bold text-pGray underline underline-offset-4">
-            Repeatative Expenses
-          </h3>
+          <h3 className="text-xl font-black text-finance-ink">Repeatative Expenses</h3>
           <CustomTable
             headers={expenseHeader}
             data={recurringData?.expense || []}
             loading={recurringLoading}
             className={'mb-8 w-full'}
-            tableClass={'rounded-md bg-white p-4 shadow-md'}
           />
         </>
       )}
       {recurringData?.income?.length > 0 && (
         <>
-          <h3 className="mb-6 mt-10 text-center text-2xl font-bold text-pGray underline underline-offset-4">
-            Repeatative Incomes
-          </h3>
+          <h3 className="text-xl font-black text-finance-ink">Repeatative Incomes</h3>
           <CustomTable
             headers={incomeHeader}
             data={recurringData?.income || []}
             loading={recurringLoading}
             className={'w-full'}
-            tableClass={'rounded-md bg-white p-4 shadow-md'}
           />
         </>
       )}

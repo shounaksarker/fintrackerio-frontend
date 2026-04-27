@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
+/* eslint-disable eslint-plugin/prefer-message-ids, eslint-plugin/prefer-object-rule, eslint-plugin/require-meta-type, eslint-plugin/require-meta-schema */
+
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import Modal from '@/components/fields/Modal';
 import SelectOption from '@/components/fields/Select';
@@ -8,6 +10,7 @@ import InputField from '@/components/fields/Input';
 import Button from '@/components/fields/Button';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 import { RECURRING_INTERVAL } from '@/assets/constants';
+import { EXPENSE_CATEGORY_ICONS } from '@/assets/constants/categoryIcons';
 
 const InsertExpenseModal = ({
   modalOpen,
@@ -21,28 +24,32 @@ const InsertExpenseModal = ({
   handleSubmit,
   terminalBalances,
   maxAmount,
-  setMaxAmount,
   isEdit = false,
 }) => {
+  const categoryOptions = expenseCategories.map((category) => {
+    const localIcon = EXPENSE_CATEGORY_ICONS.find(
+      (item) => item.name.toLowerCase() === category.name?.toLowerCase()
+    );
+    return {
+      ...category,
+      icon: localIcon?.icon || category.icon,
+    };
+  });
+
   const handleExpense = (e) => {
     const { name, value, type } = e.target;
     const data = { ...expense };
     data[name] = type === 'number' ? Number(value) : value;
     setExpense(data);
   };
-  useEffect(() => {
-    if (expense.terminal_id) {
-      const selectedTerminal = terminalBalances.find(
-        (terminal) => terminal.terminal_id === Number(expense.terminal_id)
-      );
+  const selectedTerminal = terminalBalances.find(
+    (terminal) => terminal.terminal_id === Number(expense.terminal_id)
+  );
+  const effectiveMaxAmount =
+    isEdit && selectedTerminal && selectedTerminal.terminal_id === expense.terminal_id
+      ? selectedTerminal.balance + Number(expense.amount || 0)
+      : selectedTerminal?.balance || maxAmount || 0;
 
-      if (isEdit && selectedTerminal && selectedTerminal.terminal_id === expense.terminal_id) {
-        setMaxAmount(selectedTerminal.balance + Number(expense.amount) || 0);
-      } else {
-        setMaxAmount(selectedTerminal?.balance || 0);
-      }
-    }
-  }, [expense.terminal_id]);
   return (
     <Modal
       isOpen={modalOpen}
@@ -56,7 +63,7 @@ const InsertExpenseModal = ({
         </h1>
         <form onSubmit={handleSubmit}>
           <SelectOption
-            className="size-full"
+            className="w-full"
             selectClass="text-md font-thin"
             name="expense_category_id"
             label="Category"
@@ -64,13 +71,13 @@ const InsertExpenseModal = ({
             value={expense.expense_category_id}
             placeholder="Select Expense Category"
             labelClass="font-normal"
-            options={expenseCategories}
+            options={categoryOptions}
             optionLabel="name"
             optionValue="expense_category_id"
             required
           />
           <SelectOption
-            className="size-full"
+            className="w-full"
             name="terminal_id"
             label="Spend From"
             onChange={(e) => handleExpense(e)}
@@ -83,26 +90,26 @@ const InsertExpenseModal = ({
             required
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="number"
             name="amount"
             label="Amount"
             step={1}
             onChange={(e) => handleExpense(e)}
             value={Number(expense.amount)}
-            placeholder={`Max: ${formattedAmount(maxAmount)}`}
+            placeholder={`Max: ${formattedAmount(effectiveMaxAmount)}`}
             labelClass="font-normal"
             inputClass="placeholder:text-xs border-2"
-            max={maxAmount}
+            max={effectiveMaxAmount}
             error={
-              expense.amount > maxAmount
-                ? `Insufficient balance.(Balance: ${formattedAmount(maxAmount)})`
+              expense.amount > effectiveMaxAmount
+                ? `Insufficient balance.(Balance: ${formattedAmount(effectiveMaxAmount)})`
                 : ''
             }
             required
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="spend_on"
             label="Spend For"
@@ -114,7 +121,7 @@ const InsertExpenseModal = ({
             required
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="description"
             label="Description"
@@ -143,12 +150,12 @@ const InsertExpenseModal = ({
               <label className="cursor-pointer text-sm font-medium text-gray-500">
                 🔄 Set as Repeatative Expense
               </label>
-              <input type="checkbox" checked={expense.is_recurring || false} />
+              <input type="checkbox" checked={expense.is_recurring || false} readOnly />
             </div>
           )}
           {expense.is_recurring && (
             <SelectOption
-              className="mb-4 size-full"
+              className="mb-4 w-full"
               name="recurrence_interval"
               label="Frequency"
               onChange={(e) => handleExpense(e)}

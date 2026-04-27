@@ -34,7 +34,7 @@ const CategoryModal = ({
         <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">{title}</h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="name"
             label={inputTitle}
@@ -46,7 +46,7 @@ const CategoryModal = ({
             required
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="description"
             label="Description"
@@ -58,7 +58,7 @@ const CategoryModal = ({
           />
           {name.toLowerCase() === 'expense' && (
             <InputField
-              className="size-full "
+              className="w-full"
               type="number"
               name="budget"
               label="Monthly Budget"
@@ -71,7 +71,7 @@ const CategoryModal = ({
             />
           )}
           <IconSelect
-            className="size-full"
+            className="w-full"
             label="Icon"
             onChange={(e) => handleCategory(e, 'icon')}
             value={data.icon}

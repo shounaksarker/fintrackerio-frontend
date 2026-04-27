@@ -15,7 +15,8 @@ import NotificationBell from './notifications/NotificationBell';
 import { CURRENCY } from '@/assets/constants';
 
 const Header = () => {
-  const { user, sidebarOpen, fetchBalance, fetchIncomeRecord, fetchExpenseRecord } = useContext(DataContext);
+  const { user, getUser, sidebarOpen, fetchBalance, fetchIncomeRecord, fetchExpenseRecord } =
+    useContext(DataContext);
   const [transferDetails, setTransferDetails] = useState(null);
   const [transferNextModal, setTransferNextModal] = useState(false);
   const [transferNextLoading, setTransferNextLoading] = useState(false);
@@ -50,6 +51,12 @@ const Header = () => {
     };
     fetchTransferDetails();
   }, []);
+
+  useEffect(() => {
+    if (!isAuthPage && !user && getUser) {
+      getUser();
+    }
+  }, [getUser, isAuthPage, user]);
 
   return (
     <>

@@ -8,7 +8,7 @@ import { DataContext } from '@/context/DataContext';
 import 'react-datepicker/dist/react-datepicker.css';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 
-const MetricCard = ({ title, value, caption, tone, onClick }) => {
+const MetricCard = ({ title, value, tone, onClick }) => {
   const toneClass = {
     income: {
       card: 'border-pest/15 from-pest/10 via-white to-finance-teal/10 hover:border-pest/30',
@@ -29,7 +29,7 @@ const MetricCard = ({ title, value, caption, tone, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className={`group flex flex-col items-start justify-between rounded-2xl border bg-gradient-to-br px-3.5 py-3 text-left shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card ${currentTone.card} w-full`}
+      className={`group flex flex-col items-start justify-between rounded-2xl border bg-gradient-to-br px-3.5 py-3 text-left shadow-soft transition-colors duration-300 hover:shadow-card ${currentTone.card} w-full`}
     >
       <div className={`rounded-xl border px-1.5 py-0.5 text-sm font-bold tracking-wide ${currentTone.chip}`}>
         {title}
@@ -107,7 +107,7 @@ const BalanceDetails = () => {
           <div className="relative">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/45">Monthly balance</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/50">Monthly balance</p>
                 <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
                   {CURRENCY}
                   {balanceLoading ? '...' : formattedAmount(remain)}
@@ -116,8 +116,8 @@ const BalanceDetails = () => {
                   Current remaining balance after income and expenses for the selected period.
                 </p>
               </div>
-              <div className="bg-white/8 rounded-2xl border border-white/10 px-4 py-3 text-left md:text-right">
-                <p className="text-xs font-semibold uppercase tracking-wide text-white/45">Savings rate</p>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-left md:text-right">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/50">Savings rate</p>
                 <p className="mt-1 text-2xl font-black text-finance-teal">{savingsRate}%</p>
               </div>
             </div>

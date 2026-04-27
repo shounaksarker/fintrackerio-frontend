@@ -12,10 +12,10 @@ const Content = ({ children }) => {
 
   return (
     <div
-      className={`${!isAuthPage ? 'flex min-h-screen w-full flex-col gap-y-6 lg:w-3/4 xl:w-4/5 2xl:w-[83%]' : 'min-h-screen w-full'}`}
+      className={`${!isAuthPage ? 'flex min-h-dvh w-full flex-col gap-y-6 lg:w-3/4 xl:w-4/5 2xl:w-[83%]' : 'min-h-dvh w-full'}`}
     >
       <Header />
-      <main className="min-h-[calc(100vh-9.7rem)] px-2 pb-4 pt-1 md:px-4 lg:px-6">{children}</main>
+      <main className="min-h-[calc(100dvh-9.7rem)] px-2 pb-4 pt-1 md:px-4 lg:px-6">{children}</main>
       <footer className="mx-2 mb-2 mt-auto flex w-auto flex-col items-center justify-between gap-2 rounded-2xl border border-white/10 bg-gray-950/90 p-3 text-xs text-white shadow-card backdrop-blur md:flex-row md:text-sm lg:mx-6">
         <Link
           target="_blank"

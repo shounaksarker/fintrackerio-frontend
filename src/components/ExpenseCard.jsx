@@ -97,7 +97,7 @@ const ExpenseCard = ({
   return (
     <div className="w-full">
       <div
-        className="flex cursor-pointer items-center justify-between rounded-t-2xl border border-finance-border bg-white/90 p-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card"
+        className="flex cursor-pointer items-center justify-between rounded-t-2xl border border-finance-border bg-white/90 p-3 transition-colors duration-300 hover:shadow-card"
         onClick={() => setComparedModalOpen(true)}
       >
         <div className="flex items-center justify-start gap-x-2">
@@ -124,7 +124,7 @@ const ExpenseCard = ({
         {categoryData.spendsOn.map((item, index) => (
           <div
             key={index}
-            className={`group/row flex cursor-pointer items-center justify-between p-3 text-finance-ink transition-all duration-300 hover:bg-gradient-to-r hover:from-pest/10 hover:to-transparent active:scale-[0.98] ${categoryData.spendsOn.length === 1 ? 'border-b border-finance-border' : ''}`}
+            className={`group/row flex cursor-pointer items-center justify-between p-3 text-finance-ink transition-colors duration-300 hover:bg-gradient-to-r hover:from-pest/10 hover:to-transparent ${categoryData.spendsOn.length === 1 ? 'border-b border-finance-border' : ''}`}
             onClick={() => showDetails(item)}
           >
             <span className="relative text-sm capitalize after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-pest after:transition-all after:duration-300 group-hover/row:after:w-full">

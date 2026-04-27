@@ -271,11 +271,13 @@ const SentryPage = () => {
 
   // ── Render ──────────────────────────────────────────────────
   return (
-    <div className="min-h-[85vh] md:min-h-[83vh]">
+    <div className="page-shell">
       {/* Title */}
-      <div className="mb-6 flex items-center gap-3">
-        <span className="text-2xl">🛡️</span>
-        <h1 className="text-2xl font-bold text-gray-900">Error Tracking</h1>
+      <div className="page-toolbar">
+        <div>
+          <h1 className="page-title">Error Tracking</h1>
+          <p className="page-subtitle">Monitor captured frontend, BFF, and backend errors.</p>
+        </div>
       </div>
 
       {/* ── Stats Bar ──────────────────────────────────────────── */}
@@ -295,19 +297,19 @@ const SentryPage = () => {
       )}
 
       {/* ── Filters ────────────────────────────────────────────── */}
-      <div className="mb-4 flex flex-wrap items-end gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div className="app-surface flex flex-wrap items-end gap-3 rounded-2xl p-4">
         <FilterSelect label="Source" value={source} onChange={setSource} options={SENTRY_SOURCE_OPTIONS} />
         <FilterSelect label="Level" value={level} onChange={setLevel} options={SENTRY_LEVEL_OPTIONS} />
         <FilterSelect label="Status" value={status} onChange={setStatus} options={SENTRY_STATUS_OPTIONS} />
 
-        <label className="flex flex-1 flex-col gap-1 text-xs font-medium text-gray-500">
+        <label className="flex flex-1 flex-col gap-1 text-xs font-bold text-finance-muted">
           Search
           <input
             type="text"
             placeholder="Search message or URL…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:border-pest focus:outline-none focus:ring-1 focus:ring-pest"
+            className="rounded-xl border border-finance-border bg-white px-3 py-2 text-sm text-finance-ink shadow-sm focus:border-pest focus:outline-none focus:ring-2 focus:ring-pest/15"
           />
         </label>
 
@@ -318,7 +320,7 @@ const SentryPage = () => {
             setStatus('');
             setSearch('');
           }}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-600 transition-colors hover:bg-gray-100"
+          className="rounded-xl border border-finance-border bg-white px-3 py-2 text-sm font-bold text-finance-muted transition-colors hover:bg-finance-panel hover:text-finance-ink"
         >
           Reset
         </button>
@@ -342,7 +344,7 @@ const SentryPage = () => {
 
       {/* ── Bulk Action Bar ────────────────────────────────────── */}
       {!loading && errors.length > 0 && (
-        <div className="mb-3 flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 shadow-sm">
+        <div className="flex items-center justify-between rounded-2xl border border-finance-border bg-white/85 px-4 py-3 shadow-soft">
           <div className="flex items-center gap-3">
             <input
               type="checkbox"
@@ -384,23 +386,23 @@ const SentryPage = () => {
       )}
 
       {!loading && errors.length !== 0 && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {errors.map((err) => (
             <div
               key={err.id}
-              className={`overflow-hidden rounded-lg border transition-colors ${
+              className={`overflow-hidden rounded-2xl border transition-colors ${
                 selectedErrors.has(err.id)
-                  ? 'border-pest bg-blue-50/30'
-                  : 'border-gray-200 bg-white shadow-sm'
+                  ? 'border-pest bg-pest/5'
+                  : 'border-finance-border bg-white/90 shadow-soft'
               }`}
             >
               {/* Row summary */}
-              <div className="flex w-full items-center px-4 py-3 transition-colors hover:bg-gray-50">
+              <div className="flex w-full items-center px-4 py-3 transition-colors hover:bg-finance-panel">
                 {/* Checkbox wrapper */}
                 <div className="flex items-center justify-center pr-3">
                   <input
                     type="checkbox"
-                    className="size-4 cursor-pointer rounded border-gray-300 text-pest focus:ring-pest"
+                    className="size-4 cursor-pointer rounded border-finance-border text-pest focus:ring-pest"
                     checked={selectedErrors.has(err.id)}
                     onChange={() => toggleSelection(err.id)}
                   />
@@ -409,12 +411,12 @@ const SentryPage = () => {
                 {/* Clickable Expander Region */}
                 <button
                   onClick={() => fetchDetail(err.id)}
-                  className="flex size-full flex-1 items-center gap-3 text-left"
+                  className="flex min-w-0 flex-1 flex-wrap items-center gap-2 text-left sm:flex-nowrap sm:gap-3"
                 >
                   <span
                     className={`size-2.5 shrink-0 rounded-full ${SENTRY_LEVEL_CONFIG[err.level]?.dot || 'bg-gray-400'}`}
                   />
-                  <span className="flex-1 truncate text-sm font-medium text-gray-800">
+                  <span className="min-w-0 flex-1 basis-full truncate text-sm font-semibold text-finance-ink sm:basis-auto">
                     {err.message || 'No message'}
                   </span>
                   <Badge
@@ -431,22 +433,22 @@ const SentryPage = () => {
                     }
                   />
                   <span
-                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                    className={`rounded-full px-2 py-0.5 text-xs font-bold ${
                       err.is_resolved ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
                     }`}
                   >
                     {err.is_resolved ? 'Resolved' : 'Open'}
                   </span>
                   {err.method && (
-                    <span className="hidden font-mono text-xs text-gray-400 md:inline">
+                    <span className="hidden font-mono text-xs text-finance-muted md:inline">
                       {err.method} {err.status_code || ''}
                     </span>
                   )}
-                  <span className="hidden shrink-0 text-xs text-gray-400 lg:inline">
+                  <span className="hidden shrink-0 text-xs text-finance-muted lg:inline">
                     {getDateTime(err.created_at)}
                   </span>
                   <svg
-                    className={`size-4 shrink-0 text-gray-400 transition-transform ${expandedId === err.id ? 'rotate-180' : ''}`}
+                    className={`size-4 shrink-0 text-finance-muted transition-transform ${expandedId === err.id ? 'rotate-180' : ''}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -458,11 +460,11 @@ const SentryPage = () => {
 
               {/* Expanded detail */}
               {expandedId === err.id && (
-                <div className="border-t border-gray-100 bg-gray-50 p-4">
+                <div className="border-t border-finance-border bg-finance-panel/70 p-4">
                   {detailLoading && <Shimmer className="h-[120px] rounded-lg" />}
                   {!detailLoading && detail && (
                     <div className="flex flex-col gap-4 text-sm">
-                      <div className="flex flex-wrap gap-x-6 gap-y-2 text-gray-600">
+                      <div className="flex flex-wrap gap-x-6 gap-y-2 text-finance-muted">
                         <span>
                           <b>ID:</b> {detail.id}
                         </span>
@@ -491,7 +493,7 @@ const SentryPage = () => {
 
                       {/* User info */}
                       {(detail.username || detail.email) && (
-                        <div className="flex items-center gap-4 rounded-lg bg-white p-3 text-gray-700">
+                        <div className="flex items-center gap-4 rounded-xl bg-white p-3 text-finance-ink">
                           <span className="text-lg">👤</span>
                           <div>
                             <p className="font-medium">{detail.username || '—'}</p>
@@ -501,17 +503,17 @@ const SentryPage = () => {
                       )}
 
                       <div>
-                        <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                        <h4 className="mb-1 text-xs font-bold uppercase tracking-wider text-finance-muted">
                           Message
                         </h4>
-                        <p className="whitespace-pre-wrap rounded-lg bg-white p-3 font-mono text-xs text-gray-800">
+                        <p className="whitespace-pre-wrap rounded-xl bg-white p-3 font-mono text-xs text-finance-ink">
                           {detail.message || '—'}
                         </p>
                       </div>
 
                       {detail.stack && (
                         <div>
-                          <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                          <h4 className="mb-1 text-xs font-bold uppercase tracking-wider text-finance-muted">
                             Stack Trace
                           </h4>
                           <pre className="max-h-60 overflow-auto rounded-lg bg-gray-900 p-3 font-mono text-xs text-green-400">
@@ -522,7 +524,7 @@ const SentryPage = () => {
 
                       {detail.payload && (
                         <div>
-                          <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">
+                          <h4 className="mb-1 text-xs font-bold uppercase tracking-wider text-finance-muted">
                             Payload
                           </h4>
                           <pre className="max-h-40 overflow-auto rounded-lg bg-gray-900 p-3 font-mono text-xs text-amber-300">
@@ -534,7 +536,7 @@ const SentryPage = () => {
                       )}
 
                       {detail.user_agent && (
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs text-finance-muted">
                           <b>User Agent:</b> {detail.user_agent}
                         </p>
                       )}
@@ -542,7 +544,7 @@ const SentryPage = () => {
                       <div className="flex gap-3 pt-2">
                         <button
                           onClick={() => toggleResolved(detail.id)}
-                          className={`rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors ${
+                          className={`rounded-xl px-4 py-2 text-sm font-bold text-white transition-colors ${
                             detail.is_resolved
                               ? 'bg-orange-500 hover:bg-orange-600'
                               : 'bg-pest hover:bg-pest-200'
@@ -553,7 +555,7 @@ const SentryPage = () => {
                         {detail.is_resolved ? (
                           <button
                             onClick={() => setDeleteConfirmId(detail.id)}
-                            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-700"
+                            className="rounded-xl bg-red-600 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-red-700"
                           >
                             🗑 Delete
                           </button>

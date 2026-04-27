@@ -166,7 +166,7 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
       <div className="fixed inset-0 z-40" onClick={onClose} />
 
       {/* Panel */}
-      <div className="fixed inset-x-3 top-20 z-50 max-h-[calc(100vh-6rem)] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl shadow-black/30 md:left-auto md:right-4 md:top-20 md:w-96 lg:absolute lg:left-auto lg:right-0 lg:top-full lg:mt-2">
+      <div className="fixed inset-x-3 top-20 z-50 max-h-[calc(100dvh-6rem)] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl shadow-black/30 md:left-auto md:right-4 md:top-20 md:w-96">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-700/50 px-4 py-3">
           <h3 className="text-sm font-semibold text-black">Notifications</h3>
@@ -181,7 +181,7 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
         </div>
 
         {/* Notification List */}
-        <div className="scrollbar-thin max-h-[calc(100vh-13rem)] overflow-y-auto lg:max-h-[400px]">
+        <div className="scrollbar-thin max-h-[calc(100dvh-13rem)] overflow-y-auto lg:max-h-[400px]">
           {loading ? (
             <div className="flex items-center justify-center py-8">
               <div className="size-6 animate-spin rounded-full border-2 border-gray-600 border-t-pest" />

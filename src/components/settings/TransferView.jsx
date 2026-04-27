@@ -122,10 +122,10 @@ const TransferView = () => {
   return (
     <div>
       <div className="flex flex-col justify-between gap-y-4 md:flex-row md:items-center md:gap-y-0">
-        <div>
+        <div className="text-finance-ink">
           Do you want to forward your <b>remaining balance</b> to the next month? :{' '}
           <button
-            className="animate-pulse rounded-full border border-fuchsia-400 px-0.5 text-xs font-semibold text-fuchsia-600"
+            className="rounded-full border border-pest/30 bg-pest/10 px-1.5 text-xs font-bold text-pest"
             onClick={() => setTipsModalOpen(true)}
           >
             ?
@@ -138,9 +138,9 @@ const TransferView = () => {
         )}
       </div>
       {checked ? (
-        <div className="mt-8">
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
           <SelectOption
-            className="!mb-1 size-full"
+            className="!mb-1 w-full"
             name="expenseCategoryId"
             label="Spend From"
             onChange={(e) => handleTransfer(e)}
@@ -157,7 +157,7 @@ const TransferView = () => {
             size="sm"
             color="none"
             type=" "
-            className="w-full justify-end border-none !p-1 text-xs text-pest"
+            className="w-full justify-end border-none !p-1 text-xs text-pest md:col-span-2"
             onClick={() => {
               openModal('expense');
             }}
@@ -166,7 +166,7 @@ const TransferView = () => {
           </Button>
 
           <SelectOption
-            className="!mb-1 size-full"
+            className="!mb-1 w-full"
             name="incomeCategoryId"
             label="Received In"
             onChange={(e) => handleTransfer(e)}
@@ -182,7 +182,7 @@ const TransferView = () => {
             size="sm"
             color="none"
             type=" "
-            className="w-full justify-end border-none !p-1 text-xs text-pest"
+            className="w-full justify-end border-none !p-1 text-xs text-pest md:col-span-2"
             onClick={() => {
               openModal('income');
             }}
@@ -192,7 +192,7 @@ const TransferView = () => {
           <Button
             loading={submitLoading}
             color="primary"
-            className={`${submitLoading ? 'max-w-[140px]' : 'max-w-[90px]'}`}
+            className={`md:col-span-2 ${submitLoading ? 'max-w-[140px]' : 'max-w-[90px]'}`}
             type="submit"
             onClick={handleSubmit}
           >

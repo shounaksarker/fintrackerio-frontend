@@ -74,7 +74,7 @@ const SeedDemoButton = () => {
           type="button"
           onClick={handleSeed}
           disabled={loading}
-          className="group relative inline-flex items-center justify-center gap-x-2 overflow-hidden rounded-xl bg-gradient-to-r from-pest to-finance-teal px-4 py-2 text-sm font-bold text-white shadow-soft transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-70 md:px-8 md:py-3 lg:text-base"
+          className="group relative inline-flex items-center justify-center gap-x-2 overflow-hidden rounded-xl bg-gradient-to-r from-pest to-finance-teal px-4 py-2 text-sm font-bold text-white shadow-soft transition-colors duration-300 disabled:opacity-70 md:px-8 md:py-3 lg:text-base"
         >
           {/* Shine effect */}
           <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />

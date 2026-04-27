@@ -43,81 +43,97 @@ const Page = () => {
   const [error, formAction] = useFormState(signupAction, undefined);
 
   return (
-    <div className="flex h-screen w-full items-center justify-center px-2">
-      <div className="flex flex-col items-center gap-y-12">
-        <h1 className="text-4xl text-pest md:text-5xl">
-          <span className="font-bold uppercase">Fin-</span>Tracker.
-          <span className="font-bold uppercase">io</span>
-        </h1>
-
-        <form action={formAction}>
-          <InputField
-            name="name"
-            className="h-full w-[350px] md:w-[500px]"
-            type="text"
-            label="Name"
-            onChange={(e) => handleUserData(e)}
-            value={user.name}
-            placeholder="Enter Your Name"
-            labelClass="font-normal"
-            required
-            inputClass="placeholder:text-xs border-2"
-          />
-          <InputField
-            name="email"
-            className="h-full w-[350px] md:w-[500px]"
-            type="email"
-            label="Email Address"
-            onChange={(e) => handleUserData(e)}
-            value={user.email}
-            placeholder="Enter Your Email"
-            labelClass="font-normal"
-            required
-            inputClass="placeholder:text-xs border-2"
-          />
-          <InputField
-            name="password"
-            className="h-full w-[350px] md:w-[500px]"
-            type={`${pswdType ? 'password' : 'text'}`}
-            label="Password"
-            onChange={(e) => handleUserData(e)}
-            value={user.password}
-            placeholder="Enter Your Passsword"
-            labelClass="font-normal"
-            required
-            inputClass="placeholder:text-xs border-2"
-            iconRight={pswdType ? <Eyeoff /> : <Eyec />}
-            iconFunction={() => setPswdType(!pswdType)}
-          />
-          {user.password && <CriteriaIndicator data={pswdCriteria} className="mb-4" />}
-          <InputField
-            name="mobile"
-            type="number"
-            className="h-full w-[350px] md:w-[500px]"
-            label="Mobile No."
-            onChange={(e) => handleUserData(e)}
-            value={user.mobile}
-            placeholder="Enter Your Mobile Number (optional)"
-            labelClass="font-normal"
-            inputClass="placeholder:text-xs border-2"
-          />
-          {error && (
-            <p className="mb-4 w-[350px] rounded-md bg-pRed p-2 text-center text-white md:mx-auto md:w-[320px]">
-              {error}
+    <div className="auth-shell">
+      <div className="auth-wrap">
+        <div className="auth-brand-panel">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_16%,rgba(41,157,145,0.38),transparent_21rem),radial-gradient(circle_at_80%_20%,rgba(236,72,153,0.34),transparent_18rem)]" />
+          <div className="relative">
+            <div className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-pest via-finance-accent to-finance-pink text-2xl font-black shadow-glow">
+              F
+            </div>
+            <h1 className="mt-6 text-4xl font-black tracking-tight">Start With Clarity</h1>
+            <p className="mt-3 max-w-sm text-sm leading-6 text-white/60">
+              Build your categories, record your flow, and understand where money moves every month.
             </p>
-          )}
-          <AuthButton text="Sign up" loadingText="Signing Up" />
-        </form>
-        <div className="flex items-center">
-          <hr className="w-[130px] bg-black/10 md:w-[210px]" />
-          <div className="mx-4 uppercase text-phGray">or</div>
-          <hr className="w-[130px] bg-black/10 md:w-[210px]" />
+          </div>
+          <div className="relative rounded-2xl border border-white/10 bg-white/10 p-4 text-sm text-white/70">
+            Create your account, then add income sources and expense categories to unlock the dashboard.
+          </div>
         </div>
-        <div>
-          <span className="text-phGray">Already have an account? </span>
-          <Link href="/login" className="text-pest hover:text-pest-200">
-            Sign in here
-          </Link>
+
+        <div className="auth-form-panel">
+          <div className="mb-8 text-center lg:text-left">
+            <h1 className="auth-logo lg:hidden">
+              <span className="uppercase">Fin-</span>Tracker.io
+            </h1>
+            <h2 className="auth-card-title mt-5 lg:mt-0">Create Account</h2>
+            <p className="auth-card-subtitle">Set up your personal finance workspace.</p>
+          </div>
+          <form action={formAction} className="mx-auto w-full max-w-md">
+            <InputField
+              name="name"
+              className="w-full"
+              type="text"
+              label="Name"
+              onChange={(e) => handleUserData(e)}
+              value={user.name}
+              placeholder="Enter Your Name"
+              labelClass="font-normal"
+              required
+              inputClass="placeholder:text-xs border-2"
+            />
+            <InputField
+              name="email"
+              className="w-full"
+              type="email"
+              label="Email Address"
+              onChange={(e) => handleUserData(e)}
+              value={user.email}
+              placeholder="Enter Your Email"
+              labelClass="font-normal"
+              required
+              inputClass="placeholder:text-xs border-2"
+            />
+            <InputField
+              name="password"
+              className="w-full"
+              type={`${pswdType ? 'password' : 'text'}`}
+              label="Password"
+              onChange={(e) => handleUserData(e)}
+              value={user.password}
+              placeholder="Enter Your Passsword"
+              labelClass="font-normal"
+              required
+              inputClass="placeholder:text-xs border-2"
+              iconRight={pswdType ? <Eyeoff /> : <Eyec />}
+              iconFunction={() => setPswdType(!pswdType)}
+            />
+            {user.password && <CriteriaIndicator data={pswdCriteria} className="mb-4" />}
+            <InputField
+              name="mobile"
+              type="number"
+              className="w-full"
+              label="Mobile No."
+              onChange={(e) => handleUserData(e)}
+              value={user.mobile}
+              placeholder="Enter Your Mobile Number (optional)"
+              labelClass="font-normal"
+              inputClass="placeholder:text-xs border-2"
+            />
+            {error && <p className="mb-4 rounded-xl bg-pRed p-2 text-center text-white">{error}</p>}
+            <AuthButton text="Sign up" loadingText="Signing Up" />
+          </form>
+          <div className="mx-auto mt-8 flex w-full max-w-md items-center">
+            <hr className="flex-1 bg-black/10" />
+            <div className="mx-4 uppercase text-phGray">or</div>
+            <hr className="flex-1 bg-black/10" />
+          </div>
+          <div className="mt-5 text-center">
+            <span className="text-phGray">Already have an account? </span>
+            <Link href="/login" className="text-pest hover:text-pest-200">
+              Sign in here
+            </Link>
+          </div>
         </div>
       </div>
     </div>

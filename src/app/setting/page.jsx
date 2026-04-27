@@ -78,31 +78,37 @@ const Page = () => {
     setConfirmLoading(false);
   };
   return (
-    <div className="px-4">
+    <div className="page-shell">
       {user ? (
-        <div className="md:flex md:flex-col md:items-center md:justify-center xl:items-start">
-          <div className="mt-4 flex w-full flex-col gap-y-4 rounded-lg bg-lightGray/30 p-4 shadow-md md:w-4/5 md:flex-row lg:w-3/5">
+        <div className="space-y-6">
+          <div className="page-toolbar">
+            <div>
+              <h1 className="page-title">Settings</h1>
+              <p className="page-subtitle">Update profile, avatar, and auto-transfer preferences.</p>
+            </div>
+          </div>
+          <div className="app-surface flex w-full flex-col gap-y-4 rounded-3xl p-5 md:flex-row md:items-center lg:max-w-3xl">
             <div className="mx-auto md:flex md:w-1/3 md:items-center md:justify-center">
               <Image
                 src={user.avatar || userIcon}
                 alt="userIcon"
-                className="size-16 rounded-full bg-white p-3 shadow md:size-28"
+                className="size-20 rounded-full bg-white p-2 shadow-soft ring-4 ring-white md:size-28"
                 width={512}
                 height={512}
               />
             </div>
             <div className="flex flex-col gap-y-3 md:w-2/3">
-              <p>
-                <span className="itallic font-semibold capitalize">Name: </span>
-                <span className="capitalize text-pGray">{user.username}</span>
+              <p className="text-sm">
+                <span className="font-semibold capitalize text-finance-muted">Name: </span>
+                <span className="capitalize text-finance-ink">{user.username}</span>
               </p>
-              <p>
-                <span className="itallic font-semibold capitalize">Email: </span>
-                <span className="text-pGray">{user.email}</span>
+              <p className="text-sm">
+                <span className="font-semibold capitalize text-finance-muted">Email: </span>
+                <span className="text-finance-ink">{user.email}</span>
               </p>
-              <p>
-                <span className="itallic font-semibold capitalize">Phone Number: </span>
-                <span className="capitalize text-pGray">{user.phone}</span>
+              <p className="text-sm">
+                <span className="font-semibold capitalize text-finance-muted">Phone Number: </span>
+                <span className="capitalize text-finance-ink">{user.phone}</span>
               </p>
               <Button
                 size="small"
@@ -114,12 +120,12 @@ const Page = () => {
               </Button>
             </div>
           </div>
-          <div className="my-6 w-full rounded-md bg-lightGray/30 p-4 pb-6 shadow-md">
+          <div className="app-surface w-full rounded-3xl p-5">
             <TransferView />
           </div>
           <AvatarView handleImg={handleImg} />
           {/* Support Kori */}
-          <div className="my-6 flex w-full items-center justify-center gap-x-3 rounded-lg bg-[#FFDD00]/10 p-4 shadow-sm md:w-4/5 lg:w-3/5">
+          <div className="flex w-full items-center justify-center gap-x-3 rounded-2xl border border-amber-200 bg-amber-50/80 p-4 shadow-soft lg:max-w-3xl">
             <span className="text-2xl">☕</span>
             <div className="flex flex-col">
               <span className="text-sm font-semibold text-gray-800">Enjoying FinTracker?</span>
@@ -136,7 +142,7 @@ const Page = () => {
           </div>
         </div>
       ) : (
-        <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex min-h-[40vh] w-full items-center justify-center">
           <Loader />
         </div>
       )}

@@ -42,14 +42,14 @@ const Modal = ({
   return createPortal(
     <div
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-[1000] flex min-h-dvh items-center justify-center overflow-y-auto bg-gray-950/70 p-3 backdrop-blur-sm transition-all"
+      className="scrollbar-hidden fixed inset-0 z-[1000] flex min-h-dvh items-center justify-center overflow-y-auto bg-gray-950/75 p-3 py-4 backdrop-blur-md transition-all"
     >
       <div
-        className={`app-surface relative w-full max-w-md rounded-2xl p-2 text-finance-ink ${className || ''}`}
+        className={`scrollbar-hidden relative max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-3xl border border-white/80 bg-gradient-to-br from-finance-panel via-white to-pest/10 p-5 text-finance-ink shadow-card ring-1 ring-pest/10 ${className || ''}`}
       >
         {showCloseButton && (
           <button
-            className="absolute right-2 top-2 rounded-full bg-white/80 p-1 text-gray-600 shadow-sm transition hover:bg-finance-panel hover:text-gray-800"
+            className="absolute right-3 top-3 rounded-full border border-finance-border bg-white p-1 text-gray-600 shadow-sm transition hover:bg-pRed/10 hover:text-pRed"
             onClick={handleClose}
           >
             <Image src={cross} alt="cross-btn" />

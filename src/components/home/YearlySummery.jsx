@@ -57,7 +57,7 @@ const YearlySummery = () => {
           </p>
         </div>
         <ScaleChart
-          className={'w-full px-2 md:h-full md:px-5 xl:min-h-[320px]'}
+          className={'min-h-[250px] w-full px-2 md:h-full md:max-h-[500px] md:px-5 xl:min-h-[320px]'}
           xLabel={yearlySummery.months}
           data={[
             { label: 'Income', data: yearlySummery.incomes, hoverBackgroundColor: '#1d756c' },

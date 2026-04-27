@@ -96,7 +96,7 @@ const Page = () => {
   return (
     <>
       {loading ? (
-        <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex min-h-[40vh] w-full items-center justify-center">
           <Loader />
         </div>
       ) : (

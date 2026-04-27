@@ -89,7 +89,7 @@ const CustomTable = ({
       )}
 
       <div
-        className={`scrollbar-thin flex gap-x-6 overflow-x-auto rounded-2xl border border-white/70 bg-white/85 p-4 shadow-card backdrop-blur-xl md:flex-col md:gap-x-0 ${tableClass || ''}`}
+        className={`scrollbar-hidden flex gap-x-6 overflow-x-auto rounded-2xl border border-white/70 bg-white/85 p-4 shadow-card backdrop-blur-xl md:flex-col md:gap-x-0 ${tableClass || ''}`}
       >
         <div
           className={`flex w-full flex-col items-start justify-between gap-y-4 text-finance-muted md:mb-3 md:flex-row md:items-center md:gap-y-0 ${headerClass || ''}`}
@@ -97,7 +97,7 @@ const CustomTable = ({
           {headers.map((header, index) => (
             <span
               key={index}
-              className={`text-xs font-bold uppercase tracking-wide md:text-sm ${header.thIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.thStyle ? header.thStyle : ''}`}
+              className={`text-[11px] font-bold capitalize tracking-wide md:text-sm ${header.thIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.thStyle ? header.thStyle : ''}`}
             >
               {header.thIcon && header.thIcon}
               {header.label}
@@ -124,7 +124,7 @@ const CustomTable = ({
               paginatedData.map((row, rowIndex) => (
                 <div
                   key={rowIndex}
-                  className={`flex w-full cursor-pointer flex-col items-start justify-between gap-y-4 rounded-xl px-2 py-3 text-finance-ink transition-all hover:bg-finance-panel md:flex-row md:items-center md:gap-y-0 md:border-t md:border-finance-border md:px-3 ${rowClass || ''}`}
+                  className={`flex w-full cursor-pointer flex-col items-start justify-between gap-y-4 rounded-xl px-2 text-xs text-finance-ink transition-all hover:bg-finance-panel md:flex-row md:items-center md:gap-y-0 md:border-t md:border-finance-border md:p-3 md:text-sm ${rowClass || ''}`}
                   onClick={(e) => handleRowClick(e, row)}
                 >
                   {headers.map((header, colIndex) => {
@@ -134,7 +134,7 @@ const CustomTable = ({
                     return (
                       <span
                         key={colIndex}
-                        className={`cursor-pointer capitalize ${header.tdIcon || header.dynamicIcon ? 'flex gap-x-2' : ''} ${header.style} ${header.tdStyle ? header.tdStyle : ''} ${conditionalStyle ? conditionalStyle.style : ''}`}
+                        className={`cursor-pointer capitalize ${header.tdIcon || header.dynamicIcon ? 'flex items-center gap-x-2' : ''} ${header.style} ${header.tdStyle ? header.tdStyle : ''} ${conditionalStyle ? conditionalStyle.style : ''}`}
                       >
                         {header.tdIcon && header.tdIcon}
                         {header.dynamicIcon && (
@@ -178,14 +178,14 @@ const CustomTable = ({
       </div>
 
       {enablePagination && (
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
+        <div className="mt-4 flex flex-row items-center justify-end gap-2">
           <select
             value={selectedPageSize}
             onChange={(e) => {
               setSelectedPageSize(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="custom-border px-2 py-1 text-sm text-finance-ink"
+            className="custom-border shrink-0 px-2 py-1 text-sm text-finance-ink"
           >
             {pageSizeOptions.map((size) => (
               <option key={size} value={size}>
@@ -194,7 +194,9 @@ const CustomTable = ({
             ))}
           </select>
 
-          <div className={`flex flex-wrap items-center gap-y-2 ${paginationClass}`}>
+          <div
+            className={`scrollbar-hidden flex min-w-0 items-center gap-1 overflow-x-auto whitespace-nowrap ${paginationClass || ''}`}
+          >
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}

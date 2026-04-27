@@ -89,7 +89,7 @@ const Sidebar = ({ menu }) => {
       <aside className="lg:w-1/4 xl:w-1/5 2xl:w-[17%]">
         <div
           ref={sidebarRef}
-          className={`fixed left-0 top-0 z-40 flex h-screen w-[86vw] max-w-80 flex-col justify-between overflow-hidden border-r border-white/10 bg-gray-950 text-white shadow-card transition-transform duration-300 lg:z-20 lg:w-full lg:max-w-64 lg:translate-x-0 ${
+          className={`fixed left-0 top-0 z-40 flex h-dvh w-[86vw] max-w-80 flex-col justify-between overflow-hidden border-r border-white/10 bg-gray-950 text-white shadow-card transition-transform duration-300 lg:z-20 lg:w-full lg:max-w-64 lg:translate-x-0 ${
             sideBarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -124,7 +124,7 @@ const Sidebar = ({ menu }) => {
                           className={`group flex w-full items-center justify-between rounded-xl p-3 text-sm font-semibold transition-all ${
                             active
                               ? 'bg-white text-finance-ink shadow-soft'
-                              : 'text-white/72 hover:bg-white/8 hover:text-white'
+                              : 'text-white/70 hover:bg-white/10 hover:text-white'
                           }`}
                           onClick={() => toggleSubMenu(index)}
                         >
@@ -132,8 +132,8 @@ const Sidebar = ({ menu }) => {
                             <span
                               className={`sidebar-menu-icon flex size-9 shrink-0 items-center justify-center rounded-xl transition ${
                                 active
-                                  ? 'bg-pest/12 text-pest [&_path]:fill-none [&_path]:stroke-current'
-                                  : 'bg-white/6 text-white/70 group-hover:bg-white/10'
+                                  ? 'bg-pest/15 text-pest'
+                                  : 'bg-white/10 text-white/70 group-hover:bg-white/10'
                               }`}
                             >
                               {item.icon}
@@ -155,14 +155,14 @@ const Sidebar = ({ menu }) => {
                           className={`group flex w-full items-center gap-3 rounded-xl p-3 text-sm font-semibold transition-all ${
                             active
                               ? 'bg-white text-finance-ink shadow-soft'
-                              : 'text-white/72 hover:bg-white/8 hover:text-white'
+                              : 'text-white/70 hover:bg-white/10 hover:text-white'
                           }`}
                         >
                           <span
                             className={`sidebar-menu-icon flex size-9 shrink-0 items-center justify-center rounded-xl transition ${
                               active
-                                ? 'bg-pest/12 text-pest'
-                                : 'bg-white/6 text-white/70 group-hover:bg-white/10'
+                                ? 'bg-pest/15 text-pest'
+                                : 'bg-white/10 text-white/70 group-hover:bg-white/10'
                             }`}
                           >
                             {item.icon}
@@ -181,7 +181,7 @@ const Sidebar = ({ menu }) => {
                                   className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-all ${
                                     subActive
                                       ? 'bg-pest/15 font-semibold text-white'
-                                      : 'hover:bg-white/8 text-white/55 hover:text-white'
+                                      : 'text-white/55 hover:bg-white/10 hover:text-white'
                                   }`}
                                 >
                                   <ArrowRight /> {subItem.title}
@@ -202,7 +202,7 @@ const Sidebar = ({ menu }) => {
             <Link
               href="/setting"
               onClick={closeMobileSidebar}
-              className="bg-white/6 mb-3 flex items-center gap-3 rounded-2xl border border-white/10 p-3 transition hover:bg-white/10"
+              className="mb-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-3 transition hover:bg-white/10"
             >
               <Image
                 src={user?.avatar || userIcon}
@@ -213,13 +213,13 @@ const Sidebar = ({ menu }) => {
               />
               <div className="min-w-0">
                 <div className="truncate text-sm font-semibold capitalize">{user?.username || 'User'}</div>
-                <div className="truncate text-xs text-white/45">{user?.email || 'View profile'}</div>
+                <div className="truncate text-xs text-white/50">{user?.email || 'View profile'}</div>
               </div>
             </Link>
 
             <button
               type="button"
-              className="bg-white/6 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-white/75 transition hover:bg-pRed/15 hover:text-white disabled:cursor-not-allowed disabled:opacity-60 lg:justify-start"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white/75 transition hover:bg-pRed/15 hover:text-white disabled:cursor-not-allowed disabled:opacity-60 lg:justify-start"
               onClick={logout}
               disabled={logoutLoading}
             >

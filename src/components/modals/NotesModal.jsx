@@ -26,7 +26,7 @@ const NotesModal = ({ modalOpen, setModalOpen, heading, loading, info, setInfo, 
         </h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="title"
             label="Title"

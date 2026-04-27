@@ -78,36 +78,44 @@ const Page = () => {
   return (
     <>
       {loading && (
-        <div className="flex flex-col gap-y-5">
-          <Shimmer className="mx-auto h-8 w-2/3" shimmerClass="mb-6" />
+        <div className="page-shell">
+          <Shimmer className="mx-auto h-10 w-2/3 rounded-2xl" shimmerClass="mb-6" />
           {[1, 2, 3, 4, 5].map((_, i) => (
-            <Shimmer key={i} className="h-4 w-full" />
+            <Shimmer key={i} className="h-5 w-full rounded-xl" />
           ))}
         </div>
       )}
 
       {!loading && !note && (
-        <div className="mt-8 flex min-h-[50vh] w-full items-center justify-center lg:mt-16">
+        <div className="app-surface mt-8 flex min-h-[50vh] w-full items-center justify-center rounded-3xl lg:mt-16">
           <Image src={noDataFound} alt="" className="w-72 lg:w-80" />
         </div>
       )}
 
       {!loading && note && (
-        <div className="flex flex-col gap-y-5">
-          <h3 className="text-center text-2xl font-semibold">{note.title}</h3>
-          <div className="whitespace-pre-wrap text-justify">{note.description}</div>
-          <div className="flex justify-center gap-x-2">
-            <Button
-              onClick={() => {
-                setEditNote(note);
-                setEditNoteModal(true);
-              }}
-            >
-              Edit
-            </Button>
-            <Button color="danger" onClick={() => setDeleteModal(true)}>
-              Delete
-            </Button>
+        <div className="page-shell">
+          <div className="page-toolbar">
+            <div>
+              <h1 className="page-title">{note.title}</h1>
+              <p className="page-subtitle">Saved note details</p>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                color="secondary"
+                onClick={() => {
+                  setEditNote(note);
+                  setEditNoteModal(true);
+                }}
+              >
+                Edit
+              </Button>
+              <Button color="danger" onClick={() => setDeleteModal(true)}>
+                Delete
+              </Button>
+            </div>
+          </div>
+          <div className="app-surface whitespace-pre-wrap rounded-3xl p-5 text-justify leading-8 text-finance-ink md:p-7">
+            {note.description}
           </div>
         </div>
       )}
