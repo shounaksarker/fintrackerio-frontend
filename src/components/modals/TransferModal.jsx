@@ -76,7 +76,7 @@ const TransferModal = ({
             onChange={(e) => handleTransfer(e)}
             value={transfer.from_terminal_id}
             placeholder="Select one"
-            labelClass="font-normal"
+            labelClass="font-medium"
             options={allTerminals}
             optionLabel="terminal_name"
             optionValue="terminal_id"
@@ -89,7 +89,7 @@ const TransferModal = ({
             onChange={(e) => handleTransfer(e)}
             value={transfer.to_terminal_id}
             placeholder="Select one"
-            labelClass="font-normal"
+            labelClass="font-medium"
             options={allTerminals}
             optionLabel="terminal_name"
             optionValue="terminal_id"
@@ -103,7 +103,7 @@ const TransferModal = ({
             onChange={(e) => handleTransfer(e)}
             value={transfer.amount}
             placeholder={`Max: ${maxBalance}`}
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
             max={maxBalance}
             error={
@@ -113,13 +113,13 @@ const TransferModal = ({
             }
             required
           />
-          <label className="mb-2 block text-sm font-normal text-gray-700">Date</label>
-          <div className="custom-border mb-2 w-full py-1">
+          <label className="mb-2 block text-[13px] font-medium tracking-wide text-finance-muted">Date</label>
+          <div className="custom-border mb-3 flex min-h-11 w-full items-center rounded-xl px-2">
             <DatePicker
               showIcon
               selected={transfer.date}
               onChange={(date) => setTransfer({ ...transfer, date })}
-              className="ml-2 font-normal text-pBlack"
+              className="w-full bg-transparent text-sm font-medium text-finance-ink"
               dateFormat={'dd/MM/yyyy'}
               placeholderText={'placeholderText'}
             />
@@ -132,7 +132,7 @@ const TransferModal = ({
             onChange={(e) => handleTransfer(e)}
             value={transfer.description}
             placeholder="Enter description (optional)"
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
           />
           {error && <p className="my-2 rounded-lg bg-red-100 p-2">{error}</p>}

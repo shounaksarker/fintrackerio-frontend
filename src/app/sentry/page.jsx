@@ -6,6 +6,7 @@ import { notification } from '@/components/notification';
 import { SENTRY_ERRORS_URL, SENTRY_STATS_URL } from '@/helpers/frontend/apiEndpoints';
 import { getDateTime } from '@/helpers/frontend/formateDate';
 import Shimmer from '@/components/fields/Shimmer';
+import EmptyState from '@/components/fields/EmptyState';
 import { Badge, StatCard, FilterSelect } from '@/components/sentry/SentryUIComponents';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import {
@@ -336,10 +337,11 @@ const SentryPage = () => {
       )}
 
       {!loading && errors.length === 0 && (
-        <div className="flex flex-col items-center justify-center gap-2 py-20 text-gray-400">
-          <span className="text-5xl">🎉</span>
-          <p className="text-sm font-medium">No errors found</p>
-        </div>
+        <EmptyState
+          compact
+          title="No errors found"
+          description="There are no error logs matching the current filters."
+        />
       )}
 
       {/* ── Bulk Action Bar ────────────────────────────────────── */}

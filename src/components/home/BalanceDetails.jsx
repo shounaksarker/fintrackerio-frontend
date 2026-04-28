@@ -29,13 +29,15 @@ const MetricCard = ({ title, value, tone, onClick }) => {
     <button
       type="button"
       onClick={onClick}
-      className={`group flex flex-col items-start justify-between rounded-2xl border bg-gradient-to-br px-3.5 py-3 text-left shadow-soft transition-colors duration-300 hover:shadow-card ${currentTone.card} w-full`}
+      className={`group flex w-full flex-col items-start justify-between rounded-2xl border bg-gradient-to-br px-3 py-2.5 text-left shadow-soft transition-colors duration-300 hover:shadow-card focus-visible:ring-2 focus-visible:ring-pest/25 md:px-3.5 md:py-3 ${currentTone.card}`}
     >
-      <div className={`rounded-xl border px-1.5 py-0.5 text-sm font-bold tracking-wide ${currentTone.chip}`}>
+      <div
+        className={`rounded-xl border px-1.5 py-0.5 text-xs font-bold tracking-wide md:text-sm ${currentTone.chip}`}
+      >
         {title}
       </div>
       <div>
-        <div className="mt-2 text-xl font-black tracking-tight text-finance-ink sm:text-2xl md:text-[22px]">
+        <div className="text-md mt-1.5 font-black tracking-tight text-finance-ink sm:text-lg sm:text-xl md:mt-2 md:text-[22px]">
           {CURRENCY}
           {formattedAmount(value || 0)}
         </div>
@@ -50,23 +52,25 @@ const WalletRow = ({ terminal }) => {
   const isPositive = balance >= 0;
 
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border border-finance-border bg-white/80 p-3">
-      <div className="flex min-w-0 items-center gap-3">
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gray-950 text-xs font-black uppercase text-white">
+    <div className="flex items-center justify-between gap-2 rounded-xl border border-finance-border bg-white/80 p-2.5 transition-colors hover:bg-white md:gap-3 md:p-3">
+      <div className="flex min-w-0 items-center gap-2 md:gap-3">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gray-950 text-[11px] font-black uppercase text-white md:size-10 md:text-xs">
           {terminal.terminal_name?.slice(0, 2) || 'FT'}
         </div>
         <div className="min-w-0">
           <div className="truncate text-sm font-bold capitalize text-finance-ink">
             {terminal.terminal_name}
           </div>
-          <div className="text-xs text-finance-muted">
+          <div className="truncate text-[11px] text-finance-muted md:text-xs">
             In {CURRENCY}
             {formattedAmount(terminal.total_in || 0)} / Out {CURRENCY}
             {formattedAmount(terminal.total_out || 0)}
           </div>
         </div>
       </div>
-      <div className={`shrink-0 text-right text-sm font-black ${isPositive ? 'text-pest' : 'text-pRed'}`}>
+      <div
+        className={`shrink-0 text-right text-xs font-black md:text-sm ${isPositive ? 'text-pest' : 'text-pRed'}`}
+      >
         {CURRENCY}
         {formattedAmount(balance)}
       </div>
@@ -101,28 +105,30 @@ const BalanceDetails = () => {
 
   return (
     <>
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.8fr)]">
-        <div className="relative overflow-hidden rounded-3xl border border-white/70 bg-gray-950 p-5 text-white shadow-card md:p-6">
+      <section className="grid grid-cols-1 gap-4 md:gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.8fr)]">
+        <div className="relative overflow-hidden rounded-3xl border border-white/70 bg-gray-950 p-4 text-white shadow-card md:p-6">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(124,58,237,0.32),transparent_34rem),radial-gradient(circle_at_88%_24%,rgba(20,184,166,0.24),transparent_24rem)]" />
           <div className="relative">
-            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="flex justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/50">Monthly balance</p>
-                <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
+                <h2 className="mt-2 text-3xl font-black tracking-tight md:mt-3 md:text-5xl">
                   {CURRENCY}
                   {balanceLoading ? '...' : formattedAmount(remain)}
                 </h2>
-                <p className="mt-2 max-w-md text-sm text-white/55">
+                <p className="mt-1.5 max-w-md text-xs leading-5 text-white/55 md:mt-2 md:text-sm">
                   Current remaining balance after income and expenses for the selected period.
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-left md:text-right">
+              <div className="w-fit rounded-2xl border border-white/10 bg-white/10 px-3 py-2 text-left sm:h-fit md:px-4 md:py-3 md:text-right">
                 <p className="text-xs font-semibold uppercase tracking-wide text-white/50">Savings rate</p>
-                <p className="mt-1 text-2xl font-black text-finance-teal">{savingsRate}%</p>
+                <p className="mt-0.5 text-xl font-black text-finance-teal md:mt-1 md:text-2xl">
+                  {savingsRate}%
+                </p>
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-4 md:mt-6">
               <MetricCard
                 title={BALANCE_TITLE.INCOME}
                 value={totalIncome}
@@ -148,8 +154,8 @@ const BalanceDetails = () => {
           </div>
         </div>
 
-        <aside className="app-surface rounded-3xl p-5">
-          <div className="mb-4 flex items-center justify-between">
+        <aside className="app-surface rounded-3xl p-4 md:p-5">
+          <div className="mb-3 flex items-center justify-between md:mb-4">
             <div>
               <h3 className="text-lg font-black text-finance-ink">Wallets</h3>
               <p className="text-xs font-medium text-finance-muted">Terminal balances</p>
@@ -158,7 +164,7 @@ const BalanceDetails = () => {
               {terminals.length} active
             </span>
           </div>
-          <div className="scrollbar-thin flex max-h-[220px] flex-col gap-3 overflow-y-auto pr-1">
+          <div className="scrollbar-thin flex max-h-[178px] flex-col gap-2 overflow-y-auto pr-1 md:max-h-[220px] md:gap-3">
             {terminals.length ? (
               terminals.map((terminal) => <WalletRow key={terminal.terminal_id} terminal={terminal} />)
             ) : (

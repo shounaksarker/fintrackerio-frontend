@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Image from 'next/image';
 import Button from '@/components/fields/Button';
 import { NOTES_VALUE } from '@/assets/constants/stateValue';
 import NotesModal from '@/components/modals/NotesModal';
 import { CREATE_NOTE_URL, GET_ALL_NOTES_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
-import noDataFound from '@/assets/images/no-data.jpg';
 import Shimmer from '@/components/fields/Shimmer';
+import EmptyState from '@/components/fields/EmptyState';
 
 const borderColors = [
   'border-l-red-500',
@@ -90,10 +89,16 @@ const Page = () => {
         </div>
       )}
       {!loading && !allNotes?.notes.length && (
-        <div className="app-surface mt-4 flex w-full flex-col items-center justify-center rounded-3xl py-12">
-          <Image src={noDataFound} alt="" className="w-56 mix-blend-multiply lg:w-64" />
-          <p className="text-center font-medium text-gray-500">No data found...</p>
-        </div>
+        <EmptyState
+          className="mt-4"
+          title="No notes yet"
+          description="Create notes for reminders, plans, or anything you want to keep beside your finance records."
+          action={
+            <Button size="small" iconLeft={'+'} onClick={() => setNoteModalOpen(true)}>
+              Add New Note
+            </Button>
+          }
+        />
       )}
       {!loading && allNotes?.notes && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">

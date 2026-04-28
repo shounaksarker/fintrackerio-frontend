@@ -16,7 +16,7 @@ const Content = ({ children }) => {
     >
       <Header />
       <main className="min-h-[calc(100dvh-9.7rem)] px-2 pb-4 pt-1 md:px-4 lg:px-6">{children}</main>
-      <footer className="mx-2 mb-2 mt-auto flex w-auto flex-col items-center justify-between gap-2 rounded-2xl border border-white/10 bg-gray-950/90 p-3 text-xs text-white shadow-card backdrop-blur md:flex-row md:text-sm lg:mx-6">
+      <footer className="mx-2 mb-2 mt-auto flex w-auto items-center justify-between gap-2 rounded-2xl border border-white/10 bg-gray-950/90 p-3 text-xs text-white shadow-card backdrop-blur md:text-sm lg:mx-6">
         <Link
           target="_blank"
           href={'https://ssraj.vercel.app'}

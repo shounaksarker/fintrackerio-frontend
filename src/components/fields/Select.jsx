@@ -82,7 +82,9 @@ const SelectOption = ({
   return (
     <div className={`mb-4 ${className || ''}`} ref={wrapperRef}>
       {label && (
-        <label className={`mb-2 block text-sm font-semibold text-finance-ink ${labelClass || ''}`}>
+        <label
+          className={`${labelClass || ''} mb-2 block text-[13px] font-bold capitalize tracking-wide text-finance-muted`}
+        >
           {label} {required && <sup className="text-red-500">*</sup>}
         </label>
       )}
@@ -90,7 +92,7 @@ const SelectOption = ({
         ref={buttonRef}
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className={`custom-border flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left capitalize text-finance-ink focus:border-pest focus:ring-2 focus:ring-pest/15 ${selectClass || ''}`}
+        className={`custom-border flex min-h-11 w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-medium capitalize text-finance-ink focus:border-pest focus:ring-2 focus:ring-pest/15 ${selectClass || ''}`}
         aria-haspopup="listbox"
         aria-expanded={open}
       >

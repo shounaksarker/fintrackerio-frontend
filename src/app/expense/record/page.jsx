@@ -161,7 +161,7 @@ const Page = () => {
   const expenseRecordHeader = [
     {
       label: 'Action',
-      style: 'w-[90px] h-6 text-sm lg:text-md',
+      style: 'w-20 md:!w-full h-6 text-sm lg:text-md',
       target: 'action',
       action: [
         { label: <EditIcon className={`h-5`} />, onClick: (row) => handleExpenseEdit(row) },
@@ -205,6 +205,8 @@ const Page = () => {
           enablePagination
           className={'mt-4 w-full'}
           loading={expenseLoading}
+          emptyTitle="No expense records yet"
+          emptyDescription="Add an expense for this date range to track spending and update your balance."
         />
       </div>
       <h4 className="summary-pill mx-auto">

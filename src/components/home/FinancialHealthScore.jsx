@@ -115,26 +115,26 @@ const FinancialHealthScore = () => {
   const strokeDashoffset = circumference - (scoreData.score / 100) * circumference;
 
   return (
-    <div className="app-surface relative flex w-full flex-col items-center overflow-hidden rounded-3xl p-5 md:p-6">
+    <div className="app-surface relative flex w-full flex-col items-center overflow-hidden rounded-3xl p-4 md:p-6">
       {/* Decorative background blur */}
       <div
         className={`absolute right-0 top-0 size-32 bg-gradient-to-br ${scoreData.gradient} rounded-full opacity-10 blur-3xl`}
       />
 
-      <div className="mb-4 flex w-full items-center md:mb-6">
+      <div className="mb-3 flex w-full items-center md:mb-6">
         <div>
           <h3 className="text-left text-lg font-black text-finance-ink">Financial Health Score</h3>
           <p className="text-xs font-medium text-finance-muted">Savings rate and budget discipline</p>
         </div>
         <button
-          className="ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 bg-pest/10 px-1.5 py-0 text-xs font-semibold text-pest"
+          className="ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 bg-pest/10 px-1.5 py-0 text-xs font-semibold text-pest transition-colors hover:bg-pest/15 focus-visible:ring-2 focus-visible:ring-pest/20"
           onClick={() => setTipsModalOpen(true)}
         >
           i
         </button>
       </div>
 
-      <div className="flex w-full flex-row items-center gap-4 md:gap-8">
+      <div className="flex w-full flex-row items-center gap-3 md:gap-8">
         {/* Animated Circular Progress */}
         <div className="relative flex size-28 items-center justify-center md:size-36">
           <svg className="size-28 -rotate-90 md:size-36">
@@ -161,7 +161,7 @@ const FinancialHealthScore = () => {
             />
           </svg>
           <div className="absolute flex flex-col items-center justify-center">
-            <span className={`text-3xl font-extrabold md:text-4xl ${scoreData.color}`}>
+            <span className={`text-2xl font-extrabold md:text-4xl ${scoreData.color}`}>
               {scoreData.score}
             </span>
             <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 md:text-xs">
@@ -175,7 +175,7 @@ const FinancialHealthScore = () => {
           {scoreData.messages.map((msg, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-x-2 rounded-xl border border-finance-border bg-white/80 px-2 py-1.5 text-xs font-medium text-finance-muted md:p-2 md:text-sm"
+              className="flex items-center gap-x-2 rounded-xl border border-finance-border bg-white/80 px-2 py-1.5 text-xs font-medium text-finance-muted transition-colors hover:bg-white md:p-2 md:text-sm"
             >
               <span>{msg}</span>
             </div>

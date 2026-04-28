@@ -10,6 +10,7 @@ import { EXPENSE_RECORD_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
 import Loader from '@/components/fields/Loader';
 import { DataContext } from '@/context/DataContext';
+import EmptyState from '@/components/fields/EmptyState';
 
 const Page = () => {
   const {
@@ -137,7 +138,13 @@ const Page = () => {
                 ))}
               </div>
             </div>
-          ) : null}
+          ) : (
+            <EmptyState
+              compact
+              title="No expense breakdown yet"
+              description="Add expenses in the selected date range to see category comparison and spending details."
+            />
+          )}
         </div>
       )}
     </>

@@ -75,14 +75,16 @@ const IconSelect = ({
   return (
     <div className={`mb-4 ${className || ''}`} ref={wrapperRef}>
       {label && (
-        <label className={`mb-2 block text-sm font-semibold text-finance-ink ${labelClass || ''}`}>
+        <label
+          className={`${labelClass || ''} mb-2 block text-[13px] font-bold tracking-wide text-finance-muted`}
+        >
           {label}
         </label>
       )}
       <button
         ref={buttonRef}
         type="button"
-        className={`custom-border flex w-full items-center justify-between gap-2 px-3 text-left capitalize text-finance-ink focus:border-pest focus:ring-2 focus:ring-pest/15 ${selected ? 'py-1.5' : 'py-2.5'} ${selectClass || ''}`}
+        className={`custom-border flex min-h-11 w-full items-center justify-between gap-2 rounded-xl px-3 text-left text-sm font-medium capitalize text-finance-ink focus:border-pest focus:ring-2 focus:ring-pest/15 ${selected ? 'py-1.5' : 'py-2.5'} ${selectClass || ''}`}
         onClick={() => setIsOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}

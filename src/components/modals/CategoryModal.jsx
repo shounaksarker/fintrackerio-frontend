@@ -41,7 +41,7 @@ const CategoryModal = ({
             onChange={(e) => handleCategory(e)}
             value={data.name}
             placeholder={placeholder}
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
             required
           />
@@ -53,7 +53,7 @@ const CategoryModal = ({
             onChange={(e) => handleCategory(e)}
             value={data.description}
             placeholder="Enter description (optional)"
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
           />
           {name.toLowerCase() === 'expense' && (
@@ -65,7 +65,7 @@ const CategoryModal = ({
               onChange={(e) => handleCategory(e)}
               value={data.budget}
               placeholder="Enter budget limit (optional)"
-              labelClass="font-normal"
+              labelClass="font-medium"
               inputClass="placeholder:text-xs border-2"
               min="0"
             />
@@ -76,7 +76,7 @@ const CategoryModal = ({
             onChange={(e) => handleCategory(e, 'icon')}
             value={data.icon}
             placeholder="Select one"
-            labelClass="font-normal"
+            labelClass="font-medium"
             options={CATEGORY_ICONS}
             optionLabel={'icon'}
             optionValue={'icon'}

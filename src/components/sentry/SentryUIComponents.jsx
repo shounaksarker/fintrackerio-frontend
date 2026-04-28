@@ -9,7 +9,7 @@ const Badge = ({ config }) => (
 
 const StatCard = ({ label, value, color }) => (
   <div className="app-surface flex flex-col gap-1 rounded-2xl p-4">
-    <span className="text-xs font-bold uppercase tracking-wide text-finance-muted">{label}</span>
+    <span className="text-xs font-bold tracking-wide text-finance-muted">{label}</span>
     <span className={`text-2xl font-black ${color || 'text-finance-ink'}`}>{value ?? '—'}</span>
   </div>
 );

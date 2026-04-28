@@ -105,12 +105,12 @@ const Page = () => {
     },
     {
       label: 'Action',
-      style: 'w-24 md:w-1/4 text-sm lg:text-md',
+      style: 'w-20 md:!w-full text-sm lg:text-md',
       target: 'action',
       action: [
         {
           label: <EditIcon />,
-          style: 'text-white text-[8px]',
+          style: 'text-pest',
           onClick: (row) => handleEdit({ data: row, setModalOpen: setEditModalOpen, setEditdata }),
         },
       ],
@@ -135,6 +135,8 @@ const Page = () => {
           className={'w-full'}
           loading={incomeSourceLoading}
           enableDetailsView={false}
+          emptyTitle="No income sources yet"
+          emptyDescription="Create sources like salary, freelance, bonus, or business before adding income records."
         />
       </div>
       <CategoryModal

@@ -97,7 +97,7 @@ const ExpenseCard = ({
   return (
     <div className="w-full">
       <div
-        className="flex cursor-pointer items-center justify-between rounded-t-2xl border border-finance-border bg-white/90 p-3 transition-colors duration-300 hover:shadow-card"
+        className="flex cursor-pointer items-center justify-between rounded-t-2xl border border-finance-border bg-gray-200 p-3 transition-colors duration-300 hover:shadow-card"
         onClick={() => setComparedModalOpen(true)}
       >
         <div className="flex items-center justify-start gap-x-2">

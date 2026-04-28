@@ -19,7 +19,7 @@ const Button = ({
   loadingText = 'Loading...',
 }) => {
   let btnClasses =
-    'inline-flex items-center justify-center rounded-lg border px-4 py-2 font-semibold shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-pest/20';
+    'inline-flex items-center justify-center rounded-xl border px-4 py-2 font-bold shadow-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-pest/25';
   if (size === 'small') {
     btnClasses += ' text-sm';
   } else if (size === 'large') {
@@ -33,7 +33,7 @@ const Button = ({
       ' border-transparent bg-gradient-to-r from-pest to-finance-teal text-white shadow-glow hover:from-pest-200 hover:to-pest';
   } else if (color === 'secondary') {
     btnClasses +=
-      ' border-finance-border bg-white text-finance-ink hover:border-pest/40 hover:bg-finance-panel';
+      ' border-finance-border bg-white text-finance-ink hover:border-pest/40 hover:bg-finance-panel hover:text-pest';
   } else if (color === 'danger') {
     btnClasses +=
       ' border-transparent bg-gradient-to-r from-pRed to-finance-orange text-white hover:from-pRed-200 hover:to-pRed';

@@ -37,6 +37,8 @@ const Page = () => {
         enablePagination
         className={'w-full'}
         enableDetailsView={false}
+        emptyTitle="No transfer history yet"
+        emptyDescription="Income distribution and wallet transfers for the selected period will appear here."
       />
     </div>
   );

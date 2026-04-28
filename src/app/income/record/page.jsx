@@ -192,7 +192,7 @@ const Page = () => {
   const expenseRecordHeader = [
     {
       label: 'Action',
-      style: 'w-[90px] h-6 text-sm lg:text-md',
+      style: 'w-20 md:!w-full h-6 text-sm lg:text-md',
       target: 'action',
       action: [
         { label: <EditIcon className={`h-5`} />, onClick: (row) => handleIncomeEdit(row) },
@@ -263,6 +263,8 @@ const Page = () => {
           loading={incomeLoading}
           enablePagination
           className={'mt-4 w-full'}
+          emptyTitle="No income records yet"
+          emptyDescription="Add income for this date range to track earnings and update wallet balances."
         />
       </div>
       {incomeData.length > 0 && (

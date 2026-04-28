@@ -66,16 +66,16 @@ const IncomeModal = ({ modalOpen, setModalOpen, loading, data, setData, incomeSo
             inputClass="placeholder:text-xs border-2"
             required
           />
-          <label className="mb-2 block text-sm font-normal text-gray-700">
+          <label className="mb-2 block text-[13px] font-bold uppercase tracking-wide text-finance-muted">
             Date <sup className="text-red-500">*</sup>
           </label>
-          <div className="custom-border mb-2 w-full py-1">
+          <div className="custom-border mb-2 flex min-h-11 w-full items-center rounded-xl px-2">
             <DatePicker
               showIcon
               selected={data.date}
               onChange={(date) => setData({ ...data, date })}
               calendarClassName=""
-              className="ml-2 font-normal text-pBlack"
+              className="w-full bg-transparent text-sm font-medium text-finance-ink"
               dateFormat={'dd/MM/yyyy'}
               placeholderText={'placeholderText'}
             />

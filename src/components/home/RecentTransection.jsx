@@ -3,6 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import DoughnutChart from '@/components/chart/Doughnut';
 import Loader from '@/components/fields/Loader';
+import EmptyState from '@/components/fields/EmptyState';
 import IncomeExpenseList from '@/components/IncomeExpenseList';
 import getBreakdown from '@/helpers/frontend/getBreakdown';
 import { getNameAndAmount } from '@/helpers/frontend/handle';
@@ -62,9 +63,9 @@ const RecentTransection = () => {
   }, [incomeData, expenseData]);
 
   return (
-    <section className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(360px,0.88fr)_minmax(0,1.12fr)]">
-      <div className="app-surface rounded-3xl p-4 md:p-5">
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <section className="grid grid-cols-1 gap-4 md:gap-5 xl:grid-cols-[minmax(360px,0.88fr)_minmax(0,1.12fr)]">
+      <div className="app-surface rounded-3xl p-3 md:p-5">
+        <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:mb-4">
           <div>
             <h3 className="text-lg font-black text-finance-ink">Recent Transactions</h3>
             <p className="text-xs font-medium text-finance-muted">Latest records for selected period</p>
@@ -72,14 +73,14 @@ const RecentTransection = () => {
           <div className="flex w-fit rounded-xl border border-finance-border bg-white/70 p-1 text-sm font-bold">
             <button
               type="button"
-              className={`rounded-lg px-3 py-1.5 transition ${recentTransectionStyle('income')}`}
+              className={`rounded-lg px-3 py-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-pest/20 ${recentTransectionStyle('income')}`}
               onClick={() => recentTransectionToggle('income')}
             >
               Income
             </button>
             <button
               type="button"
-              className={`rounded-lg px-3 py-1.5 transition ${recentTransectionStyle('expense')}`}
+              className={`rounded-lg px-3 py-1.5 transition-colors focus-visible:ring-2 focus-visible:ring-pest/20 ${recentTransectionStyle('expense')}`}
               onClick={() => recentTransectionToggle('expense')}
             >
               Expense
@@ -93,13 +94,16 @@ const RecentTransection = () => {
           </div>
         )}
 
-        <div className="scrollbar-thin flex max-h-[330px] flex-col gap-1 overflow-y-auto pr-1 md:max-h-[360px] xl:max-h-[390px]">
+        <div className="scrollbar-thin flex max-h-[260px] flex-col gap-1 overflow-y-auto pr-1 md:max-h-[360px] xl:max-h-[390px]">
           {inExDetails.showRecentTransection === 'income' ? (
             <>
               {!incomeLoading && !incomeData.length && (
-                <p className="rounded-2xl border border-dashed border-finance-border py-8 text-center text-sm font-medium text-finance-muted">
-                  Income list is empty
-                </p>
+                <EmptyState
+                  compact
+                  title="No income yet"
+                  description="Income records for the selected period will appear here."
+                  className="min-h-[220px]"
+                />
               )}
               {incomeData.map((income, i) => (
                 <IncomeExpenseList
@@ -115,9 +119,12 @@ const RecentTransection = () => {
           ) : (
             <>
               {!expenseLoading && !expenseData.length && (
-                <p className="rounded-2xl border border-dashed border-finance-border py-8 text-center text-sm font-medium text-finance-muted">
-                  Expense list is empty
-                </p>
+                <EmptyState
+                  compact
+                  title="No expense yet"
+                  description="Expense records for the selected period will appear here."
+                  className="min-h-[220px]"
+                />
               )}
               {expenseData.map((expense, i) => (
                 <IncomeExpenseList
@@ -162,6 +169,14 @@ const RecentTransection = () => {
             />
           </div>
         </div>
+      )}
+      {incomeData.length === 0 && expenseData.length === 0 && !incomeLoading && !expenseLoading && (
+        <EmptyState
+          compact
+          title="Charts will appear after records"
+          description="Add income or expense to see a clean distribution chart for the selected period."
+          className="min-h-[240px] md:min-h-[340px] xl:min-h-[390px]"
+        />
       )}
     </section>
   );

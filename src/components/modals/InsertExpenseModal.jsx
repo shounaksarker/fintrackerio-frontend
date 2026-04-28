@@ -19,10 +19,10 @@ const InsertExpenseModal = ({
   title,
   expense,
   setExpense,
-  expenseCategories,
-  terminals,
+  expenseCategories = [],
+  terminals = [],
   handleSubmit,
-  terminalBalances,
+  terminalBalances = [],
   maxAmount,
   isEdit = false,
 }) => {
@@ -64,13 +64,13 @@ const InsertExpenseModal = ({
         <form onSubmit={handleSubmit}>
           <SelectOption
             className="w-full"
-            selectClass="text-md font-thin"
+            selectClass="text-md font-medium"
             name="expense_category_id"
             label="Category"
             onChange={(e) => handleExpense(e)}
             value={expense.expense_category_id}
             placeholder="Select Expense Category"
-            labelClass="font-normal"
+            labelClass="font-medium"
             options={categoryOptions}
             optionLabel="name"
             optionValue="expense_category_id"
@@ -79,11 +79,12 @@ const InsertExpenseModal = ({
           <SelectOption
             className="w-full"
             name="terminal_id"
+            selectClass="text-md font-medium"
             label="Spend From"
             onChange={(e) => handleExpense(e)}
             value={expense.terminal_id}
-            placeholder="Select Terminal"
-            labelClass="font-normal"
+            placeholder="Select Wallet"
+            labelClass="font-medium"
             options={terminals}
             optionLabel="terminal_name"
             optionValue="terminal_id"
@@ -98,7 +99,7 @@ const InsertExpenseModal = ({
             onChange={(e) => handleExpense(e)}
             value={Number(expense.amount)}
             placeholder={`Max: ${formattedAmount(effectiveMaxAmount)}`}
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
             max={effectiveMaxAmount}
             error={
@@ -116,7 +117,7 @@ const InsertExpenseModal = ({
             onChange={(e) => handleExpense(e)}
             value={expense.spend_on}
             placeholder="Online Food"
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
             required
           />
@@ -128,17 +129,17 @@ const InsertExpenseModal = ({
             onChange={(e) => handleExpense(e)}
             value={expense.description}
             placeholder="Enter description (optional)"
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
           />
-          <label className="mb-2 block text-sm font-normal text-gray-700">Date</label>
-          <div className="custom-border mb-2 w-full py-1">
+          <label className="mb-2 block text-sm tracking-wide text-finance-muted">Date</label>
+          <div className="custom-border mb-2 flex min-h-11 w-full items-center rounded-xl px-2">
             <DatePicker
               showIcon
               selected={expense.date}
               onChange={(date) => setExpense({ ...expense, date })}
               calendarClassName=""
-              className="ml-2 font-normal text-pBlack"
+              className="w-full bg-transparent text-sm font-medium text-finance-ink"
               dateFormat={'dd/MM/yyyy'}
             />
           </div>
@@ -160,7 +161,7 @@ const InsertExpenseModal = ({
               label="Frequency"
               onChange={(e) => handleExpense(e)}
               value={expense.recurrence_interval || RECURRING_INTERVAL.MONTHLY}
-              labelClass="font-normal"
+              labelClass="font-medium"
               options={[
                 { label: 'Weekly', value: RECURRING_INTERVAL.WEEKLY },
                 { label: 'Monthly', value: RECURRING_INTERVAL.MONTHLY },

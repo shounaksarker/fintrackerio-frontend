@@ -116,7 +116,7 @@ const Page = () => {
     },
     {
       label: 'Action',
-      style: 'w-24 md:w-1/5 text-sm lg:text-md',
+      style: 'w-20 md:!w-full text-sm lg:text-md',
       target: 'action',
       action: [
         {
@@ -146,6 +146,8 @@ const Page = () => {
           className={'w-full'}
           loading={expenseCategoryLoading}
           enableDetailsView={false}
+          emptyTitle="No expense categories yet"
+          emptyDescription="Create categories with budgets to organize spending and power dashboard insights."
         />
       </div>
 

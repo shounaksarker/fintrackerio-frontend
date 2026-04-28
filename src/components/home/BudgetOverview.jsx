@@ -15,7 +15,9 @@ const BudgetProgress = ({ categoryName, spent, budget, className = '' }) => {
   if (percentage >= 100 || isExceeded) colorClass = 'bg-pRed';
 
   return (
-    <div className={`rounded-2xl border border-finance-border bg-white/80 p-4 ${className}`}>
+    <div
+      className={`rounded-2xl border border-finance-border bg-white/80 p-3 transition-colors hover:bg-white md:p-4 ${className}`}
+    >
       <div className="mb-1 flex justify-between text-sm">
         <span className="text-sm font-bold capitalize text-finance-ink md:text-base">{categoryName}</span>
         <span className="text-sm font-semibold text-finance-muted md:text-base">
@@ -69,14 +71,14 @@ const BudgetOverview = () => {
   if (!budgetItems.length || !budgetItems.some((item) => item.spent)) return null;
 
   return (
-    <div className="app-surface w-full rounded-3xl p-5">
-      <div className="mb-5 flex w-full items-center">
+    <div className="app-surface w-full rounded-3xl p-4 md:p-5">
+      <div className="mb-3 flex w-full items-center md:mb-5">
         <div>
           <h3 className="text-lg font-black text-finance-ink">Monthly Budgets</h3>
           <p className="text-xs font-medium text-finance-muted">Category spending against planned limits</p>
         </div>
         <button
-          className="ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 bg-pest/10 px-1.5 py-0 text-xs font-semibold text-pest"
+          className="ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 bg-pest/10 px-1.5 py-0 text-xs font-semibold text-pest transition-colors hover:bg-pest/15 focus-visible:ring-2 focus-visible:ring-pest/20"
           onClick={() => setTipsModalOpen(true)}
         >
           i

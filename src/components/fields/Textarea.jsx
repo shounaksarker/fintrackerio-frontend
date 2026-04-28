@@ -26,7 +26,9 @@ const Textarea = ({
   return (
     <div className={`mb-4 ${className}`}>
       {label && (
-        <label className={`mb-2 block text-sm font-semibold text-finance-ink ${labelClass}`}>
+        <label
+          className={`${labelClass || ''} mb-2 block text-[13px] font-bold tracking-wide text-finance-muted`}
+        >
           {label} {required && <sup className="text-[10px] text-red-500">*</sup>}
         </label>
       )}
@@ -48,7 +50,7 @@ const Textarea = ({
           rows={rows.toString()}
           cols={cols.toString()}
           autoComplete={autoComplete.toString()}
-          className={`custom-border w-full px-3 py-2.5 text-finance-ink placeholder:text-finance-muted/70 focus:border-pest focus:ring-2 focus:ring-pest/15 ${iconLeft ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? '!border-red-600 !ring-red-600/10' : ''} ${textareaClass}`}
+          className={`custom-border min-h-28 w-full rounded-xl px-3 py-2.5 text-sm font-medium text-finance-ink placeholder:text-finance-muted/65 focus:border-pest focus:ring-2 focus:ring-pest/15 ${iconLeft ? 'pl-10' : ''} ${iconRight ? 'pr-10' : ''} ${error ? '!border-red-600 !ring-red-600/10' : ''} ${textareaClass || ''}`}
         />
         {error && <small className="text-[10px] font-semibold text-red-700 md:text-xs">{error}</small>}
         {iconRight && (

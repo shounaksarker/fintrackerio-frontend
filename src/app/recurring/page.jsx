@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import Image from 'next/image';
 import CustomTable from '@/components/fields/Table';
 import { formattedAmount } from '@/helpers/frontend/getSum';
 import { EDIT_RECURRING_URL, DELETE_RECURRING_URL } from '@/helpers/frontend/apiEndpoints';
@@ -12,8 +11,8 @@ import { notification } from '@/components/notification';
 import ConfirmModal from '@/components/modals/ConfirmModal';
 import DeleteIcon from '@/assets/svg/Icon/DeleteIcon';
 import { DataContext } from '@/context/DataContext';
-import noDataImg from '@/assets/images/no-data.jpg';
 import Loader from '@/components/fields/Loader';
+import EmptyState from '@/components/fields/EmptyState';
 
 const Page = () => {
   const { recurringData, setRecurringData, recurringLoading, fetchRecurringData, fetchForce } =
@@ -87,11 +86,11 @@ const Page = () => {
 
   const actionCol = {
     label: 'Action',
-    style: 'w-20 md:w-[90px] text-center',
+    style: 'w-20 md:!w-full text-center',
     target: 'action',
     action: [
       {
-        label: (row) => <div className="text-xl text-black">{row.is_active ? '⏸️' : '▶️'}</div>,
+        label: (row) => <div className="text-lg text-finance-ink">{row.is_active ? '⏸️' : '▶️'}</div>,
         onClick: (row) => handleToggleActive(row),
       },
       { label: <DeleteIcon className={`h-5 text-red-500`} />, onClick: (row) => handleDelete(row) },
@@ -112,7 +111,7 @@ const Page = () => {
   };
 
   const expenseHeader = [
-    { label: '#', style: 'w-10 md:w-[5%] text-center', index: true },
+    // { label: '#', style: 'w-10 md:w-[5%] text-center', index: true },
     {
       label: 'Category',
       style: 'w-32 md:w-[15%] capitalize',
@@ -151,7 +150,7 @@ const Page = () => {
   ];
 
   const incomeHeader = [
-    { label: '#', style: 'w-10 md:w-[5%] text-center', index: true },
+    // { label: '#', style: 'w-10 md:w-[5%] text-center', index: true },
     {
       label: 'Category',
       style: 'w-32 md:w-[20%] capitalize',
@@ -201,21 +200,10 @@ const Page = () => {
         </div>
       </div>
       {!recurringLoading && !recurringData?.expense?.length && !recurringData?.income?.length && (
-        <div className="app-surface flex flex-col items-center justify-center rounded-3xl py-12 text-center">
-          <Image
-            src={noDataImg}
-            alt="No transactions"
-            className="w-[200px] object-contain mix-blend-multiply md:w-[240px]"
-          />
-          <h3 className="mt-4 text-lg font-black text-finance-ink md:text-2xl">
-            No repeatative transactions found.
-          </h3>
-          <p className="mt-2 max-w-xl text-[15px] text-finance-muted md:text-base">
-            Automate your finances! Next time you add an income or expense,
-            <br />
-            just enable the &quot;Make it Repeatative&quot; option to see it appear here.
-          </p>
-        </div>
+        <EmptyState
+          title="No repeatative transactions yet"
+          description='Enable "Make it Repeatative" while adding income or expense, and the automation will appear here.'
+        />
       )}
 
       {recurringData?.expense?.length > 0 && (
