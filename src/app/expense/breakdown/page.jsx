@@ -10,6 +10,7 @@ import { EXPENSE_RECORD_URL } from '@/helpers/frontend/apiEndpoints';
 import { notification } from '@/components/notification';
 import Loader from '@/components/fields/Loader';
 import { DataContext } from '@/context/DataContext';
+import EmptyState from '@/components/fields/EmptyState';
 
 const Page = () => {
   const {
@@ -96,15 +97,18 @@ const Page = () => {
   return (
     <>
       {loading ? (
-        <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex min-h-[40vh] w-full items-center justify-center">
           <Loader />
         </div>
       ) : (
-        <div>
-          <div className="my-12 md:mt-6">
-            <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Comparison</h1>
+        <div className="page-shell">
+          <div className="app-surface rounded-3xl p-4 md:p-6">
+            <div className="mb-5">
+              <h1 className="page-title">Expense Comparison</h1>
+              <p className="page-subtitle">This month compared with the previous month by day.</p>
+            </div>
             <ScaleChart
-              className={'md:h-full'}
+              className={'h-[280px] md:h-[360px]'}
               xLabel={dateAndDays}
               data={[
                 { label: 'This Month', data: currentMonthAmounts, hoverBackgroundColor: '#1d756c' },
@@ -114,8 +118,11 @@ const Page = () => {
           </div>
           {Object.entries(currentMonthBreakdown).length ? (
             <div>
-              <h1 className="mb-8 text-center text-2xl font-medium text-pBlack">Expense Breakdown</h1>
-              <div className="flex flex-wrap gap-y-5 md:justify-between xl:justify-start">
+              <div className="mb-5">
+                <h1 className="page-title">Expense Breakdown</h1>
+                <p className="page-subtitle">Tap a category to compare, or a row to inspect spending.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {Object.entries(currentMonthBreakdown).map(([categoryName, categoryData]) => (
                   <ExpenseCard
                     key={categoryName}
@@ -131,7 +138,13 @@ const Page = () => {
                 ))}
               </div>
             </div>
-          ) : null}
+          ) : (
+            <EmptyState
+              compact
+              title="No expense breakdown yet"
+              description="Add expenses in the selected date range to see category comparison and spending details."
+            />
+          )}
         </div>
       )}
     </>

@@ -8,19 +8,19 @@ const Badge = ({ config }) => (
 );
 
 const StatCard = ({ label, value, color }) => (
-  <div className="flex flex-col gap-1 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-    <span className="text-xs font-medium tracking-wide text-gray-500">{label}</span>
-    <span className={`text-2xl font-bold ${color || 'text-gray-900'}`}>{value ?? '—'}</span>
+  <div className="app-surface flex flex-col gap-1 rounded-2xl p-4">
+    <span className="text-xs font-bold tracking-wide text-finance-muted">{label}</span>
+    <span className={`text-2xl font-black ${color || 'text-finance-ink'}`}>{value ?? '—'}</span>
   </div>
 );
 
 const FilterSelect = ({ label, value, onChange, options }) => (
-  <label className="flex flex-col gap-1 text-xs font-medium text-gray-500">
+  <label className="flex flex-col gap-1 text-xs font-bold text-finance-muted">
     {label}
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm capitalize text-gray-800 focus:border-pest focus:outline-none focus:ring-1 focus:ring-pest"
+      className="rounded-xl border border-finance-border bg-white px-3 py-2 text-sm capitalize text-finance-ink shadow-sm focus:border-pest focus:outline-none focus:ring-2 focus:ring-pest/15"
     >
       <option value="">All</option>
       {options.map((opt) => (

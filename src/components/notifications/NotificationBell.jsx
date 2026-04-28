@@ -55,10 +55,14 @@ const NotificationBell = () => {
   };
 
   return (
-    <div className="relative ml-2" ref={containerRef}>
+    <div className="relative" ref={containerRef}>
       <button
         onClick={togglePanel}
-        className="relative rounded-lg p-2 text-gray-400 transition-all duration-200 hover:bg-gray-300 hover:text-black"
+        className={`relative flex size-11 items-center justify-center rounded-xl border transition-all duration-200 ${
+          panelOpen
+            ? 'border-pest/40 bg-pest/10 text-pest shadow-soft'
+            : 'border-finance-border bg-white/85 text-finance-muted shadow-sm hover:border-pest/30 hover:bg-finance-panel hover:text-finance-ink'
+        }`}
         title="Notifications"
       >
         {/* Bell Icon SVG */}

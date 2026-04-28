@@ -161,7 +161,7 @@ const Page = () => {
   const expenseRecordHeader = [
     {
       label: 'Action',
-      style: 'w-[90px] h-6 text-sm lg:text-md',
+      style: 'w-20 md:!w-full h-6 text-sm lg:text-md',
       target: 'action',
       action: [
         { label: <EditIcon className={`h-5`} />, onClick: (row) => handleExpenseEdit(row) },
@@ -177,9 +177,13 @@ const Page = () => {
   }, [dateRange]);
 
   return (
-    <div>
+    <div className="page-shell">
       <div>
-        <div className="custom-borde flex flex-wrap justify-end gap-x-3 rounded-sm p-2 shadow-sm">
+        <div className="page-toolbar">
+          <div>
+            <h1 className="page-title">Expense Records</h1>
+            <p className="page-subtitle">Track outgoing money for the selected date range.</p>
+          </div>
           <Button
             size="small"
             iconLeft={'+'}
@@ -194,20 +198,18 @@ const Page = () => {
           </Button>
         </div>
 
-        <h3 className="my-6 text-center text-2xl font-bold text-pGray underline underline-offset-4">
-          Expense Records
-        </h3>
         <CustomTable
           headers={EXPENSE_RECORDS_TABLE_HEADER(expenseRecordHeader)}
           data={expenseData}
           enableSearch
           enablePagination
-          className={'w-full'}
-          tableClass={'rounded-md p-4 shadow-md'}
+          className={'mt-4 w-full'}
           loading={expenseLoading}
+          emptyTitle="No expense records yet"
+          emptyDescription="Add an expense for this date range to track spending and update your balance."
         />
       </div>
-      <h4 className="mx-auto my-4 w-48 rounded-md bg-sBlack py-2 text-center text-white">
+      <h4 className="summary-pill mx-auto">
         Total - {CURRENCY} {formattedAmount(balance.total_expense || getSum(expenseData, 'amount'))}
       </h4>
       <InsertExpenseModal

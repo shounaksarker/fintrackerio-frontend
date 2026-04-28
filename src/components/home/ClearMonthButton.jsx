@@ -67,9 +67,9 @@ const ClearMonthButton = () => {
         <button
           type="button"
           onClick={() => setConfirmOpen(true)}
-          className="text-xs text-gray-400 underline decoration-dashed underline-offset-2 transition hover:text-pRed"
+          className="rounded-full border border-finance-border bg-white/60 px-3 py-1 text-xs font-semibold text-finance-muted transition hover:border-pRed/30 hover:bg-pRed/5 hover:text-pRed"
         >
-          🗑️ Clear this month&apos;s data
+          Clear this month&apos;s data
         </button>
       </div>
 

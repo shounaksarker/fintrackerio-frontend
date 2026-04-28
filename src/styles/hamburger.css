@@ -1,6 +1,9 @@
 .hamburger {
-  height: 35px;
-  width: 35px;
+  display: flex;
+  height: 25px;
+  width: 25px;
+  align-items: center;
+  justify-content: center;
   transform: 0.2s;
   position: relative;
 }
@@ -13,8 +16,8 @@
 }
 .line {
   transition: 0.5s;
-  stroke-width: 6px;
-  stroke: black;
+  stroke-width: 5px;
+  stroke: white;
 }
 .lineTop {
   stroke-dasharray: 40 40;

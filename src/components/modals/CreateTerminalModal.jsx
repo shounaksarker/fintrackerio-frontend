@@ -24,7 +24,7 @@ const CreateTerminalModal = ({
         <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">Create New Terminal</h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="terminal_name"
             label="Terminal Name"

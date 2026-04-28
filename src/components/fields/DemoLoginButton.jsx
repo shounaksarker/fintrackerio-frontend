@@ -23,16 +23,12 @@ const DemoLoginButton = () => {
 
   return (
     <div className="flex flex-col items-center gap-y-3">
-      {error && (
-        <p className="w-[350px] rounded-md bg-pRed p-2 text-center text-sm text-white md:mx-auto md:w-[320px]">
-          {error}
-        </p>
-      )}
+      {error && <p className="w-full rounded-xl bg-pRed p-2 text-center text-sm text-white">{error}</p>}
       <button
         type="button"
         onClick={handleDemoLogin}
         disabled={isPending}
-        className="flex w-[350px] items-center justify-center gap-x-2 rounded bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-300 hover:from-amber-600 hover:to-orange-600 disabled:opacity-70 md:w-full"
+        className="flex w-full items-center justify-center gap-x-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-2 text-sm font-semibold text-white shadow-soft transition duration-300 hover:from-amber-600 hover:to-orange-600 disabled:opacity-70"
       >
         {isPending ? (
           <>
@@ -47,7 +43,7 @@ const DemoLoginButton = () => {
             Starting demo...
           </>
         ) : (
-          <>🚀 Try Demo</>
+          <>Try Demo</>
         )}
       </button>
       <p className="text-xs text-phGray">Explore the app with a test account — no signup needed</p>

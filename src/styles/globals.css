@@ -2,15 +2,202 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   outline: 0;
+  scrollbar-width: none;
 }
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(124, 58, 237, 0.18), transparent 32rem),
+    radial-gradient(circle at 84% 10%, rgba(236, 72, 153, 0.13), transparent 28rem),
+    radial-gradient(circle at 52% 100%, rgba(20, 184, 166, 0.13), transparent 30rem), #f4f7fb;
+  color: #101828;
+  text-rendering: geometricPrecision;
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.2);
+  color: #101828;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .custom-border {
-  @apply border border-[#D0D5DD] rounded-md;
+  @apply rounded-lg border border-finance-border bg-white/95 shadow-sm transition-all duration-200;
+}
+
+.custom-border:focus-within {
+  @apply border-pest shadow-soft ring-2 ring-pest/15;
 }
 
 .scrollbar-hidden::-webkit-scrollbar {
   width: 0;
+  height: 0;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.app-surface {
+  @apply border border-white/70 bg-white/80 shadow-card backdrop-blur-xl;
+}
+
+.app-panel {
+  @apply border border-finance-border bg-white shadow-soft;
+}
+
+.app-muted-panel {
+  @apply border border-finance-border bg-finance-panel shadow-soft;
+}
+
+.app-gradient-text {
+  @apply bg-gradient-to-r from-finance-accent via-finance-pink to-finance-orange bg-clip-text text-transparent;
+}
+
+.page-shell {
+  @apply min-h-[calc(100dvh-8rem)] space-y-6 md:min-h-[calc(100dvh-8.7rem)];
+}
+
+.page-toolbar {
+  @apply flex flex-col gap-3 rounded-2xl border border-white/70 bg-white/80 p-4 shadow-card backdrop-blur-xl sm:flex-row sm:flex-wrap sm:items-center sm:justify-between;
+}
+
+.page-title {
+  @apply text-2xl font-black tracking-tight text-finance-ink;
+}
+
+.page-subtitle {
+  @apply mt-1 text-sm font-medium text-finance-muted;
+}
+
+.summary-pill {
+  @apply inline-flex items-center justify-center rounded-2xl border border-finance-border bg-white/85 px-4 py-2 text-sm font-black text-finance-ink shadow-soft;
+}
+
+.auth-shell {
+  @apply flex min-h-[calc(100dvh-9rem)] w-full items-center justify-center px-2 py-6;
+}
+
+.auth-wrap {
+  @apply grid w-full max-w-5xl overflow-hidden rounded-3xl border border-white/70 bg-white/80 shadow-card backdrop-blur-xl lg:grid-cols-[0.9fr_1.1fr];
+}
+
+.auth-brand-panel {
+  @apply relative hidden overflow-hidden bg-gray-950 p-8 text-white lg:flex lg:flex-col lg:justify-between;
+}
+
+.auth-form-panel {
+  @apply flex flex-col justify-center p-5 sm:p-8;
+}
+
+.auth-logo {
+  @apply text-4xl font-black tracking-tight text-pest md:text-5xl;
+}
+
+.auth-card-title {
+  @apply text-2xl font-black tracking-tight text-finance-ink;
+}
+
+.auth-card-subtitle {
+  @apply mt-2 text-sm font-medium leading-6 text-finance-muted;
+}
+
+.sidebar-menu-icon svg {
+  color: currentColor;
+  /* fill: none; */
+  stroke: currentColor;
+}
+
+.sidebar-menu-icon svg [stroke] {
+  stroke: currentColor;
+}
+
+.sidebar-menu-icon svg [fill]:not([fill='none']) {
+  fill: currentColor;
+} 
+
+.sidebar-menu-icon svg [fill='none'] {
+  fill: none;
+} 
+
+.scrollbar-thin::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(102, 112, 133, 0.32);
+  border-radius: 999px;
+}
+
+.react-datepicker {
+  border: 1px solid #e4e7ec !important;
+  border-radius: 14px !important;
+  box-shadow: 0 22px 55px -34px rgba(16, 24, 40, 0.55) !important;
+  overflow: hidden;
+}
+.date-range-calendar {
+  max-width: calc(100dvw - 2.5rem) !important;
+}
+
+.date-range-calendar .react-datepicker__month-container {
+  max-width: 100% !important;
+}
+
+.date-range-calendar .react-datepicker__day-name,
+.date-range-calendar .react-datepicker__day,
+.date-range-calendar .react-datepicker__time-name {
+  width: clamp(2rem, 10vw, 3rem) !important;
+  line-height: clamp(2rem, 10vw, 3rem) !important;
+  margin: 0.08rem !important;
+}
+
+.react-datepicker__header {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e4e7ec !important;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__year-text--selected {
+  background: #299d91 !important;
+  color: white !important;
+}
+
+.react-datepicker__day:hover {
+  background: rgba(41, 157, 145, 0.12) !important;
 }

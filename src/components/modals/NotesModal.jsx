@@ -26,14 +26,14 @@ const NotesModal = ({ modalOpen, setModalOpen, heading, loading, info, setInfo, 
         </h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="title"
             label="Title"
             onChange={(e) => handleExpense(e)}
             value={info.title}
             placeholder={'Title...'}
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
             required
           />
@@ -43,7 +43,7 @@ const NotesModal = ({ modalOpen, setModalOpen, heading, loading, info, setInfo, 
             onChange={(e) => handleExpense(e)}
             value={info.description}
             placeholder="Description..."
-            labelClass="font-normal"
+            labelClass="font-medium"
             textareaClass="placeholder:text-xs border-2"
             required
             rows={6}

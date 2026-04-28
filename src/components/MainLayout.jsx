@@ -17,10 +17,10 @@ const MainLayout = ({ children }) => {
   return (
     <SentryErrorBoundary>
       <DataContextProvider>
-        <div className="flex">
+        <div className="flex min-h-dvh bg-transparent">
           <Sidebar menu={SIDEBAR_MENU} />
           <Content>{children}</Content>
-          <ProgressBar height="6px" color="#299D91" options={{ showSpinner: false }} shallowRouting />
+          <ProgressBar height="4px" color="#299D91" options={{ showSpinner: false }} shallowRouting />
         </div>
       </DataContextProvider>
     </SentryErrorBoundary>
