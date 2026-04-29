@@ -34,49 +34,49 @@ const CategoryModal = ({
         <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">{title}</h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="name"
             label={inputTitle}
             onChange={(e) => handleCategory(e)}
             value={data.name}
             placeholder={placeholder}
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
             required
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="description"
             label="Description"
             onChange={(e) => handleCategory(e)}
             value={data.description}
             placeholder="Enter description (optional)"
-            labelClass="font-normal"
+            labelClass="font-medium"
             inputClass="placeholder:text-xs border-2"
           />
           {name.toLowerCase() === 'expense' && (
             <InputField
-              className="size-full "
+              className="w-full"
               type="number"
               name="budget"
               label="Monthly Budget"
               onChange={(e) => handleCategory(e)}
               value={data.budget}
               placeholder="Enter budget limit (optional)"
-              labelClass="font-normal"
+              labelClass="font-medium"
               inputClass="placeholder:text-xs border-2"
               min="0"
             />
           )}
           <IconSelect
-            className="size-full"
+            className="w-full"
             label="Icon"
             onChange={(e) => handleCategory(e, 'icon')}
             value={data.icon}
             placeholder="Select one"
-            labelClass="font-normal"
+            labelClass="font-medium"
             options={CATEGORY_ICONS}
             optionLabel={'icon'}
             optionValue={'icon'}

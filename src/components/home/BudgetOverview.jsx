@@ -15,16 +15,18 @@ const BudgetProgress = ({ categoryName, spent, budget, className = '' }) => {
   if (percentage >= 100 || isExceeded) colorClass = 'bg-pRed';
 
   return (
-    <div className={`mb-4 ${className}`}>
+    <div
+      className={`rounded-2xl border border-finance-border bg-white/80 p-3 transition-colors hover:bg-white md:p-4 ${className}`}
+    >
       <div className="mb-1 flex justify-between text-sm">
-        <span className="text-sm font-medium capitalize text-pGray md:text-base">{categoryName}</span>
-        <span className="text-sm text-gray-500 md:text-base">
+        <span className="text-sm font-bold capitalize text-finance-ink md:text-base">{categoryName}</span>
+        <span className="text-sm font-semibold text-finance-muted md:text-base">
           {CURRENCY}
           {formattedAmount(spent)} / {CURRENCY}
           {formattedAmount(budget)}
         </span>
       </div>
-      <div className="h-2.5 w-full rounded-full bg-gray-200">
+      <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-finance-panel">
         <div className={`h-2.5 rounded-full ${colorClass}`} style={{ width: `${percentage}%` }}></div>
       </div>
       {isExceeded && (
@@ -69,11 +71,14 @@ const BudgetOverview = () => {
   if (!budgetItems.length || !budgetItems.some((item) => item.spent)) return null;
 
   return (
-    <div className="w-full rounded-md border bg-white p-4 shadow-md">
-      <div className="mb-4 flex w-full items-center">
-        <h3 className="text-base font-semibold text-pGray md:text-lg">Monthly Budgets</h3>
+    <div className="app-surface w-full rounded-3xl p-4 md:p-5">
+      <div className="mb-3 flex w-full items-center md:mb-5">
+        <div>
+          <h3 className="text-lg font-black text-finance-ink">Monthly Budgets</h3>
+          <p className="text-xs font-medium text-finance-muted">Category spending against planned limits</p>
+        </div>
         <button
-          className="ml-2 flex flex-none animate-pulse items-center justify-center rounded-full border border-pest px-1.5 py-0 text-xs font-semibold text-pest"
+          className="ml-2 flex flex-none items-center justify-center rounded-full border border-pest/30 bg-pest/10 px-1.5 py-0 text-xs font-semibold text-pest transition-colors hover:bg-pest/15 focus-visible:ring-2 focus-visible:ring-pest/20"
           onClick={() => setTipsModalOpen(true)}
         >
           i

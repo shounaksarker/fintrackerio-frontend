@@ -23,18 +23,22 @@ const Page = () => {
     }
   }, [dateRange]);
   return (
-    <div>
-      <h3 className="my-6 text-center text-2xl font-bold text-pGray underline underline-offset-4">
-        Transfer History
-      </h3>
+    <div className="page-shell">
+      <div className="page-toolbar">
+        <div>
+          <h1 className="page-title">Transfer History</h1>
+          <p className="page-subtitle">Review how income was distributed into terminals.</p>
+        </div>
+      </div>
       <CustomTable
         headers={INCOME_TRANSFER_TABLE_HEADER}
         data={distributedIn}
         loading={distributedLoading}
         enablePagination
         className={'w-full'}
-        tableClass={'rounded-md p-4 shadow-md'}
         enableDetailsView={false}
+        emptyTitle="No transfer history yet"
+        emptyDescription="Income distribution and wallet transfers for the selected period will appear here."
       />
     </div>
   );

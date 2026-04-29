@@ -33,7 +33,7 @@ const EditCategoryModal = ({
         <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">{title}</h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="name"
             label="New Name"
@@ -44,7 +44,7 @@ const EditCategoryModal = ({
             inputClass="placeholder:text-xs border-2"
           />
           <InputField
-            className="size-full "
+            className="w-full"
             type="text"
             name="description"
             label="New Description"
@@ -56,7 +56,7 @@ const EditCategoryModal = ({
           />
           {categoryName.toLowerCase() === 'expense' && (
             <InputField
-              className="size-full "
+              className="w-full"
               type="number"
               name="budget"
               label="New Monthly Budget"
@@ -70,7 +70,7 @@ const EditCategoryModal = ({
           )}
           <IconSelect
             name={categoryName}
-            className="size-full"
+            className="w-full"
             label="Icon"
             onChange={(e) => handleCategory(e, 'icon')}
             value={data.icon}

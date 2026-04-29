@@ -20,7 +20,7 @@ const EditUserModal = ({ modalOpen, setModalOpen, info, data, setData, loading, 
         <h1 className="mb-8 text-center text-lg font-semibold text-pBlack">Edit User Info</h1>
         <form onSubmit={handleSubmit}>
           <InputField
-            className="size-full"
+            className="w-full"
             type="text"
             name="name"
             label="Name"
@@ -31,7 +31,7 @@ const EditUserModal = ({ modalOpen, setModalOpen, info, data, setData, loading, 
             inputClass="placeholder:text-xs border-2"
           />
           <InputField
-            className="size-full"
+            className="w-full"
             type="email"
             name="email"
             label="Email"
@@ -42,7 +42,7 @@ const EditUserModal = ({ modalOpen, setModalOpen, info, data, setData, loading, 
             inputClass="placeholder:text-xs border-2"
           />
           <InputField
-            className="size-full"
+            className="w-full"
             type="tel"
             name="mobile"
             label="Phone Number"

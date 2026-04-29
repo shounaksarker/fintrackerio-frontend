@@ -59,15 +59,15 @@ const TerminalsModal = ({
         </div>
       ) : (
         <div className="mx-auto rounded-md p-2 text-pBlack">
-          <h3 className="mb-4 text-center text-sm font-semibold underline underline-offset-4 md:text-base">
+          <h3 className="mb-4 text-center text-sm font-semibold text-finance-ink md:text-base">
             Terminals - where you store your income
           </h3>
-          <div className="flex flex-col gap-2 rounded-md border border-pGray text-sm md:text-base">
+          <div className="rounded-xl border border-finance-border text-sm md:text-base">
             <div className="flex w-full flex-col">
-              <div className="flex font-medium text-pBlack">
-                <div className="w-2/4 py-1 pl-2 capitalize">Terminal</div>
-                <div className="w-1/4 py-1 pl-2 capitalize">Created</div>
-                <div className="w-1/4 py-1 pl-2 text-center capitalize">Action</div>
+              <div className="flex bg-finance-panel font-medium text-pBlack">
+                <div className="w-2/4 py-2 pl-2 capitalize">Wallet</div>
+                <div className="w-1/4 py-2 pl-2 capitalize">Created</div>
+                <div className="w-1/4 py-2 pl-2 text-center capitalize">Action</div>
               </div>
               {allTerminals.map((term, index) => {
                 return (

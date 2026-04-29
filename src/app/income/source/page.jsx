@@ -105,32 +105,38 @@ const Page = () => {
     },
     {
       label: 'Action',
-      style: 'w-24 md:w-1/4 text-sm lg:text-md',
+      style: 'w-20 md:!w-full text-sm lg:text-md',
       target: 'action',
       action: [
         {
           label: <EditIcon />,
-          style: 'text-white text-[8px]',
+          style: 'text-pest',
           onClick: (row) => handleEdit({ data: row, setModalOpen: setEditModalOpen, setEditdata }),
         },
       ],
     },
   ];
   return (
-    <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-8.7rem)]">
-      <Button size="md" color="primary" iconLeft={'+'} onClick={() => setModalOpen(true)}>
-        Add Income Source
-      </Button>
-      <div className="mt-6">
-        <h3 className="mb-4 text-center text-xl font-semibold text-pBlack lg:mb-8">Income Source List</h3>
+    <div className="page-shell">
+      <div className="page-toolbar">
+        <div>
+          <h1 className="page-title">Income Sources</h1>
+          <p className="page-subtitle">Manage the categories that bring money into your accounts.</p>
+        </div>
+        <Button size="md" color="primary" iconLeft={'+'} onClick={() => setModalOpen(true)}>
+          Add Income Source
+        </Button>
+      </div>
+      <div>
         <CustomTable
           headers={INCOME_SOURCE_HEADER}
           data={incomeSources}
           enablePagination
           className={'w-full'}
-          tableClass={'rounded-md p-4 shadow-md'}
           loading={incomeSourceLoading}
           enableDetailsView={false}
+          emptyTitle="No income sources yet"
+          emptyDescription="Create sources like salary, freelance, bonus, or business before adding income records."
         />
       </div>
       <CategoryModal
